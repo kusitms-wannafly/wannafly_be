@@ -14,6 +14,7 @@ public class WannaflyTestIsolationExtension implements AfterEachCallback  {
 
     private WannaflyDatabaseManager getWannaflyDatabaseManager(ExtensionContext context) {
         return (WannaflyDatabaseManager) SpringExtension
-                .getApplicationContext(context).getBean("wannaflyDatabaseManager");
+                .getApplicationContext(context)
+                .getBean("wannaflyDatabaseManager");
     }
 }
