@@ -1,0 +1,49 @@
+spring:
+  profiles:
+    active: local
+  jpa:
+    open-in-view: false
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    url: jdbc:h2:mem:testdb;MODE=MySQL
+  h2:
+    console:
+      enabled: true
+  jpa:
+    properties:
+      dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+      hibernate:
+        format_sql: true
+        show_sql: true
+        hbm2ddl:
+          auto:
+            auto: create
+
+logging:
+  level:
+    org:
+      hibernate.sql: debug
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${RDS-URL}
+    username: ${RDS-USERNAME}
+    password: ${RDS-PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: none
+
+logging:
+  level:
+    org:
+      hibernate.sql: info
