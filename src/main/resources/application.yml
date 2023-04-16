@@ -21,8 +21,7 @@ spring:
         format_sql: true
         show_sql: true
         hbm2ddl:
-          auto:
-            auto: create
+          auto: create
 
 logging:
   level:
