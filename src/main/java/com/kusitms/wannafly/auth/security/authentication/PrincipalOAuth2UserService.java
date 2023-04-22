@@ -2,6 +2,7 @@ package com.kusitms.wannafly.auth.security.authentication;
 
 import com.kusitms.wannafly.auth.application.AuthService;
 import com.kusitms.wannafly.auth.dto.LoginRequest;
+import com.kusitms.wannafly.auth.dto.LoginResponse;
 import com.kusitms.wannafly.auth.security.Oauth2Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -24,6 +25,7 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
                 oAuth2User.getAttribute("email"),
                 oAuth2User.getAttribute("picture")
         );
-        return new Oauth2Member(authService.login(loginRequest));
+        LoginResponse loginResponse = authService.login(loginRequest);
+        return new Oauth2Member(loginResponse.memberId(), loginResponse.accessToken());
     }
 }

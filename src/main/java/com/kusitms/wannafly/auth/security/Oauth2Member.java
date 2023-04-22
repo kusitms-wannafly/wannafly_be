@@ -12,10 +12,12 @@ import java.util.Map;
 public class Oauth2Member implements OAuth2User {
 
     private final Map<String, Object> attributes = new HashMap<>();
-    private final LoginResponse loginResponse;
+    private final Long memberId;
+    private final String accessToken;
 
-    public Oauth2Member(LoginResponse loginResponse) {
-        this.loginResponse = loginResponse;
+    public Oauth2Member(Long memberId, String accessToken) {
+        this.memberId = memberId;
+        this.accessToken = accessToken;
     }
 
     @Override
@@ -30,10 +32,10 @@ public class Oauth2Member implements OAuth2User {
 
     @Override
     public String getName() {
-        return String.valueOf(loginResponse.memberId());
+        return String.valueOf(memberId);
     }
 
-    public LoginResponse getLoginResponse() {
-        return loginResponse;
+    public LoginResponse toLoginResponse() {
+        return new LoginResponse(memberId, accessToken);
     }
 }

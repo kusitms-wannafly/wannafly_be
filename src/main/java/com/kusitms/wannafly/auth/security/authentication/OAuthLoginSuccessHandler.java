@@ -25,7 +25,7 @@ public class OAuthLoginSuccessHandler implements AuthenticationSuccessHandler {
         Oauth2Member oauth2Member = (Oauth2Member) authentication.getPrincipal();
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter writer = response.getWriter();
-        writer.println(objectMapper.writeValueAsString(oauth2Member.getLoginResponse()));
+        writer.println(objectMapper.writeValueAsString(oauth2Member.toLoginResponse()));
         writer.flush();
     }
 }

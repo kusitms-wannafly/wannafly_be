@@ -2,13 +2,17 @@ package com.kusitms.wannafly.auth.security;
 
 import com.kusitms.wannafly.auth.security.authentication.OAuthLoginSuccessHandler;
 import com.kusitms.wannafly.auth.security.authentication.PrincipalOAuth2UserService;
+import com.kusitms.wannafly.auth.security.authoriization.JwtAuthorizationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -17,6 +21,7 @@ public class SecurityConfig {
 
     private final PrincipalOAuth2UserService userService;
     private final OAuthLoginSuccessHandler successHandler;
+    private final JwtAuthorizationFilter jwtAuthorizationFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -30,12 +35,20 @@ public class SecurityConfig {
                 .formLogin().disable()
                 .httpBasic().disable()
 
+                .authorizeHttpRequests()
+                .requestMatchers(HttpMethod.OPTIONS).permitAll()
+                .and()
+
                 .oauth2Login()
                 .userInfoEndpoint().userService(userService).and()
-                .successHandler(successHandler)
+                .successHandler(successHandler).and()
 
+                .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
 
+                .exceptionHandling()
+                .authenticationEntryPoint((req, res, ex) -> res.setStatus(HttpStatus.UNAUTHORIZED.value()))
                 .and()
+
                 .build();
     }
 }
