@@ -3,7 +3,7 @@ package com.kusitms.wannafly.auth.security.authoriization;
 import com.kusitms.wannafly.auth.application.AuthService;
 import com.kusitms.wannafly.auth.dto.AuthorizationRequest;
 import com.kusitms.wannafly.auth.dto.AuthorizationResponse;
-import com.kusitms.wannafly.auth.jwt.JwtTokenExtractor;
+import com.kusitms.wannafly.auth.jwt.JwtSupport;
 import com.kusitms.wannafly.auth.security.Oauth2Member;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -29,7 +30,12 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        String accessToken = JwtTokenExtractor.extract(request);
+        Optional<String> optionalToken = JwtSupport.extractToken(request);
+        if (optionalToken.isEmpty()) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+        String accessToken = optionalToken.get();
         AuthorizationRequest authorizationRequest = new AuthorizationRequest(accessToken);
         AuthorizationResponse authorizationResponse = authService.authorize(authorizationRequest);
 
