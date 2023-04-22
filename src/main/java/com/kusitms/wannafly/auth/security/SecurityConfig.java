@@ -1,4 +1,4 @@
-package com.kusitms.wannafly.security;
+package com.kusitms.wannafly.auth.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
