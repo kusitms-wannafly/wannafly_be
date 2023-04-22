@@ -43,7 +43,10 @@ public class JwtTokenProvider {
     }
 
     private Jws<Claims> parseClaimsJws(final String token) {
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token);
     }
 
     public boolean isValidAccessToken(String accessToken) {
