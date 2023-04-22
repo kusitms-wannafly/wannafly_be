@@ -3,6 +3,15 @@ spring:
     active: local
   jpa:
     open-in-view: false
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE-CLIENT-ID}
+            client-secret: ${GOOGLE-CLIENT-SECRET}
+            scope: profile, email
+
 
 ---
 spring:
