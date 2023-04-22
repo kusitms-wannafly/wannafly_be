@@ -11,6 +11,9 @@ spring:
             client-id: ${GOOGLE-CLIENT-ID}
             client-secret: ${GOOGLE-CLIENT-SECRET}
             scope: profile, email
+cors:
+  allowed:
+    origins: http://www.localhost:3000
 
 
 ---
