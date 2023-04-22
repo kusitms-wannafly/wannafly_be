@@ -1,4 +1,4 @@
-package com.kusitms.wannafly;
+package com.kusitms.wannafly.auth.jwt;
 
 import java.util.Map;
 

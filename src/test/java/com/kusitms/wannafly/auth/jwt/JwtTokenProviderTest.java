@@ -1,6 +1,5 @@
 package com.kusitms.wannafly.auth.jwt;
 
-import com.kusitms.wannafly.TokenPayload;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

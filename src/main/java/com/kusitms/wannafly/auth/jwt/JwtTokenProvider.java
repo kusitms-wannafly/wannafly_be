@@ -1,6 +1,5 @@
 package com.kusitms.wannafly.auth.jwt;
 
-import com.kusitms.wannafly.TokenPayload;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
