@@ -38,6 +38,8 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests()
                 .requestMatchers(HttpMethod.OPTIONS).permitAll()
+                .requestMatchers("/api/**").authenticated()
+                .anyRequest().permitAll()
                 .and()
 
                 .oauth2Login()
