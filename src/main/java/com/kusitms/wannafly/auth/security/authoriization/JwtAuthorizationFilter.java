@@ -30,12 +30,12 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        Optional<String> optionalToken = JwtSupport.extractToken(request);
-        if (optionalToken.isEmpty()) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-        String accessToken = optionalToken.get();
+        Optional<String> extractToken = JwtSupport.extractToken(request);
+        extractToken.ifPresent(this::validateToken);
+        filterChain.doFilter(request, response);
+    }
+
+    private void validateToken(String accessToken) {
         AuthorizationRequest authorizationRequest = new AuthorizationRequest(accessToken);
         AuthorizationResponse authorizationResponse = authService.authorize(authorizationRequest);
 
@@ -43,12 +43,13 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             Oauth2Member oauth2Member = new Oauth2Member(authorizationResponse.memberId(), accessToken);
             configureSecurityContext(oauth2Member);
         }
-        filterChain.doFilter(request, response);
     }
 
     private static void configureSecurityContext(Oauth2Member oauth2Member) {
         SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
-        Authentication authentication = new UsernamePasswordAuthenticationToken(oauth2Member, null);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                oauth2Member, null, oauth2Member.getAuthorities()
+        );
         securityContext.setAuthentication(authentication);
         SecurityContextHolder.setContext(securityContext);
     }
