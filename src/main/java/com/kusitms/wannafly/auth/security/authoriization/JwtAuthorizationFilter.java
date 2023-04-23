@@ -3,7 +3,7 @@ package com.kusitms.wannafly.auth.security.authoriization;
 import com.kusitms.wannafly.auth.application.AuthService;
 import com.kusitms.wannafly.auth.dto.AuthorizationRequest;
 import com.kusitms.wannafly.auth.dto.AuthorizationResponse;
-import com.kusitms.wannafly.auth.jwt.JwtSupport;
+import com.kusitms.wannafly.auth.token.JwtSupport;
 import com.kusitms.wannafly.auth.security.Oauth2Member;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

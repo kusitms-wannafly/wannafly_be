@@ -1,4 +1,4 @@
-package com.kusitms.wannafly.auth.jwt;
+package com.kusitms.wannafly.auth.token;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;

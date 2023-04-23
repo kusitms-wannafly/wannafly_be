@@ -2,10 +2,10 @@ package com.kusitms.wannafly.auth.application;
 
 import com.kusitms.wannafly.auth.dto.AuthorizationRequest;
 import com.kusitms.wannafly.auth.dto.AuthorizationResponse;
-import com.kusitms.wannafly.auth.jwt.TokenPayload;
+import com.kusitms.wannafly.auth.token.TokenPayload;
 import com.kusitms.wannafly.auth.dto.LoginRequest;
 import com.kusitms.wannafly.auth.dto.LoginResponse;
-import com.kusitms.wannafly.auth.jwt.JwtTokenProvider;
+import com.kusitms.wannafly.auth.token.JwtTokenProvider;
 import com.kusitms.wannafly.member.domain.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

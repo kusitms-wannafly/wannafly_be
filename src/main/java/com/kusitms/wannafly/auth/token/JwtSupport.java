@@ -1,4 +1,4 @@
-package com.kusitms.wannafly.auth.jwt;
+package com.kusitms.wannafly.auth.token;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
