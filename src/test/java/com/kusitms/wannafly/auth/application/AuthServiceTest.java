@@ -8,7 +8,7 @@ import com.kusitms.wannafly.auth.token.JwtTokenProvider;
 import com.kusitms.wannafly.auth.token.TokenPayload;
 import com.kusitms.wannafly.member.domain.Member;
 import com.kusitms.wannafly.member.domain.MemberRepository;
-import com.kusitms.wannafly.support.WannaflyTestIsolationExtension;
+import com.kusitms.wannafly.support.isolation.WannaflyTestIsolationExtension;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

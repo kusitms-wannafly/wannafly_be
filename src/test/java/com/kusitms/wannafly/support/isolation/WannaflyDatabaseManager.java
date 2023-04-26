@@ -1,4 +1,4 @@
-package com.kusitms.wannafly.support;
+package com.kusitms.wannafly.support.isolation;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
