@@ -10,13 +10,11 @@ import com.kusitms.wannafly.exception.BusinessException;
 import com.kusitms.wannafly.exception.ErrorCode;
 import com.kusitms.wannafly.member.domain.Member;
 import com.kusitms.wannafly.member.domain.MemberRepository;
-import com.kusitms.wannafly.support.isolation.WannaflyTestIsolationExtension;
+import com.kusitms.wannafly.support.ServiceTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
 
@@ -24,9 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-@SpringBootTest
-@ExtendWith(WannaflyTestIsolationExtension.class)
-class AuthServiceTest {
+class AuthServiceTest extends ServiceTest {
 
     @Autowired
     private AuthService authService;
