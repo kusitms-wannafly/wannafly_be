@@ -6,6 +6,8 @@ import com.kusitms.wannafly.auth.dto.LoginRequest;
 import com.kusitms.wannafly.auth.dto.LoginResponse;
 import com.kusitms.wannafly.auth.token.JwtTokenProvider;
 import com.kusitms.wannafly.auth.token.TokenPayload;
+import com.kusitms.wannafly.exception.BusinessException;
+import com.kusitms.wannafly.exception.ErrorCode;
 import com.kusitms.wannafly.member.domain.Member;
 import com.kusitms.wannafly.member.domain.MemberRepository;
 import com.kusitms.wannafly.support.isolation.WannaflyTestIsolationExtension;
@@ -19,6 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 @SpringBootTest
@@ -58,7 +61,7 @@ class AuthServiceTest {
             );
         }
 
-        @DisplayName("가입된 사용자는 DB에 또 저장되지 않는다.")
+        @DisplayName("같은 OAuth Client로 가입된 사용자는 DB에 또 저장되지 않는다.")
         @Test
         void joinedLogin() {
             // given
@@ -75,6 +78,22 @@ class AuthServiceTest {
                     () -> assertThat(loginResponse.accessToken()).isNotNull(),
                     () -> assertThat(memberRepository.findAll().size()).isOne()
             );
+        }
+
+        @DisplayName("다른 OAuth Client이지만 email이 같으면 예외가 발생한다.")
+        @Test
+        void joinedEmailOtherOAuthClient() {
+            // given
+            authService.login(loginRequest);
+            LoginRequest duplicatedEmailRequest = new LoginRequest(
+                    "naver", "이동규", "ldk@mail.com", "picture.com"
+            );
+
+            // when then
+            assertThatThrownBy(() -> authService.login(duplicatedEmailRequest))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(ErrorCode.MEMBER_DUPLICATE_EMAIL);
         }
     }
 

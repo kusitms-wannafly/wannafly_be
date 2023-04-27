@@ -16,8 +16,6 @@ class AuthAcceptanceTest extends AcceptanceTest {
     @DisplayName("로그인을 하면 회원 식별자와 엑세스 토큰, 리프레시 토큰을 응답한다.")
     @Test
     void oauthLogin() {
-        // given
-
         // when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .when()

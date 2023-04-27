@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
@@ -17,7 +18,6 @@ import java.io.IOException;
 @RestController
 public class MockAuthController {
 
-    private static final String MOCK_REGISTRATION_ID = "google";
     private static final String MOCK_NAME = "이동규";
     private static final String MOCK_EMAIL = "ldk@gmail.com";
     private static final String MOCK_PICTURE = "picture.com";
@@ -30,9 +30,11 @@ public class MockAuthController {
         this.authService = authService;
     }
 
-    @GetMapping("/mock/oauth2/authorization/google")
-    public void login(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        LoginRequest loginRequest = new LoginRequest(MOCK_REGISTRATION_ID, MOCK_NAME, MOCK_EMAIL, MOCK_PICTURE);
+    @GetMapping("/mock/oauth2/authorization/{registrationId}")
+    public void login(@PathVariable String registrationId,
+                      HttpServletRequest request,
+                      HttpServletResponse response) throws IOException {
+        LoginRequest loginRequest = new LoginRequest(registrationId, MOCK_NAME, MOCK_EMAIL, MOCK_PICTURE);
         LoginResponse loginResponse = authService.login(loginRequest);
         Authentication authentication = makeAuthentication(loginResponse);
         successHandler.onAuthenticationSuccess(request, response, authentication);

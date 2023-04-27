@@ -1,5 +1,7 @@
 package com.kusitms.wannafly.member.application;
 
+import com.kusitms.wannafly.exception.BusinessException;
+import com.kusitms.wannafly.exception.ErrorCode;
 import com.kusitms.wannafly.member.domain.Member;
 import com.kusitms.wannafly.member.domain.MemberRepository;
 import com.kusitms.wannafly.member.dto.MemberRequest;
@@ -17,7 +19,7 @@ public class MemberService {
     @Transactional
     public Member join(MemberRequest request) {
         if (memberRepository.existsByEmail(request.email())) {
-            throw new IllegalArgumentException();
+            throw BusinessException.from(ErrorCode.MEMBER_DUPLICATE_EMAIL);
         }
         return memberRepository.save(request.toEntity());
     }
