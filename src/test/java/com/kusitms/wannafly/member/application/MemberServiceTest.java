@@ -27,7 +27,6 @@ class MemberServiceTest extends ServiceTest {
     @DisplayName("사용자가 서비스에 가입할 때")
     class JoinTest {
 
-        @DisplayName("Member가_저장된다.")
         @Test
         void 사용자가_저장_된다() {
             // when

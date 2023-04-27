@@ -75,9 +75,8 @@ class AuthServiceTest extends ServiceTest {
             );
         }
 
-        @DisplayName("다른 OAuth Client이지만 email이 같으면 예외가 발생한다.")
         @Test
-        void joinedEmailOtherOAuthClient() {
+        void 다른_OAuth_Client이지만_email이_같으면_예외가_발생한다() {
             // given
             authService.login(loginRequest);
             LoginRequest duplicatedEmailRequest = new LoginRequest(
@@ -96,9 +95,8 @@ class AuthServiceTest extends ServiceTest {
     @DisplayName("인가 요청을 받을 때")
     class AuthorizeTest {
 
-        @DisplayName("유효한 토큰이면 인가한다.")
         @Test
-        void valid() {
+        void 유효한_토큰이면_인가한다() {
             // given
             Long id = 1L;
             String validToken = jwtTokenProvider.createToken(new TokenPayload(id));
@@ -114,9 +112,8 @@ class AuthServiceTest extends ServiceTest {
             );
         }
 
-        @DisplayName("유효하지 않은 토큰이면 인가하지 않는다.")
         @Test
-        void inValid() {
+        void 유효하지_않은_토큰이면_인가하지_않는다() {
             // given
             String inValidToken = "inValidToken.inValidToken.inValidToken";
             AuthorizationRequest request = new AuthorizationRequest(inValidToken);
