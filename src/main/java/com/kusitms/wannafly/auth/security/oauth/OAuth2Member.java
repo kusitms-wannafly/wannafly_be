@@ -1,4 +1,4 @@
-package com.kusitms.wannafly.auth.security;
+package com.kusitms.wannafly.auth.security.oauth;
 
 import com.kusitms.wannafly.auth.dto.LoginResponse;
 import org.springframework.security.core.GrantedAuthority;
@@ -9,13 +9,13 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Oauth2Member implements OAuth2User {
+public class OAuth2Member implements OAuth2User {
 
     private final Map<String, Object> attributes = new HashMap<>();
     private final Long memberId;
     private final String accessToken;
 
-    public Oauth2Member(Long memberId, String accessToken) {
+    public OAuth2Member(Long memberId, String accessToken) {
         this.memberId = memberId;
         this.accessToken = accessToken;
     }

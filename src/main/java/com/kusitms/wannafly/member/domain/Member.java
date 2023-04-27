@@ -21,9 +21,12 @@ public class Member {
 
     private String pictureUrl;
 
-    public Member(String name, String email, String pictureUrl) {
+    private String registrationId;
+
+    public Member(String name, String email, String pictureUrl, String registrationId) {
         this.name = name;
         this.email = email;
         this.pictureUrl = pictureUrl;
+        this.registrationId = registrationId;
     }
 }

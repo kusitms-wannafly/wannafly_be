@@ -39,7 +39,7 @@ class AuthServiceTest {
     class LoginTest {
 
         private final LoginRequest loginRequest = new LoginRequest(
-                "이동규", "ldk@mail.com", "picture.com"
+                "google", "이동규", "ldk@mail.com", "picture.com"
         );
 
         @DisplayName("처음인 사용자는 DB에 저장된다.")

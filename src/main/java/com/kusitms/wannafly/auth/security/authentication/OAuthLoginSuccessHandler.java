@@ -1,7 +1,7 @@
 package com.kusitms.wannafly.auth.security.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kusitms.wannafly.auth.security.Oauth2Member;
+import com.kusitms.wannafly.auth.security.oauth.OAuth2Member;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ public class OAuthLoginSuccessHandler implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,
                                         Authentication authentication) throws IOException {
-        Oauth2Member oauth2Member = (Oauth2Member) authentication.getPrincipal();
+        OAuth2Member oauth2Member = (OAuth2Member) authentication.getPrincipal();
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter writer = response.getWriter();
         writer.println(objectMapper.writeValueAsString(oauth2Member.toLoginResponse()));

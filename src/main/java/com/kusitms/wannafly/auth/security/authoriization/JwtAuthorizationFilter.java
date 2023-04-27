@@ -4,7 +4,7 @@ import com.kusitms.wannafly.auth.application.AuthService;
 import com.kusitms.wannafly.auth.dto.AuthorizationRequest;
 import com.kusitms.wannafly.auth.dto.AuthorizationResponse;
 import com.kusitms.wannafly.auth.token.JwtSupport;
-import com.kusitms.wannafly.auth.security.Oauth2Member;
+import com.kusitms.wannafly.auth.security.oauth.OAuth2Member;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -40,12 +40,12 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         AuthorizationResponse authorizationResponse = authService.authorize(authorizationRequest);
 
         if (authorizationResponse.isAuthorized()) {
-            Oauth2Member oauth2Member = new Oauth2Member(authorizationResponse.memberId(), accessToken);
+            OAuth2Member oauth2Member = new OAuth2Member(authorizationResponse.memberId(), accessToken);
             configureSecurityContext(oauth2Member);
         }
     }
 
-    private static void configureSecurityContext(Oauth2Member oauth2Member) {
+    private static void configureSecurityContext(OAuth2Member oauth2Member) {
         SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
         Authentication authentication = new UsernamePasswordAuthenticationToken(
                 oauth2Member, null, oauth2Member.getAuthorities()

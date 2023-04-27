@@ -3,7 +3,7 @@ package com.kusitms.wannafly.support.mockapi;
 import com.kusitms.wannafly.auth.application.AuthService;
 import com.kusitms.wannafly.auth.dto.LoginRequest;
 import com.kusitms.wannafly.auth.dto.LoginResponse;
-import com.kusitms.wannafly.auth.security.Oauth2Member;
+import com.kusitms.wannafly.auth.security.oauth.OAuth2Member;
 import com.kusitms.wannafly.auth.security.authentication.OAuthLoginSuccessHandler;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,6 +17,7 @@ import java.io.IOException;
 @RestController
 public class MockAuthController {
 
+    private static final String MOCK_REGISTRATION_ID = "google";
     private static final String MOCK_NAME = "이동규";
     private static final String MOCK_EMAIL = "ldk@gmail.com";
     private static final String MOCK_PICTURE = "picture.com";
@@ -31,13 +32,14 @@ public class MockAuthController {
 
     @GetMapping("/mock/oauth2/authorization/google")
     public void login(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        LoginResponse loginResponse = authService.login(new LoginRequest(MOCK_NAME, MOCK_EMAIL, MOCK_PICTURE));
+        LoginRequest loginRequest = new LoginRequest(MOCK_REGISTRATION_ID, MOCK_NAME, MOCK_EMAIL, MOCK_PICTURE);
+        LoginResponse loginResponse = authService.login(loginRequest);
         Authentication authentication = makeAuthentication(loginResponse);
         successHandler.onAuthenticationSuccess(request, response, authentication);
     }
 
     private Authentication makeAuthentication(LoginResponse loginResponse) {
-        Oauth2Member oauth2Member = new Oauth2Member(loginResponse.memberId(), loginResponse.accessToken());
+        OAuth2Member oauth2Member = new OAuth2Member(loginResponse.memberId(), loginResponse.accessToken());
         return new UsernamePasswordAuthenticationToken(
                 oauth2Member, null, oauth2Member.getAuthorities()
         );
