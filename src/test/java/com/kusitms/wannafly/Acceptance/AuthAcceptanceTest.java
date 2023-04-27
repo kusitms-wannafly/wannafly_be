@@ -1,34 +1,24 @@
 package com.kusitms.wannafly.Acceptance;
 
 import com.kusitms.wannafly.auth.dto.LoginResponse;
-import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
+import static com.kusitms.wannafly.Acceptance.fixture.AcceptanceFixture.소셜_로그인을_한다;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 class AuthAcceptanceTest extends AcceptanceTest {
 
-    @DisplayName("로그인을 하면 회원 식별자와 엑세스 토큰, 리프레시 토큰을 응답한다.")
     @Test
-    void oauthLogin() {
+    void 로그인을_하면_회원_식별자와_엑세스_토큰_리프레시_토큰을_응답한다() {
         // given
-        RestAssured.given().log().all()
-                .when()
-                .get("/mock/oauth2/authorization/google")
-                .then().log().all()
-                .extract();
+        소셜_로그인을_한다("google");
 
         // when
-        ExtractableResponse<Response> response = RestAssured.given().log().all()
-                .when()
-                .get("/mock/oauth2/authorization/google")
-                .then().log().all()
-                .extract();
+        ExtractableResponse<Response> response =  소셜_로그인을_한다("google");
 
         // then
         LoginResponse actual = response.jsonPath().getObject(".", LoginResponse.class);
@@ -40,22 +30,13 @@ class AuthAcceptanceTest extends AcceptanceTest {
         );
     }
 
-    @DisplayName("다른 OAuth Client, 같은 이메일로 가입을 시도하면 400 예외가 발생한다.")
     @Test
-    void oauthLoginDuplicatedEmail() {
+    void 다른_OAuth_Client_같은_이메일로_가입을_시도하면_400_예외가_발생한다() {
         // given
-        RestAssured.given().log().all()
-                .when()
-                .get("/mock/oauth2/authorization/google")
-                .then().log().all()
-                .extract();
+        소셜_로그인을_한다("google");
 
         // when
-        ExtractableResponse<Response> response = RestAssured.given().log().all()
-                .when()
-                .get("/mock/oauth2/authorization/naver")
-                .then().log().all()
-                .extract();
+        ExtractableResponse<Response> response =  소셜_로그인을_한다("naver");
 
         // then
         assertAll(

@@ -16,9 +16,8 @@ class JwtTokenProviderTest {
 
     private final TokenPayload payload = new TokenPayload(1L);
 
-    @DisplayName("JWT 토큰을 생성한다.")
     @Test
-    void createToken() {
+    void JWT_토큰을_생성한다() {
         // when
         String actual = tokenProvider.createToken(payload);
 
@@ -26,9 +25,8 @@ class JwtTokenProviderTest {
         assertThat(actual).isNotNull();
     }
 
-    @DisplayName("JWT 토큰에서 payload를 추출한다.")
     @Test
-    void getPayload() {
+    void JWT_토큰에서_payload를_추출한다() {
         // given
         String token = tokenProvider.createToken(payload);
 
@@ -43,9 +41,8 @@ class JwtTokenProviderTest {
     @DisplayName("JWT 토큰이")
     class ValidAccessTokenTest {
 
-        @DisplayName("유효한 경우 True를 반환한다.")
         @Test
-        void isValid() {
+        void 유효한_경우_True를_반환한다() {
             // given
             String token = tokenProvider.createToken(payload);
 
@@ -56,9 +53,8 @@ class JwtTokenProviderTest {
             assertThat(actual).isTrue();
         }
 
-        @DisplayName("유효하지 않은 경우 False를 반환한다.")
         @Test
-        void isNotValid() {
+        void 유효하지_않은_경우_False를_반환한다() {
             // given
             String token = "notValidToken.notValidToken.notValidToken";
 

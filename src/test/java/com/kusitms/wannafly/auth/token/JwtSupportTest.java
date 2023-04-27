@@ -1,7 +1,6 @@
 package com.kusitms.wannafly.auth.token;
 
 import jakarta.servlet.http.HttpServletRequest;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 
@@ -15,9 +14,8 @@ class JwtSupportTest {
 
     private final HttpServletRequest request = mock(HttpServletRequest.class);
 
-    @DisplayName("HTTP Authorization 헤더에서 토큰을 추출한다.")
     @Test
-    void extract() {
+    void HTTP_Authorization_헤더에서_토큰을_추출한다() {
         // given
         String expected = "mockToken.mockToken.mockToken";
         given(request.getHeader(HttpHeaders.AUTHORIZATION))

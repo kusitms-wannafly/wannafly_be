@@ -45,9 +45,8 @@ class AuthServiceTest {
                 "google", "이동규", "ldk@mail.com", "picture.com"
         );
 
-        @DisplayName("처음인 사용자는 DB에 저장된다.")
         @Test
-        void firstLogin() {
+        void 처음인_사용자는_DB에_저장된다() {
             // when
             LoginResponse loginResponse = authService.login(loginRequest);
 
@@ -63,7 +62,7 @@ class AuthServiceTest {
 
         @DisplayName("같은 OAuth Client로 가입된 사용자는 DB에 또 저장되지 않는다.")
         @Test
-        void joinedLogin() {
+        void 같은_OAuth_Client로_가입된_사용자는_DB에_또_저장되지_않는다() {
             // given
             authService.login(loginRequest);
 

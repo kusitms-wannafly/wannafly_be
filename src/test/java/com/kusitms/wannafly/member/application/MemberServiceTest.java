@@ -31,9 +31,9 @@ class MemberServiceTest {
     @DisplayName("사용자가 서비스에 가입할 때")
     class JoinTest {
 
-        @DisplayName("Member가 저장된다.")
+        @DisplayName("Member가_저장된다.")
         @Test
-        void join() {
+        void 사용자가_저장_된다() {
             // when
             Member member = memberService.join(request);
 
@@ -41,9 +41,8 @@ class MemberServiceTest {
             assertThat(member.getId()).isNotNull();
         }
 
-        @DisplayName("이미 가입된 email이면 예외가 발생한다.")
         @Test
-        void duplicatedEmail() {
+        void 이미_가입된_email이면_예외가_발생한다() {
             // given
             memberService.join(request);
 
