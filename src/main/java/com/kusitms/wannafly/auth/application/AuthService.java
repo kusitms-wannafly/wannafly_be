@@ -2,11 +2,12 @@ package com.kusitms.wannafly.auth.application;
 
 import com.kusitms.wannafly.auth.dto.AuthorizationRequest;
 import com.kusitms.wannafly.auth.dto.AuthorizationResponse;
-import com.kusitms.wannafly.auth.token.TokenPayload;
 import com.kusitms.wannafly.auth.dto.LoginRequest;
 import com.kusitms.wannafly.auth.dto.LoginResponse;
+import com.kusitms.wannafly.auth.security.MemberOAuthRepository;
 import com.kusitms.wannafly.auth.token.JwtTokenProvider;
-import com.kusitms.wannafly.member.domain.MemberRepository;
+import com.kusitms.wannafly.auth.token.TokenPayload;
+import com.kusitms.wannafly.member.application.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final MemberRepository memberRepository;
+    private final MemberOAuthRepository memberRepository;
+    private final MemberService memberService;
     private final JwtTokenProvider tokenProvider;
 
     @Transactional
@@ -26,8 +28,8 @@ public class AuthService {
     }
 
     private Long getOrJoin(LoginRequest request) {
-        return memberRepository.findByEmail(request.email())
-                .orElseGet(() -> memberRepository.save(request.toMember()))
+        return memberRepository.findByEmailAndRegistrationId(request.email(), request.registrationId())
+                .orElseGet(() -> memberService.join(request.toMemberRequest()))
                 .getId();
     }
 

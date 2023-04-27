@@ -1,10 +1,10 @@
 package com.kusitms.wannafly.auth.dto;
 
-import com.kusitms.wannafly.member.domain.Member;
+import com.kusitms.wannafly.member.dto.MemberRequest;
 
 public record LoginRequest(String registrationId, String name, String email, String pictureUrl) {
 
-    public Member toMember() {
-        return new Member(name, email, pictureUrl, registrationId);
+    public MemberRequest toMemberRequest() {
+        return new MemberRequest(registrationId, name, email, pictureUrl);
     }
 }
