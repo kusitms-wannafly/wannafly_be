@@ -1,8 +1,10 @@
 package com.kusitms.wannafly.Acceptance;
 
 import com.kusitms.wannafly.auth.dto.LoginResponse;
+import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
@@ -43,5 +45,37 @@ class AuthAcceptanceTest extends AcceptanceTest {
                 () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value()),
                 () -> assertThat(response.jsonPath().getInt("errorCode")).isEqualTo(1001)
         );
+    }
+
+    @Test
+    void 엑세스_토큰이_없으면_401_예외가_발생한다() {
+        // when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .when()
+                .get("/api")
+                .then().log().all()
+                .extract();
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
+    }
+
+    @Test
+    void 엑세스_토큰이_있으면_401_예외가_발생하지_않는다() {
+        // given
+        String accessToken = 소셜_로그인을_한다("google")
+                .jsonPath()
+                .getString("accessToken");
+
+        // when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .when()
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .get("/api")
+                .then().log().all()
+                .extract();
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.NOT_FOUND.value());
     }
 }
