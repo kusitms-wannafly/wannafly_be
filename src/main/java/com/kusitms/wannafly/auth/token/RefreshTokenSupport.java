@@ -3,6 +3,7 @@ package com.kusitms.wannafly.auth.token;
 import com.kusitms.wannafly.exception.BusinessException;
 import com.kusitms.wannafly.exception.ErrorCode;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.springframework.boot.web.server.Cookie.SameSite;
@@ -24,7 +25,8 @@ public class RefreshTokenSupport {
                 .build();
     }
 
-    public static Cookie extractRefreshToken(Cookie[] cookies) {
+    public static Cookie extractFrom(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
         return Arrays.stream(cookies)
                 .filter(cookie -> cookie.getName().equals("refreshToken"))
                 .findFirst()

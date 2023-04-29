@@ -34,7 +34,7 @@ public class RefreshTokenArgumentResolver implements HandlerMethodArgumentResolv
                                   NativeWebRequest webRequest,
                                   WebDataBinderFactory binderFactory) {
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
-        Cookie refreshTokenCookie = RefreshTokenSupport.extractRefreshToken(Objects.requireNonNull(request).getCookies());
+        Cookie refreshTokenCookie = RefreshTokenSupport.extractFrom(Objects.requireNonNull(request));
         String refreshTokenValue = refreshTokenCookie.getValue();
         return refreshTokenRepository.findByValue(refreshTokenValue)
                 .orElseThrow(() -> BusinessException.from(ErrorCode.NOT_FOUND_REFRESH_TOKEN_IN_REPOSITORY));

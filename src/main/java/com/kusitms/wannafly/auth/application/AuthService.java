@@ -6,14 +6,10 @@ import com.kusitms.wannafly.auth.token.JwtTokenProvider;
 import com.kusitms.wannafly.auth.token.RefreshToken;
 import com.kusitms.wannafly.auth.token.RefreshTokenProvider;
 import com.kusitms.wannafly.auth.token.TokenPayload;
-import com.kusitms.wannafly.exception.BusinessException;
-import com.kusitms.wannafly.exception.ErrorCode;
 import com.kusitms.wannafly.member.application.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -50,16 +46,9 @@ public class AuthService {
 
     @Transactional
     public ReIssueResponse reIssueTokens(RefreshToken refreshToken) {
-        validateRefreshTokenExpired(refreshToken);
+        RefreshToken newRefreshToken = refreshTokenProvider.reIssueToken(refreshToken);
         Long memberId = refreshToken.getMemberId();
         String newAccessToken = jwtTokenProvider.createToken(new TokenPayload(memberId));
-        RefreshToken newRefreshToken = refreshTokenProvider.reIssueToken(refreshToken);
         return new ReIssueResponse(memberId, newAccessToken, newRefreshToken.getValue());
-    }
-
-    private void validateRefreshTokenExpired(RefreshToken refreshToken) {
-        if (!refreshToken.isValid(LocalDateTime.now())) {
-            throw BusinessException.from(ErrorCode.EXPIRED_REFRESH_TOKEN);
-        }
     }
 }

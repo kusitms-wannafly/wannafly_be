@@ -1,5 +1,7 @@
 package com.kusitms.wannafly.auth.token;
 
+import com.kusitms.wannafly.exception.BusinessException;
+import com.kusitms.wannafly.exception.ErrorCode;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,9 +35,16 @@ public class RefreshTokenProvider {
 
     @Transactional
     public RefreshToken reIssueToken(RefreshToken refreshToken) {
+        validateRefreshTokenExpired(refreshToken);
         RefreshToken newRefreshToken = createToken(new TokenPayload(refreshToken.getMemberId()));
         refreshTokenRepository.delete(refreshToken);
         refreshTokenRepository.save(newRefreshToken);
         return newRefreshToken;
+    }
+
+    private void validateRefreshTokenExpired(RefreshToken refreshToken) {
+        if (!refreshToken.isValid(LocalDateTime.now())) {
+            throw BusinessException.from(ErrorCode.EXPIRED_REFRESH_TOKEN);
+        }
     }
 }

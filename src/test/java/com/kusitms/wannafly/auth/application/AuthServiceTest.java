@@ -183,11 +183,15 @@ class AuthServiceTest extends ServiceTest {
             ReIssueResponse actual = authService.reIssueTokens(refreshToken);
 
             // then
+            Optional<RefreshToken> previous = refreshTokenRepository.findByValue(previousRefreshToken);
             Optional<RefreshToken> reissued = refreshTokenRepository.findByValue(actual.refreshToken());
-            assertThat(reissued)
-                    .map(RefreshToken::getValue)
-                    .get()
-                    .isNotEqualTo(previousRefreshToken);
+            assertAll(
+                    () -> assertThat(previous).isEmpty(),
+                    () -> assertThat(reissued)
+                            .map(RefreshToken::getValue)
+                            .get()
+                            .isNotEqualTo(previousRefreshToken)
+            );
         }
 
         @Test
