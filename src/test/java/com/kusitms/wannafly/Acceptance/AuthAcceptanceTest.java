@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
 import static com.kusitms.wannafly.Acceptance.fixture.AcceptanceFixture.소셜_로그인을_한다;
+import static com.kusitms.wannafly.Acceptance.fixture.AcceptanceFixture.토큰을_재발급_한다;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -93,12 +94,7 @@ class AuthAcceptanceTest extends AcceptanceTest {
 
 
         // when
-        ExtractableResponse<Response> response = RestAssured.given().log().all()
-                .when()
-                .cookie("refreshToken", beforeRefreshToken)
-                .post("/accessToken")
-                .then().log().all()
-                .extract();
+        ExtractableResponse<Response> response = 토큰을_재발급_한다(beforeRefreshToken);
 
         // then
         String newRefreshToken = response.cookie("refreshToken");
@@ -114,16 +110,10 @@ class AuthAcceptanceTest extends AcceptanceTest {
     @Test
     void 리프레시_토큰이_유효하지_않으면_예외가_발생한다() {
         // given
-        ExtractableResponse<Response> beforeLogin = 소셜_로그인을_한다("google");
-
+        소셜_로그인을_한다("google");
 
         // when
-        ExtractableResponse<Response> response = RestAssured.given().log().all()
-                .when()
-                .cookie("refreshToken", "fake-refresh-token")
-                .post("/accessToken")
-                .then().log().all()
-                .extract();
+        ExtractableResponse<Response> response = 토큰을_재발급_한다("fake-refresh-token");
 
         // then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());

@@ -13,4 +13,13 @@ public class AcceptanceFixture {
                 .then().log().all()
                 .extract();
     }
+
+    public static ExtractableResponse<Response> 토큰을_재발급_한다(String refreshToken) {
+        return RestAssured.given().log().all()
+                .when()
+                .cookie("refreshToken", refreshToken)
+                .post("/accessToken")
+                .then().log().all()
+                .extract();
+    }
 }
