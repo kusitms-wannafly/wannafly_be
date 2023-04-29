@@ -1,9 +1,14 @@
 package com.kusitms.wannafly.auth.token;
 
+import com.kusitms.wannafly.exception.BusinessException;
+import com.kusitms.wannafly.exception.ErrorCode;
+import jakarta.servlet.http.Cookie;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.springframework.boot.web.server.Cookie;
+import org.springframework.boot.web.server.Cookie.SameSite;
 import org.springframework.http.ResponseCookie;
+
+import java.util.Arrays;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RefreshTokenSupport {
@@ -15,7 +20,14 @@ public class RefreshTokenSupport {
                 .httpOnly(true)
                 .secure(true)
                 .path("/")
-                .sameSite(Cookie.SameSite.NONE.attributeValue())
+                .sameSite(SameSite.NONE.attributeValue())
                 .build();
+    }
+
+    public static Cookie extractRefreshToken(Cookie[] cookies) {
+        return Arrays.stream(cookies)
+                .filter(cookie -> cookie.getName().equals("refreshToken"))
+                .findFirst()
+                .orElseThrow(() -> BusinessException.from(ErrorCode.NOT_FOUND_REFRESH_TOKEN_IN_COOKIE));
     }
 }

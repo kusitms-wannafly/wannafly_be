@@ -34,4 +34,8 @@ public class JpaRefreshToken {
         this.expiredTime = refreshToken.getExpiredTime();
         this.memberId = refreshToken.getMemberId();
     }
+
+    public RefreshToken toRefreshToken() {
+        return new RefreshToken(value, expiredTime, memberId);
+    }
 }

@@ -1,12 +1,11 @@
 package com.kusitms.wannafly.auth.application;
 
-import com.kusitms.wannafly.auth.dto.AuthorizationRequest;
-import com.kusitms.wannafly.auth.dto.AuthorizationResponse;
-import com.kusitms.wannafly.auth.dto.LoginRequest;
-import com.kusitms.wannafly.auth.dto.LoginResponse;
+import com.kusitms.wannafly.auth.dto.*;
 import com.kusitms.wannafly.auth.infrastructure.refreshtoken.JpaRefreshToken;
 import com.kusitms.wannafly.auth.infrastructure.refreshtoken.JpaRefreshTokenRepository;
 import com.kusitms.wannafly.auth.token.JwtTokenProvider;
+import com.kusitms.wannafly.auth.token.RefreshToken;
+import com.kusitms.wannafly.auth.token.RefreshTokenRepository;
 import com.kusitms.wannafly.auth.token.TokenPayload;
 import com.kusitms.wannafly.exception.BusinessException;
 import com.kusitms.wannafly.exception.ErrorCode;
@@ -18,6 +17,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,6 +38,9 @@ class AuthServiceTest extends ServiceTest {
 
     @Autowired
     private JpaRefreshTokenRepository jpaRefreshTokenRepository;
+
+    @Autowired
+    private RefreshTokenRepository refreshTokenRepository;
 
     @Nested
     @DisplayName("로그인을 할 때")
@@ -145,6 +148,59 @@ class AuthServiceTest extends ServiceTest {
                     () -> assertThat(actual.isAuthorized()).isFalse(),
                     () -> assertThat(actual.memberId()).isNull()
             );
+        }
+    }
+
+    @Nested
+    @DisplayName("엑세스 토큰을 재발급 할 때")
+    class ReIssueTest {
+
+        @Test
+        void 유효한_리프레시_토큰이면_재발급_한다() {
+            // given
+            LocalDateTime expiredTime = LocalDateTime.now().plusDays(1);
+            RefreshToken refreshToken = new RefreshToken("vlaue", expiredTime, 1L);
+
+            // when
+            ReIssueResponse actual = authService.reIssueTokens(refreshToken);
+
+            // then
+            assertAll(
+                    () -> assertThat(actual.memberId()).isEqualTo(1L),
+                    () -> assertThat(actual.accessToken()).isNotNull()
+            );
+        }
+
+        @Test
+        void 저장소의_리프레시_토큰을_교체한다() {
+            // given
+            LocalDateTime expiredTime = LocalDateTime.now().plusDays(1);
+            String previousRefreshToken = "previousRefreshToken";
+            RefreshToken refreshToken = new RefreshToken(previousRefreshToken, expiredTime, 1L);
+            refreshTokenRepository.save(refreshToken);
+
+            // when
+            ReIssueResponse actual = authService.reIssueTokens(refreshToken);
+
+            // then
+            Optional<RefreshToken> reissued = refreshTokenRepository.findByValue(actual.refreshToken());
+            assertThat(reissued)
+                    .map(RefreshToken::getValue)
+                    .get()
+                    .isNotEqualTo(previousRefreshToken);
+        }
+
+        @Test
+        void 유효하지_않은_리프레시_토큰이면_예외가_발생한다() {
+            // given
+            LocalDateTime expiredTime = LocalDateTime.now().minusMinutes(1);
+            RefreshToken refreshToken = new RefreshToken("vlaue", expiredTime, 1L);
+
+            // when // then
+            assertThatThrownBy(() -> authService.reIssueTokens(refreshToken))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(ErrorCode.EXPIRED_REFRESH_TOKEN);
         }
     }
 }

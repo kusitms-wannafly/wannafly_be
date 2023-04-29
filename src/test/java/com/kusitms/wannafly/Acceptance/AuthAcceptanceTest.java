@@ -80,4 +80,52 @@ class AuthAcceptanceTest extends AcceptanceTest {
         // then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.NOT_FOUND.value());
     }
+
+
+    @Test
+    void 리프레시_토큰으로_엑세스_토큰을_재발급_한다() throws InterruptedException {
+        // given
+        ExtractableResponse<Response> beforeLogin = 소셜_로그인을_한다("google");
+        String expiredAccessToken = beforeLogin.jsonPath().getString("accessToken");
+        String beforeRefreshToken = beforeLogin.cookie("refreshToken");
+
+        Thread.sleep(1000);
+
+
+        // when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .when()
+                .cookie("refreshToken", beforeRefreshToken)
+                .post("/accessToken")
+                .then().log().all()
+                .extract();
+
+        // then
+        String newRefreshToken = response.cookie("refreshToken");
+        assertAll(
+                () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
+
+                () -> assertThat(newRefreshToken).isNotNull(),
+                () -> assertThat(newRefreshToken).isNotEqualTo(beforeRefreshToken),
+                () -> assertThat(response.jsonPath().getString("accessToken")).isNotEqualTo(expiredAccessToken)
+        );
+    }
+
+    @Test
+    void 리프레시_토큰이_유효하지_않으면_예외가_발생한다() {
+        // given
+        ExtractableResponse<Response> beforeLogin = 소셜_로그인을_한다("google");
+
+
+        // when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .when()
+                .cookie("refreshToken", "fake-refresh-token")
+                .post("/accessToken")
+                .then().log().all()
+                .extract();
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
+    }
 }

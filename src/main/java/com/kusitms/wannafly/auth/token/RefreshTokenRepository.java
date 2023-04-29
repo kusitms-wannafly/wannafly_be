@@ -1,6 +1,12 @@
 package com.kusitms.wannafly.auth.token;
 
+import java.util.Optional;
+
 public interface RefreshTokenRepository {
 
-    String save(RefreshToken refreshToken);
+    void save(RefreshToken refreshToken);
+
+    Optional<RefreshToken> findByValue(String refreshTokenValue);
+
+    void delete(RefreshToken refreshToken);
 }

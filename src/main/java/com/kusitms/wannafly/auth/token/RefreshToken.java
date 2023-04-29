@@ -15,4 +15,8 @@ public class RefreshToken {
     private String value;
     private LocalDateTime expiredTime;
     private Long memberId;
+
+    public boolean isValid(LocalDateTime now) {
+        return now.isBefore(expiredTime);
+    }
 }
