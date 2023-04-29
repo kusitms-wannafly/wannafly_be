@@ -4,6 +4,8 @@ import com.kusitms.wannafly.auth.dto.AuthorizationRequest;
 import com.kusitms.wannafly.auth.dto.AuthorizationResponse;
 import com.kusitms.wannafly.auth.dto.LoginRequest;
 import com.kusitms.wannafly.auth.dto.LoginResponse;
+import com.kusitms.wannafly.auth.infrastructure.refreshtoken.JpaRefreshToken;
+import com.kusitms.wannafly.auth.infrastructure.refreshtoken.JpaRefreshTokenRepository;
 import com.kusitms.wannafly.auth.token.JwtTokenProvider;
 import com.kusitms.wannafly.auth.token.TokenPayload;
 import com.kusitms.wannafly.exception.BusinessException;
@@ -16,6 +18,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -33,6 +36,9 @@ class AuthServiceTest extends ServiceTest {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
+    @Autowired
+    private JpaRefreshTokenRepository jpaRefreshTokenRepository;
+
     @Nested
     @DisplayName("로그인을 할 때")
     class LoginTest {
@@ -43,7 +49,7 @@ class AuthServiceTest extends ServiceTest {
 
         @Test
         void 처음인_사용자는_DB에_저장된다() {
-            // when
+            // when˚
             LoginResponse loginResponse = authService.login(loginRequest);
 
             // then
@@ -52,8 +58,21 @@ class AuthServiceTest extends ServiceTest {
             assertAll(
                     () -> assertThat(joinedMember).isPresent(),
                     () -> assertThat(loginResponse.accessToken()).isNotNull(),
+                    () -> assertThat(loginResponse.refreshToken()).isNotNull(),
                     () -> assertThat(memberRepository.findAll().size()).isOne()
             );
+        }
+
+        @Test
+        void 리프레시_토큰이_저장된다() {
+            // when
+            LoginResponse loginResponse = authService.login(loginRequest);
+
+            // then
+            Long memberId = loginResponse.memberId();
+            List<JpaRefreshToken> refreshTokens = jpaRefreshTokenRepository.findAll();
+            assertThat(refreshTokens.size()).isOne();
+            assertThat(refreshTokens.get(0).getMemberId()).isEqualTo(memberId);
         }
 
         @DisplayName("같은 OAuth Client로 가입된 사용자는 DB에 또 저장되지 않는다.")

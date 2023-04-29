@@ -27,6 +27,8 @@ class AuthAcceptanceTest extends AcceptanceTest {
         assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
 
+                () -> assertThat(response.cookie("refreshToken")).isNotNull(),
+
                 () -> assertThat(actual.memberId()).isNotNull(),
                 () -> assertThat(actual.accessToken()).isNotNull()
         );

@@ -14,10 +14,17 @@ public class OAuth2Member implements OAuth2User {
     private final Map<String, Object> attributes = new HashMap<>();
     private final Long memberId;
     private final String accessToken;
+    private String refreshToken;
 
     public OAuth2Member(Long memberId, String accessToken) {
         this.memberId = memberId;
         this.accessToken = accessToken;
+    }
+
+    public OAuth2Member(Long memberId, String accessToken, String refreshToken) {
+        this.memberId = memberId;
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
     }
 
     @Override
@@ -36,6 +43,10 @@ public class OAuth2Member implements OAuth2User {
     }
 
     public LoginResponse toLoginResponse() {
-        return new LoginResponse(memberId, accessToken);
+        return new LoginResponse(memberId, accessToken, refreshToken);
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
     }
 }

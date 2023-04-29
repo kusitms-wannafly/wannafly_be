@@ -5,8 +5,7 @@ import com.kusitms.wannafly.auth.dto.AuthorizationResponse;
 import com.kusitms.wannafly.auth.dto.LoginRequest;
 import com.kusitms.wannafly.auth.dto.LoginResponse;
 import com.kusitms.wannafly.auth.security.MemberOAuthRepository;
-import com.kusitms.wannafly.auth.token.JwtTokenProvider;
-import com.kusitms.wannafly.auth.token.TokenPayload;
+import com.kusitms.wannafly.auth.token.*;
 import com.kusitms.wannafly.member.application.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,12 +18,16 @@ public class AuthService {
     private final MemberOAuthRepository memberRepository;
     private final MemberService memberService;
     private final JwtTokenProvider tokenProvider;
+    private final RefreshTokenProvider refreshTokenProvider;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     @Transactional
     public LoginResponse login(LoginRequest request) {
         Long memberId = getOrJoin(request);
-        String accessToken = tokenProvider.createToken(new TokenPayload(memberId));
-        return new LoginResponse(memberId, accessToken);
+        TokenPayload payload = new TokenPayload(memberId);
+        String accessToken = tokenProvider.createToken(payload);
+        String refreshToken = refreshTokenRepository.save(refreshTokenProvider.createToken(payload));
+        return new LoginResponse(memberId, accessToken, refreshToken);
     }
 
     private Long getOrJoin(LoginRequest request) {

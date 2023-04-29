@@ -41,7 +41,11 @@ public class MockAuthController {
     }
 
     private Authentication makeAuthentication(LoginResponse loginResponse) {
-        OAuth2Member oauth2Member = new OAuth2Member(loginResponse.memberId(), loginResponse.accessToken());
+        OAuth2Member oauth2Member = new OAuth2Member(
+                loginResponse.memberId(),
+                loginResponse.accessToken(),
+                loginResponse.refreshToken()
+        );
         return new UsernamePasswordAuthenticationToken(
                 oauth2Member, null, oauth2Member.getAuthorities()
         );

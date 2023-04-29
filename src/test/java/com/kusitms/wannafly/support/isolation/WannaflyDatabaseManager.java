@@ -42,8 +42,16 @@ public class WannaflyDatabaseManager {
     public void truncateTables() {
         entityManager.createNativeQuery("SET REFERENTIAL_INTEGRITY FALSE").executeUpdate();
         for (String tableName : tableNames) {
+            tableName = converRefreshTokenName(tableName);
             entityManager.createNativeQuery("TRUNCATE TABLE " + tableName).executeUpdate();
         }
         entityManager.createNativeQuery("SET REFERENTIAL_INTEGRITY TRUE").executeUpdate();
+    }
+
+    private static String converRefreshTokenName(String tableName) {
+        if (tableName.equals("JPA_REFRESH_TOKEN")) {
+            return "REFRESH_TOKEN";
+        }
+        return tableName;
     }
 }

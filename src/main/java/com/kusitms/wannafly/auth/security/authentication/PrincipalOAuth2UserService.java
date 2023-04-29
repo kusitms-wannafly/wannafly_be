@@ -22,7 +22,11 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         LoginRequest loginRequest = toLoginRequest(userRequest);
         LoginResponse loginResponse = authService.login(loginRequest);
-        return new OAuth2Member(loginResponse.memberId(), loginResponse.accessToken());
+        return new OAuth2Member(
+                loginResponse.memberId(),
+                loginResponse.accessToken(),
+                loginResponse.refreshToken()
+        );
     }
 
     private LoginRequest toLoginRequest(OAuth2UserRequest userRequest) {
