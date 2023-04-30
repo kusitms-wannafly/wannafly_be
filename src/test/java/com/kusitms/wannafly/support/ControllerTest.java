@@ -3,8 +3,6 @@ package com.kusitms.wannafly.support;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kusitms.wannafly.auth.application.AuthService;
 import com.kusitms.wannafly.auth.presentation.AuthController;
-import com.kusitms.wannafly.auth.security.authentication.OAuthLoginSuccessHandler;
-import com.kusitms.wannafly.auth.token.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -16,7 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 
 @WebMvcTest(controllers = AuthController.class)
-@Import(JwtTokenProvider.class)
+@Import(ControllerTestSecurityConfig.class)
 @AutoConfigureRestDocs
 public class ControllerTest {
 
@@ -33,8 +31,5 @@ public class ControllerTest {
     protected ObjectMapper objectMapper;
 
     @MockBean
-    private OAuthLoginSuccessHandler successHandler;
-
-    @MockBean
-    private AuthService authService;
+    protected AuthService authService;
 }

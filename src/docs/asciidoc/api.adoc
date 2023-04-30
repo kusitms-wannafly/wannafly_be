@@ -1,0 +1,16 @@
+= Wannafly API 문서
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 1
+:sectlinks:
+
+= 인증 인가
+== 엑세스 토큰 재발급
+=== Request
+include::{snippets}/re-issue-tokens/http-request.adoc[]
+=== Response
+include::{snippets}/re-issue-tokens/http-response.adoc[]
+=== Response 필드
+include::{snippets}/re-issue-tokens/response-fields.adoc[]
