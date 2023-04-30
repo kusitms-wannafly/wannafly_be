@@ -53,7 +53,7 @@ class RefreshTokenProviderTest extends ServiceTest {
             RefreshToken previousRefreshToken = refreshTokenProvider.createToken(payload);
 
             // when
-            RefreshToken newRefreshToken = refreshTokenProvider.reIssueToken(previousRefreshToken);
+            RefreshToken newRefreshToken = refreshTokenProvider.reIssueToken(previousRefreshToken.getValue());
 
             // then
             Optional<RefreshToken> previousSaved = refreshTokenRepository.findByValue(previousRefreshToken.getValue());
@@ -69,11 +69,12 @@ class RefreshTokenProviderTest extends ServiceTest {
         void 리프레시_토큰이_유효하지_않으면_예외가_발생한다() {
             // given
             LocalDateTime expiredTime = LocalDateTime.now().minusDays(1);
-            RefreshToken previousRefreshToken = new RefreshToken("value", expiredTime, 1L);
+            String refreshTokenValue = "value";
+            RefreshToken previousRefreshToken = new RefreshToken(refreshTokenValue, expiredTime, 1L);
             refreshTokenRepository.save(previousRefreshToken);
 
             // when then
-            assertThatThrownBy(() -> refreshTokenProvider.reIssueToken(previousRefreshToken))
+            assertThatThrownBy(() -> refreshTokenProvider.reIssueToken(refreshTokenValue))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(ErrorCode.EXPIRED_REFRESH_TOKEN);

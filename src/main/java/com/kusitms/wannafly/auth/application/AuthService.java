@@ -45,9 +45,9 @@ public class AuthService {
     }
 
     @Transactional
-    public ReIssueResponse reIssueTokens(RefreshToken refreshToken) {
+    public ReIssueResponse reIssueTokens(String refreshToken) {
         RefreshToken newRefreshToken = refreshTokenProvider.reIssueToken(refreshToken);
-        Long memberId = refreshToken.getMemberId();
+        Long memberId = newRefreshToken.getMemberId();
         String newAccessToken = jwtTokenProvider.createToken(new TokenPayload(memberId));
         return new ReIssueResponse(memberId, newAccessToken, newRefreshToken.getValue());
     }

@@ -155,10 +155,12 @@ class AuthServiceTest extends ServiceTest {
         void 유효한_리프레시_토큰이면_재발급_한다() {
             // given
             LocalDateTime expiredTime = LocalDateTime.now().plusDays(1);
-            RefreshToken refreshToken = new RefreshToken("vlaue", expiredTime, 1L);
+            String refreshTokenValue = "valid-refresh-token";
+            RefreshToken refreshToken = new RefreshToken(refreshTokenValue, expiredTime, 1L);
+            refreshTokenRepository.save(refreshToken);
 
             // when
-            ReIssueResponse actual = authService.reIssueTokens(refreshToken);
+            ReIssueResponse actual = authService.reIssueTokens(refreshTokenValue);
 
             // then
             assertAll(
@@ -176,7 +178,7 @@ class AuthServiceTest extends ServiceTest {
             refreshTokenRepository.save(refreshToken);
 
             // when
-            ReIssueResponse actual = authService.reIssueTokens(refreshToken);
+            ReIssueResponse actual = authService.reIssueTokens(previousRefreshToken);
 
             // then
             Optional<RefreshToken> previous = refreshTokenRepository.findByValue(previousRefreshToken);
@@ -191,13 +193,27 @@ class AuthServiceTest extends ServiceTest {
         }
 
         @Test
-        void 유효하지_않은_리프레시_토큰이면_예외가_발생한다() {
+        void 저장소에_없는_토큰이면_예외가_발생한다() {
             // given
-            LocalDateTime expiredTime = LocalDateTime.now().minusMinutes(1);
-            RefreshToken refreshToken = new RefreshToken("vlaue", expiredTime, 1L);
+            String refreshTokenValue = "invalid-refresh-token";
 
             // when // then
-            assertThatThrownBy(() -> authService.reIssueTokens(refreshToken))
+            assertThatThrownBy(() -> authService.reIssueTokens(refreshTokenValue))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(ErrorCode.NOT_FOUND_REFRESH_TOKEN_IN_REPOSITORY);
+        }
+
+        @Test
+        void 만료된_리프레시_토큰이면_예외가_발생한다() {
+            // given
+            LocalDateTime expiredTime = LocalDateTime.now().minusMinutes(1);
+            String refreshTokenValue = "invalid-refresh-token";
+            RefreshToken refreshToken = new RefreshToken(refreshTokenValue, expiredTime, 1L);
+            refreshTokenRepository.save(refreshToken);
+
+            // when // then
+            assertThatThrownBy(() -> authService.reIssueTokens(refreshTokenValue))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(ErrorCode.EXPIRED_REFRESH_TOKEN);

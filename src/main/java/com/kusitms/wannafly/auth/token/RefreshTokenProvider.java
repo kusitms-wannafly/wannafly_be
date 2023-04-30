@@ -34,17 +34,20 @@ public class RefreshTokenProvider {
     }
 
     @Transactional
-    public RefreshToken reIssueToken(RefreshToken refreshToken) {
-        validateRefreshTokenExpired(refreshToken);
+    public RefreshToken reIssueToken(String refreshTokenValue) {
+        RefreshToken refreshToken = getRefreshToken(refreshTokenValue);
         RefreshToken newRefreshToken = createToken(new TokenPayload(refreshToken.getMemberId()));
         refreshTokenRepository.delete(refreshToken);
         refreshTokenRepository.save(newRefreshToken);
         return newRefreshToken;
     }
 
-    private void validateRefreshTokenExpired(RefreshToken refreshToken) {
+    private RefreshToken getRefreshToken(String refreshTokenValue) {
+        RefreshToken refreshToken = refreshTokenRepository.findByValue(refreshTokenValue)
+                .orElseThrow(() -> BusinessException.from(ErrorCode.NOT_FOUND_REFRESH_TOKEN_IN_REPOSITORY));
         if (!refreshToken.isValid(LocalDateTime.now())) {
             throw BusinessException.from(ErrorCode.EXPIRED_REFRESH_TOKEN);
         }
+        return refreshToken;
     }
 }
