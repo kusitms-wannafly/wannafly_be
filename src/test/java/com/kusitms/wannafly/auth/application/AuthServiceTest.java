@@ -1,8 +1,6 @@
 package com.kusitms.wannafly.auth.application;
 
 import com.kusitms.wannafly.auth.dto.*;
-import com.kusitms.wannafly.auth.infrastructure.refreshtoken.JpaRefreshToken;
-import com.kusitms.wannafly.auth.infrastructure.refreshtoken.JpaRefreshTokenRepository;
 import com.kusitms.wannafly.auth.token.JwtTokenProvider;
 import com.kusitms.wannafly.auth.token.RefreshToken;
 import com.kusitms.wannafly.auth.token.RefreshTokenRepository;
@@ -18,7 +16,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -35,9 +32,6 @@ class AuthServiceTest extends ServiceTest {
 
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
-
-    @Autowired
-    private JpaRefreshTokenRepository jpaRefreshTokenRepository;
 
     @Autowired
     private RefreshTokenRepository refreshTokenRepository;
@@ -73,9 +67,11 @@ class AuthServiceTest extends ServiceTest {
 
             // then
             Long memberId = loginResponse.memberId();
-            List<JpaRefreshToken> refreshTokens = jpaRefreshTokenRepository.findAll();
-            assertThat(refreshTokens.size()).isOne();
-            assertThat(refreshTokens.get(0).getMemberId()).isEqualTo(memberId);
+            Optional<RefreshToken> refreshToken = refreshTokenRepository.findByValue(loginResponse.refreshToken());
+            assertThat(refreshToken)
+                    .map(RefreshToken::getMemberId)
+                    .get()
+                    .isEqualTo(memberId);
         }
 
         @DisplayName("같은 OAuth Client로 가입된 사용자는 DB에 또 저장되지 않는다.")
