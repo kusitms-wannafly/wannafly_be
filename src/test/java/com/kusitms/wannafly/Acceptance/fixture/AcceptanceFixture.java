@@ -22,4 +22,13 @@ public class AcceptanceFixture {
                 .then().log().all()
                 .extract();
     }
+
+    public static ExtractableResponse<Response> 로그아웃_한다(String refreshToken){
+        return RestAssured.given().log().all()
+                .when()
+                .cookie("refreshToken", refreshToken)
+                .post("/logout")
+                .then().log().all()
+                .extract();
+    }
 }

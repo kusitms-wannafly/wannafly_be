@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final AuthService authService;
-
     @PostMapping("/accessToken")
     public ResponseEntity<ReIssueResponse> reIssueToken(@CookieValue(name = "refreshToken") String refreshToken) {
         ReIssueResponse response = authService.reIssueTokens(refreshToken);
@@ -24,5 +23,14 @@ public class AuthController {
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, cookie.toString())
                 .body(response);
+    }
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout(@CookieValue("refreshToken") String refreshToken) {
+        if (refreshToken == null) {
+            return ResponseEntity.ok().build();
+        }
+        authService.logoutRefreshToken(refreshToken);
+        // Return a 200 OK response
+        return ResponseEntity.ok().build();
     }
 }

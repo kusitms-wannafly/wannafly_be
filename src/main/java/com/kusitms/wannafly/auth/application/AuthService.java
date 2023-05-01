@@ -51,4 +51,8 @@ public class AuthService {
         String newAccessToken = jwtTokenProvider.createToken(new TokenPayload(memberId));
         return new ReIssueResponse(memberId, newAccessToken, newRefreshToken.getValue());
     }
+
+    public void logoutRefreshToken(String refreshToken){
+        refreshTokenProvider.logoutToken(refreshToken);
+    }
 }

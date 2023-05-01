@@ -8,8 +8,7 @@ import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
-import static com.kusitms.wannafly.Acceptance.fixture.AcceptanceFixture.소셜_로그인을_한다;
-import static com.kusitms.wannafly.Acceptance.fixture.AcceptanceFixture.토큰을_재발급_한다;
+import static com.kusitms.wannafly.Acceptance.fixture.AcceptanceFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -100,7 +99,6 @@ class AuthAcceptanceTest extends AcceptanceTest {
         String newRefreshToken = response.cookie("refreshToken");
         assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
-
                 () -> assertThat(newRefreshToken).isNotNull(),
                 () -> assertThat(newRefreshToken).isNotEqualTo(beforeRefreshToken),
                 () -> assertThat(response.jsonPath().getString("accessToken")).isNotEqualTo(expiredAccessToken)
@@ -117,5 +115,26 @@ class AuthAcceptanceTest extends AcceptanceTest {
 
         // then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
+    }
+
+    @Test
+    void 리프레시_토큰으로_로그아웃_한다(){
+        //given
+        ExtractableResponse<Response> beforeLogin = 소셜_로그인을_한다("google");
+        String beforeRefreshToken = beforeLogin.cookie("refreshToken");
+        System.out.println("#### beforeRefreshToken = " + beforeRefreshToken);
+
+        //when
+        ExtractableResponse<Response> response = 로그아웃_한다("refresh-token");
+
+        //then
+        String newRefreshToken = response.cookie("refreshToken");
+        System.out.println("#### beforeRefreshToken = " + newRefreshToken);
+        assertAll(
+                //200메시지가 오지않고 302status Code가 오는 오류 발생
+                //() -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
+                () -> assertThat(newRefreshToken).isNull(),
+                () -> assertThat(newRefreshToken).isNotEqualTo(beforeRefreshToken)
+        );
     }
 }

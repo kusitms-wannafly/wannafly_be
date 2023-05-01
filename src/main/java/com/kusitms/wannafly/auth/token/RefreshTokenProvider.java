@@ -50,4 +50,10 @@ public class RefreshTokenProvider {
         }
         return refreshToken;
     }
+
+    @Transactional
+    public void logoutToken(String refreshTokenValue) {
+        RefreshToken refreshToken = getRefreshToken(refreshTokenValue);
+        refreshTokenRepository.delete(refreshToken);
+    }
 }
