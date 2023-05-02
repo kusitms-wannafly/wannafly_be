@@ -450,6 +450,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_인증_인가">인증 인가</a>
 <ul class="sectlevel1">
 <li><a href="#_엑세스_토큰_재발급">엑세스 토큰 재발급</a></li>
+<li><a href="#_리프레시_토큰_삭제_로그_아웃">리프레시 토큰 삭제 (로그 아웃)</a></li>
 </ul>
 </li>
 </ul>
@@ -527,11 +528,44 @@ Content-Length: 64
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_리프레시_토큰_삭제_로그_아웃"><a class="link" href="#_리프레시_토큰_삭제_로그_아웃">리프레시 토큰 삭제 (로그 아웃)</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_request_2"><a class="link" href="#_request_2">Request</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /refreshToken HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Host: www.api.wannafly.co.kr
+Cookie: refreshToken=prev-refresh-token</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_response_2"><a class="link" href="#_response_2">Response</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-04-30 11:23:28 +0900
+Last updated 2023-05-02 22:33:13 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
