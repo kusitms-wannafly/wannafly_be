@@ -36,13 +36,13 @@ class AuthServiceTest extends ServiceTest {
     @Autowired
     private RefreshTokenRepository refreshTokenRepository;
 
+    private final LoginRequest loginRequest = new LoginRequest(
+            "google", "이동규", "ldk@mail.com", "picture.com"
+    );
+
     @Nested
     @DisplayName("로그인을 할 때")
     class LoginTest {
-
-        private final LoginRequest loginRequest = new LoginRequest(
-                "google", "이동규", "ldk@mail.com", "picture.com"
-        );
 
         @Test
         void 처음인_사용자는_DB에_저장된다() {
@@ -217,6 +217,25 @@ class AuthServiceTest extends ServiceTest {
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(ErrorCode.EXPIRED_REFRESH_TOKEN);
+        }
+    }
+
+    @Nested
+    @DisplayName("로그아웃을 할 때")
+    class LogoutTest {
+
+        @Test
+        void 리프레시_토큰을_삭제한다() {
+            // given
+            String refreshTokenValue = authService.login(loginRequest)
+                    .refreshToken();
+
+            // when
+            authService.logoutRefreshToken(refreshTokenValue);
+
+            // then
+            Optional<RefreshToken> actual = refreshTokenRepository.findByValue(refreshTokenValue);
+            assertThat(actual).isEmpty();
         }
     }
 }

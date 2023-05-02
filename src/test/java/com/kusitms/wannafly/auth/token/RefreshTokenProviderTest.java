@@ -81,4 +81,18 @@ class RefreshTokenProviderTest extends ServiceTest {
         }
 
     }
+
+    @Test
+    void 리프레시_토큰을_삭제한다() {
+        // given
+        RefreshToken refreshToken = refreshTokenProvider.createToken(new TokenPayload(1L));
+        String refreshTokenValue = refreshToken.getValue();
+
+        // when
+        refreshTokenProvider.deleteToken(refreshTokenValue);
+
+        // then
+        Optional<RefreshToken> actual = refreshTokenRepository.findByValue(refreshTokenValue);
+        assertThat(actual).isEmpty();
+    }
 }

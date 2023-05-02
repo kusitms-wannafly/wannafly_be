@@ -14,6 +14,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -57,5 +58,22 @@ public class AuthControllerTest extends ControllerTest {
         cookie.setSecure(true);
         cookie.setHttpOnly(true);
         return cookie;
+    }
+
+    @Test
+    void 로그아웃으로_리프레시_토큰을_삭제한다() throws Exception {
+        // given
+        String refreshTokenValue = "prev-refresh-token";
+
+        // when
+        ResultActions result = mockMvc.perform(delete("/refreshToken")
+                .contentType(MediaType.APPLICATION_JSON)
+                .cookie(buildCookie(refreshTokenValue)));
+
+        // then
+        result.andExpect(status().isNoContent())
+
+                .andDo(document("delete-refresh-token", HOST_INFO,
+                        preprocessResponse(prettyPrint())));
     }
 }
