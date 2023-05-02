@@ -8,6 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,13 +25,9 @@ public class AuthController {
                 .header(HttpHeaders.SET_COOKIE, cookie.toString())
                 .body(response);
     }
-    @PostMapping("/logout")
+    @DeleteMapping("/refreshToken")
     public ResponseEntity<Void> logout(@CookieValue("refreshToken") String refreshToken) {
-        if (refreshToken == null) {
-            return ResponseEntity.ok().build();
-        }
         authService.logoutRefreshToken(refreshToken);
-        // Return a 200 OK response
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }

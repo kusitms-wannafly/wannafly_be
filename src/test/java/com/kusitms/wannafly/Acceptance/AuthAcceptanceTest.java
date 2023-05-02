@@ -122,19 +122,15 @@ class AuthAcceptanceTest extends AcceptanceTest {
         //given
         ExtractableResponse<Response> beforeLogin = 소셜_로그인을_한다("google");
         String beforeRefreshToken = beforeLogin.cookie("refreshToken");
-        System.out.println("#### beforeRefreshToken = " + beforeRefreshToken);
 
         //when
-        ExtractableResponse<Response> response = 로그아웃_한다("refresh-token");
+        ExtractableResponse<Response> response = 로그아웃_한다(beforeRefreshToken);
 
         //then
         String newRefreshToken = response.cookie("refreshToken");
-        System.out.println("#### beforeRefreshToken = " + newRefreshToken);
         assertAll(
-                //200메시지가 오지않고 302status Code가 오는 오류 발생
-                //() -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
-                () -> assertThat(newRefreshToken).isNull(),
-                () -> assertThat(newRefreshToken).isNotEqualTo(beforeRefreshToken)
+                () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value()),
+                () -> assertThat(newRefreshToken).isNull()
         );
     }
 }

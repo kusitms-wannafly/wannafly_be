@@ -45,14 +45,15 @@ public class AuthService {
     }
 
     @Transactional
-    public ReIssueResponse reIssueTokens(String refreshToken) {
-        RefreshToken newRefreshToken = refreshTokenProvider.reIssueToken(refreshToken);
+    public ReIssueResponse reIssueTokens(String refreshTokenValue) {
+        RefreshToken newRefreshToken = refreshTokenProvider.reIssueToken(refreshTokenValue);
         Long memberId = newRefreshToken.getMemberId();
         String newAccessToken = jwtTokenProvider.createToken(new TokenPayload(memberId));
         return new ReIssueResponse(memberId, newAccessToken, newRefreshToken.getValue());
     }
 
-    public void logoutRefreshToken(String refreshToken){
-        refreshTokenProvider.logoutToken(refreshToken);
+    @Transactional
+    public void logoutRefreshToken(String refreshTokenValue){
+        refreshTokenProvider.deleteToken(refreshTokenValue);
     }
 }

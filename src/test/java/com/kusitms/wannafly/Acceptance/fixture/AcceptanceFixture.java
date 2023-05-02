@@ -27,7 +27,7 @@ public class AcceptanceFixture {
         return RestAssured.given().log().all()
                 .when()
                 .cookie("refreshToken", refreshToken)
-                .post("/logout")
+                .delete("/refreshToken")
                 .then().log().all()
                 .extract();
     }

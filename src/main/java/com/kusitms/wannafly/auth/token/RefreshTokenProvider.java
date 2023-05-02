@@ -52,8 +52,8 @@ public class RefreshTokenProvider {
     }
 
     @Transactional
-    public void logoutToken(String refreshTokenValue) {
-        RefreshToken refreshToken = getRefreshToken(refreshTokenValue);
-        refreshTokenRepository.delete(refreshToken);
+    public void deleteToken(String refreshTokenValue) {
+        refreshTokenRepository.findByValue(refreshTokenValue)
+                .ifPresent(refreshTokenRepository::delete);
     }
 }
