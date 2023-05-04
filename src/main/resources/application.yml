@@ -1,4 +1,39 @@
 spring:
+  profiles:
+    active: local
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    version: 1
+cors:
+  allowed:
+    origins: http://www.localhost:3000
+
+security:
+  jwt:
+    token:
+      expire-length: 1800000
+  refresh:
+    token:
+      expire-day: 1
+
+
+---
+spring:
   config:
+    activate:
+      on-profile: local
+    import: application-local.yml
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
     import:
-      - classpath:be-config/application.yml
+      - classpath:be-config/application-prod.yml
+
