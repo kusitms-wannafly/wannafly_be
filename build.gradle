@@ -67,5 +67,9 @@ task copyDocument(type: Copy) {
 }
 
 bootJar {
-	dependsOn copyDocument // 9
+	dependsOn copyDocument
+}
+
+jar {
+	enabled = false
 }
