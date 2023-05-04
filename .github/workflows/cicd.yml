@@ -2,7 +2,7 @@ name: spring server ci cd
 
 on:
   push:
-    branches: ["feature/cicd"]
+    branches: ["main"]
 
 jobs:
   deploy:
