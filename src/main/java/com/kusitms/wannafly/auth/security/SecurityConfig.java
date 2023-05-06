@@ -1,6 +1,5 @@
 package com.kusitms.wannafly.auth.security;
 
-import com.kusitms.wannafly.auth.security.authentication.LogFilter;
 import com.kusitms.wannafly.auth.security.authentication.OAuthLoginSuccessHandler;
 import com.kusitms.wannafly.auth.security.authentication.PrincipalOAuth2UserService;
 import com.kusitms.wannafly.auth.security.authoriization.JwtAuthorizationFilter;
@@ -14,7 +13,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.context.SecurityContextHolderFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -49,7 +47,6 @@ public class SecurityConfig {
                 .successHandler(successHandler).and()
 
                 .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new LogFilter(), SecurityContextHolderFilter.class)
 
                 .exceptionHandling()
                 .authenticationEntryPoint(unauthorizationEntryPoint)
