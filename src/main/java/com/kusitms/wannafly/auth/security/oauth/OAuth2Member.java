@@ -1,6 +1,5 @@
 package com.kusitms.wannafly.auth.security.oauth;
 
-import com.kusitms.wannafly.auth.dto.LoginResponse;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
@@ -42,11 +41,11 @@ public class OAuth2Member implements OAuth2User {
         return String.valueOf(memberId);
     }
 
-    public LoginResponse toLoginResponse() {
-        return new LoginResponse(memberId, accessToken, refreshToken);
-    }
-
     public String getRefreshToken() {
         return refreshToken;
+    }
+
+    public String getAccessToken() {
+        return accessToken;
     }
 }

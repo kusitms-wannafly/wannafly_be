@@ -9,9 +9,7 @@ spring:
     enabled: true
     baseline-on-migrate: true
     version: 1
-cors:
-  allowed:
-    origins: http://www.localhost:3000
+
 
 security:
   jwt:
