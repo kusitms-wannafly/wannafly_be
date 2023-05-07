@@ -5,7 +5,9 @@ import lombok.Getter;
 @Getter
 public enum RegistrationId {
 
-    GOOGLE("name", "email", "picture");
+    GOOGLE("name", "email", "picture"),
+    NAVER("name", "email", "profile_image"),
+    KAKAO("nickname","email","profile_image_url");
 
     private final String nameAttribute;
     private final String emailAttribute;
