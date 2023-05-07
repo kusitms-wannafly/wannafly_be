@@ -51,14 +51,28 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
             log.info(loginRequest.toString());
             return loginRequest;
         }
-
-
+        else if (registrationId.getValue().equals("Kakao")) {
+            Map<String, Object> attributes = oAuth2User.getAttributes();
+            Map<String, Object> kakao_account = (Map<String, Object>) attributes.get("kakao_account");
+            String email = (String) kakao_account.get("email");
+            Map<String, Object> properties = (Map<String, Object>) attributes.get("properties");
+            String nickname = (String) properties.get("nickname");
+            String url = "null";
+            LoginRequest loginRequest = new LoginRequest(
+                    registrationId.getValue(),
+                    nickname,
+                    email,
+                    url
+            );
+            log.info(loginRequest.toString());
+            return loginRequest;
+        }
         LoginRequest loginRequest = new LoginRequest(
                 registrationId.getValue(),
                 oAuth2User.getAttribute(registrationId.getNameAttribute()),
                 oAuth2User.getAttribute(registrationId.getEmailAttribute()),
                 oAuth2User.getAttribute(registrationId.getPictureUrlAttribute())
-        );;
+        );
         log.info(loginRequest.toString());
         return new LoginRequest(
                 registrationId.getValue(),
