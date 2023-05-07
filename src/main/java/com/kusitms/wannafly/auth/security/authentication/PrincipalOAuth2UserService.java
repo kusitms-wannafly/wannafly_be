@@ -24,7 +24,6 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-        String registrationId = userRequest.getClientRegistration().getRegistrationId();
         LoginRequest loginRequest = toLoginRequest(userRequest);
         LoginResponse loginResponse = authService.login(loginRequest);
         return new OAuth2Member(
@@ -36,12 +35,15 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
 
     private LoginRequest toLoginRequest(OAuth2UserRequest userRequest) {
         OAuth2User oAuth2User = super.loadUser(userRequest);
+        log.info("#########oAuth2User.toString()");
+
         RegistrationId registrationId = RegistrationId.from(
                 userRequest.getClientRegistration().getRegistrationId()
         );
 
         if (registrationId.getValue().equals("naver")) {
             Map<String, String> response = (Map<String, String>) oAuth2User.getAttribute("response");
+            log.info(response.toString());
             LoginRequest loginRequest = new LoginRequest(
                     registrationId.getValue(),
                     response.get(registrationId.getNameAttribute()),
@@ -51,8 +53,9 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
             log.info(loginRequest.toString());
             return loginRequest;
         }
-        else if (registrationId.getValue().equals("Kakao")) {
+        else if (registrationId.getValue().equals("kakao")) {
             Map<String, Object> attributes = oAuth2User.getAttributes();
+            log.info(attributes.toString());
             Map<String, Object> kakao_account = (Map<String, Object>) attributes.get("kakao_account");
             String email = (String) kakao_account.get("email");
             Map<String, Object> properties = (Map<String, Object>) attributes.get("properties");
@@ -60,8 +63,8 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
             String url = "null";
             LoginRequest loginRequest = new LoginRequest(
                     registrationId.getValue(),
-                    nickname,
                     email,
+                    nickname,
                     url
             );
             log.info(loginRequest.toString());

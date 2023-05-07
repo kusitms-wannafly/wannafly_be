@@ -28,11 +28,11 @@ spring:
           kakao:
             client-id: ${KAKAO-CLIENT-ID}
             client-secret: ${KAKAO-CLIENT-SECRET}
-            scope: profile_nickname	, account_email,profile_image
+            scope: profile_nickname	, account_email, profile_image
             client-name: Kakao
             authorization-grant-type: authorization_code
             redirect-uri: http://localhost:8080/login/oauth2/code/kakao
-            client-authentication-method : POST
+            client-authentication-method: POST
         provider:
           naver:
             authorization-uri: https://nid.naver.com/oauth2.0/authorize
