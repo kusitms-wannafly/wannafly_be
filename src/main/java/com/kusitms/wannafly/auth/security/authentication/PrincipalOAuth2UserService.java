@@ -6,6 +6,7 @@ import com.kusitms.wannafly.auth.dto.LoginResponse;
 import com.kusitms.wannafly.auth.security.oauth.OAuth2Member;
 import com.kusitms.wannafly.auth.security.oauth.OAuthProvider;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;

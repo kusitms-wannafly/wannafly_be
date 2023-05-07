@@ -1,6 +1,7 @@
 package com.kusitms.wannafly.auth.security.oauth;
 
 import com.kusitms.wannafly.auth.dto.LoginRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.Map;
@@ -23,12 +24,12 @@ public enum OAuthProvider {
         public LoginRequest toLoginRequest(OAuth2User oAuth2User) {
             Map<String, Object> attributes = oAuth2User.getAttributes();
             Map<String, Object> kakao_account = (Map<String, Object>) attributes.get("kakao_account");
-            Map<String, Object> properties = (Map<String, Object>) attributes.get("properties");
+            Map<String, String> properties = (Map<String, String>) attributes.get("properties");
             return new LoginRequest(
                     name().toLowerCase(),
+                    properties.get("nickname"),
                     (String) kakao_account.get("email"),
-                    (String) properties.get("nickname"),
-                    "null"
+                    properties.get("profile_image")
             );
         }
     },
