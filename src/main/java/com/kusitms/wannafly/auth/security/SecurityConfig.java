@@ -2,8 +2,8 @@ package com.kusitms.wannafly.auth.security;
 
 import com.kusitms.wannafly.auth.security.authentication.OAuthLoginSuccessHandler;
 import com.kusitms.wannafly.auth.security.authentication.PrincipalOAuth2UserService;
-import com.kusitms.wannafly.auth.security.authoriization.UnAuthorizationEntryPoint;
 import com.kusitms.wannafly.auth.security.authoriization.JwtAuthorizationFilter;
+import com.kusitms.wannafly.auth.security.authoriization.UnAuthorizationEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

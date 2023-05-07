@@ -1,19 +1,19 @@
 package com.kusitms.wannafly.support.mockapi;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kusitms.wannafly.auth.application.AuthService;
 import com.kusitms.wannafly.auth.dto.LoginRequest;
 import com.kusitms.wannafly.auth.dto.LoginResponse;
-import com.kusitms.wannafly.auth.security.oauth.OAuth2Member;
-import com.kusitms.wannafly.auth.security.authentication.OAuthLoginSuccessHandler;
-import jakarta.servlet.http.HttpServletRequest;
+import com.kusitms.wannafly.auth.token.RefreshTokenSupport;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 @RestController
 public class MockAuthController {
@@ -22,32 +22,25 @@ public class MockAuthController {
     private static final String MOCK_EMAIL = "ldk@gmail.com";
     private static final String MOCK_PICTURE = "picture.com";
 
-    private final OAuthLoginSuccessHandler successHandler;
     private final AuthService authService;
 
-    public MockAuthController(OAuthLoginSuccessHandler successHandler, AuthService authService) {
-        this.successHandler = successHandler;
+    private final ObjectMapper objectMapper;
+
+    public MockAuthController(AuthService authService, ObjectMapper objectMapper) {
         this.authService = authService;
+        this.objectMapper = objectMapper;
     }
 
     @GetMapping("/mock/oauth2/authorization/{registrationId}")
     public void login(@PathVariable String registrationId,
-                      HttpServletRequest request,
                       HttpServletResponse response) throws IOException {
         LoginRequest loginRequest = new LoginRequest(registrationId, MOCK_NAME, MOCK_EMAIL, MOCK_PICTURE);
         LoginResponse loginResponse = authService.login(loginRequest);
-        Authentication authentication = makeAuthentication(loginResponse);
-        successHandler.onAuthenticationSuccess(request, response, authentication);
-    }
 
-    private Authentication makeAuthentication(LoginResponse loginResponse) {
-        OAuth2Member oauth2Member = new OAuth2Member(
-                loginResponse.memberId(),
-                loginResponse.accessToken(),
-                loginResponse.refreshToken()
-        );
-        return new UsernamePasswordAuthenticationToken(
-                oauth2Member, null, oauth2Member.getAuthorities()
-        );
+        ResponseCookie cookie = RefreshTokenSupport.convertToCookie(loginResponse.refreshToken());
+        response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+        PrintWriter writer = response.getWriter();
+        writer.println(objectMapper.writeValueAsString(loginResponse));
+        writer.flush();
     }
 }
