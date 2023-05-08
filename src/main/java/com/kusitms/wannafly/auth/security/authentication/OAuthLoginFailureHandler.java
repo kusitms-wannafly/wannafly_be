@@ -14,7 +14,7 @@ import java.io.IOException;
 @Component
 public class OAuthLoginFailureHandler implements AuthenticationFailureHandler {
 
-    @Value("${security.redirect-url}")
+    @Value("${security.oauth.failure-redirect-url}")
     private String redirectUrl;
 
     @Override
@@ -24,6 +24,6 @@ public class OAuthLoginFailureHandler implements AuthenticationFailureHandler {
         OAuth2AuthenticationException oAuthException = (OAuth2AuthenticationException) exception;
         OAuth2Error oAuth2Error = oAuthException.getError();
 
-        response.sendRedirect(redirectUrl + "/login-fail?code=" + oAuth2Error.getErrorCode());
+        response.sendRedirect(redirectUrl + "?errorCode=" + oAuth2Error.getErrorCode());
     }
 }
