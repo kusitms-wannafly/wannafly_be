@@ -23,12 +23,12 @@ public enum OAuthProvider {
         @Override
         public LoginRequest toLoginRequest(OAuth2User oAuth2User) {
             Map<String, Object> attributes = oAuth2User.getAttributes();
-            Map<String, Object> kakao_account = (Map<String, Object>) attributes.get("kakao_account");
+            Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
             Map<String, String> properties = (Map<String, String>) attributes.get("properties");
             return new LoginRequest(
                     name().toLowerCase(),
                     properties.get("nickname"),
-                    (String) kakao_account.get("email"),
+                    (String) kakaoAccount.get("email"),
                     properties.get("profile_image")
             );
         }
