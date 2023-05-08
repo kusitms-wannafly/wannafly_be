@@ -1,5 +1,6 @@
 package com.kusitms.wannafly.auth.security;
 
+import com.kusitms.wannafly.auth.security.authentication.OAuthLoginFailureHandler;
 import com.kusitms.wannafly.auth.security.authentication.OAuthLoginSuccessHandler;
 import com.kusitms.wannafly.auth.security.authentication.PrincipalOAuth2UserService;
 import com.kusitms.wannafly.auth.security.authoriization.JwtAuthorizationFilter;
@@ -21,6 +22,7 @@ public class SecurityConfig {
 
     private final PrincipalOAuth2UserService userService;
     private final OAuthLoginSuccessHandler successHandler;
+    private final OAuthLoginFailureHandler failureHandler;
     private final JwtAuthorizationFilter jwtAuthorizationFilter;
     private final UnAuthorizationEntryPoint unauthorizationEntryPoint;
 
@@ -44,7 +46,9 @@ public class SecurityConfig {
 
                 .oauth2Login()
                 .userInfoEndpoint().userService(userService).and()
-                .successHandler(successHandler).and()
+                .successHandler(successHandler)
+                .failureHandler(failureHandler)
+                .and()
 
                 .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
 

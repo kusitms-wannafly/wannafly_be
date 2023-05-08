@@ -19,7 +19,7 @@ public class OAuthLoginSuccessHandler implements AuthenticationSuccessHandler {
 
     private static final String SET_COOKIE = "Set-Cookie";
 
-    @Value("${security.jwt.token.redirect-url}")
+    @Value("${security.redirect-url}")
     private String redirectUrl;
 
     @Override
@@ -32,6 +32,6 @@ public class OAuthLoginSuccessHandler implements AuthenticationSuccessHandler {
 
         response.setContentType("application/json;charset=UTF-8");
         response.addHeader(SET_COOKIE, cookie.toString());
-        response.sendRedirect(redirectUrl + "?accessToken=" + oauth2Member.getAccessToken());
+        response.sendRedirect(redirectUrl + "/token?accessToken=" + oauth2Member.getAccessToken());
     }
 }
