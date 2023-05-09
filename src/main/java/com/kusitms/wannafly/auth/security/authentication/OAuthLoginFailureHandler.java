@@ -14,7 +14,7 @@ import java.io.IOException;
 @Component
 public class OAuthLoginFailureHandler implements AuthenticationFailureHandler {
 
-    @Value("${oauth.redirect}")
+    @Value("${cors.allowed.origins}")
     private String redirectUrl;
 
     @Override

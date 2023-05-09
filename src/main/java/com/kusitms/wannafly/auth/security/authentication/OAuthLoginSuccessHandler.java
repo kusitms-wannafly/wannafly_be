@@ -19,7 +19,7 @@ public class OAuthLoginSuccessHandler implements AuthenticationSuccessHandler {
 
     private static final String SET_COOKIE = "Set-Cookie";
 
-    @Value("${oauth.redirect}")
+    @Value("${cors.allowed.origins}")
     private String redirectUrl;
 
     @Override
