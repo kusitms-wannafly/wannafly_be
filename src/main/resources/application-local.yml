@@ -50,8 +50,9 @@ security:
     token:
       secret-key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ6.eyJzdWIiOiIiLCJuYW1lIjoiSm3obiBEb2UiLCJpYXQiOjE1MTYyMzkwMjJ9.ih1aovtQShabQ7l0cINw4k1fagApg3qLWiB8Kt23Lno
   oauth:
-    success-redirect-url: http://localhost:3000/token
-    failure-redirect-url: http://localhost:3000/login-fail
+    redirect:
+      success-url: http://localhost:3000/token
+      failure-url: http://localhost:3000/login-fail
 
 cors:
   allowed:

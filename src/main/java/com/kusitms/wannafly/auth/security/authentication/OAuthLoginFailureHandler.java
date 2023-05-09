@@ -14,7 +14,7 @@ import java.io.IOException;
 @Component
 public class OAuthLoginFailureHandler implements AuthenticationFailureHandler {
 
-    @Value("${security.oauth.failure-redirect-url}")
+    @Value("${security.oauth.redirect.failure-url}")
     private String redirectUrl;
 
     @Override
