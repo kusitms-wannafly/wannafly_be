@@ -19,8 +19,8 @@ public class OAuthLoginSuccessHandler implements AuthenticationSuccessHandler {
 
     private static final String SET_COOKIE = "Set-Cookie";
 
-//    @Value("${security.oauth.redirect.success-url}")
-//    private String redirectUrl;
+    @Value("${oauth.redirect}")
+    private String redirectUrl;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
@@ -32,6 +32,6 @@ public class OAuthLoginSuccessHandler implements AuthenticationSuccessHandler {
 
         response.setContentType("application/json;charset=UTF-8");
         response.addHeader(SET_COOKIE, cookie.toString());
-        response.sendRedirect("https://wannafly.co.kr/token" + "?accessToken=" + oauth2Member.getAccessToken());
+        response.sendRedirect(redirectUrl + "/token?accessToken=" + oauth2Member.getAccessToken());
     }
 }
