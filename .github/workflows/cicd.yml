@@ -2,7 +2,7 @@ name: spring server ci cd
 
 on:
   push:
-    branches: ["main"]
+    branches: ["hotfix-mysql"]
 
 jobs:
   deploy:
