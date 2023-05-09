@@ -53,10 +53,8 @@ security:
 
 cors:
   allowed:
-    origins: http://www.localhost:3000
+    origins: http://localhost:3000
 
-oauth:
-  redirect: http://www.localhost:3000
 
 logging:
   level:
