@@ -2,7 +2,7 @@ name: spring server ci cd
 
 on:
   push:
-    branches: ["hotfix/flyway-mysql"]
+    branches: ["main"]
 
 jobs:
   deploy:
