@@ -14,8 +14,8 @@ import java.io.IOException;
 @Component
 public class OAuthLoginFailureHandler implements AuthenticationFailureHandler {
 
-    @Value("${security.oauth.redirect.failure-url}")
-    private String redirectUrl;
+//    @Value("${security.oauth.redirect.failure-url}")
+//    private String redirectUrl;
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request,
@@ -24,6 +24,6 @@ public class OAuthLoginFailureHandler implements AuthenticationFailureHandler {
         OAuth2AuthenticationException oAuthException = (OAuth2AuthenticationException) exception;
         OAuth2Error oAuth2Error = oAuthException.getError();
 
-        response.sendRedirect(redirectUrl + "?errorCode=" + oAuth2Error.getErrorCode());
+        response.sendRedirect("https://wannafly.co.kr/login-fail" + "?errorCode=" + oAuth2Error.getErrorCode());
     }
 }
