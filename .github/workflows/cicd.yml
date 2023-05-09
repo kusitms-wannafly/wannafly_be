@@ -2,7 +2,7 @@ name: spring server ci cd
 
 on:
   push:
-    branches: ["main"]
+    branches: ["feature/submodule-update"]
 
 jobs:
   deploy:
@@ -11,7 +11,7 @@ jobs:
       - name: 저장소 Checkout
         uses: actions/checkout@v3
         with:
-          submodules: true
+          submodules: recursive
           token: ${{ secrets.ACTION_TOKEN }}
 
       - name: 자바 17 설정
