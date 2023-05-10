@@ -18,6 +18,9 @@ public class ApplicationFolder {
     @Column(nullable = false,name ="years")
     private Integer year;
 
+    public static ApplicationFolder createEmptyFolder(Long memberId, Integer year) {
+        return new ApplicationFolder(memberId, year);
+    }
     private ApplicationFolder(Long memberId, Integer year){
         this.memberId = memberId;
         this.year = year;

@@ -10,14 +10,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.URI;
+
 @RestController
 @RequestMapping("/api/application-folders")
 @RequiredArgsConstructor
 public class ApplicationFolderController {
     private final ApplicationFolderService applicationFolderService;
     @PostMapping
-    public ResponseEntity<void> createFolder(@RequestBody ApplicationFolderCreateRequest request,
+    public ResponseEntity<Void> createFolder(@RequestBody ApplicationFolderCreateRequest request,
                                              LoginMember loginMember){
-
+        Long folderId = applicationFolderService.createFolder(loginMember,request);
+        return ResponseEntity.created(URI.create("/application-folder/"+folderId))
+                .build();
     }
 }
