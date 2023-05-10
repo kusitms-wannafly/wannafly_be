@@ -49,6 +49,22 @@ public class ApplicationForm {
         this.semester = semester;
     }
 
+    public void updateInfo(String recruiter, Integer year, Semester semester) {
+        validateRecruiter(recruiter);
+        validateYear(year);
+        this.recruiter = recruiter;
+        this.year = year;
+        this.semester = semester;
+    }
+
+    public void updateItem(ApplicationItem updateItem) {
+        applicationItems.stream()
+                .filter(it -> it.getId().equals(updateItem.getId()))
+                .findAny()
+                .orElseThrow()
+                .updateContents(updateItem);
+    }
+
     private void validateRecruiter(String recruiter) {
         if (recruiter.isBlank()) {
             throw BusinessException.from(ErrorCode.EMPTY_RECRUITER);

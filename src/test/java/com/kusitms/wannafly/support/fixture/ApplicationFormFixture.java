@@ -35,7 +35,7 @@ public class ApplicationFormFixture {
                             1L, ApplicationFormFixture.QUESTION2, ApplicationFormFixture.ANSWER2
                     ),
                     new ApplicationItemUpdateRequest(
-                            2L, ApplicationFormFixture.QUESTION2, ApplicationFormFixture.ANSWER2
+                            2L, ApplicationFormFixture.QUESTION1, ApplicationFormFixture.ANSWER1
                     ),
                     new ApplicationItemUpdateRequest(
                             3L, ApplicationFormFixture.QUESTION2, ApplicationFormFixture.ANSWER2

@@ -2,11 +2,13 @@ package com.kusitms.wannafly.applicationform.command.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Getter
 public class ApplicationItem {
 
@@ -29,5 +31,21 @@ public class ApplicationItem {
         this.applicationForm = form;
         this.applicationQuestion = question;
         this.applicationAnswer = answer;
+    }
+
+    public ApplicationItem(Long id, ApplicationQuestion question, ApplicationAnswer answer) {
+        this.id = id;
+        this.applicationQuestion = question;
+        this.applicationAnswer = answer;
+    }
+
+    public ApplicationItem(ApplicationQuestion question, ApplicationAnswer answer) {
+        this.applicationQuestion = question;
+        this.applicationAnswer = answer;
+    }
+
+    public void updateContents(ApplicationItem updateItem) {
+        this.applicationQuestion = updateItem.getApplicationQuestion();
+        this.applicationAnswer = updateItem.getApplicationAnswer();
     }
 }
