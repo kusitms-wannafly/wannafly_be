@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public class ApplicationAnswer {
 
-    @Column(nullable = false)
+    @Column(name = "application_answer", nullable = false)
     @Lob
     private String content;
 }

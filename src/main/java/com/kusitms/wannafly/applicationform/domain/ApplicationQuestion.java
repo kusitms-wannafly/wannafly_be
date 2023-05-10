@@ -2,6 +2,7 @@ package com.kusitms.wannafly.applicationform.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.Lob;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,6 +14,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public class ApplicationQuestion {
 
-    @Column(nullable = false)
+    @Column(name = "application_question", nullable = false)
+    @Lob
     private String content;
 }

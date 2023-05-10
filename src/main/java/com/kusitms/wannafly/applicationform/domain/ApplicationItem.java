@@ -16,7 +16,7 @@ public class ApplicationItem {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "application_form_id", nullable = false)
+    @JoinColumn(name = "application_form_id")
     private ApplicationForm applicationForm;
 
     @Embedded

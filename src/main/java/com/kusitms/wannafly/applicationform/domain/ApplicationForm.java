@@ -24,7 +24,7 @@ public class ApplicationForm {
     @Column(nullable = false)
     private String recruiter;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "years")
     private Integer year;
 
     @Enumerated(EnumType.STRING)
