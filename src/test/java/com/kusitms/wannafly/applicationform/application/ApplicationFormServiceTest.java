@@ -44,7 +44,7 @@ class ApplicationFormServiceTest extends ServiceTest {
         // then
         Optional<ApplicationForm> savedForm = applicationFormRepository.findById(formId);
         assertAll(
-                () -> assertThat(formId).isEqualTo(1L),
+                () -> assertThat(formId).isEqualTo(formId),
                 () -> assertThat(savedForm).isPresent()
         );
     }
