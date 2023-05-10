@@ -28,8 +28,8 @@ class ApplicationFormServiceTest extends ServiceTest {
     void 지원서를_등록한다() {
         // given
         ApplicationItemCreateRequest itemRequest = new ApplicationItemCreateRequest(
-                ApplicationFormFixture.QUESTION,
-                ApplicationFormFixture.ANSWER
+                ApplicationFormFixture.QUESTION1,
+                ApplicationFormFixture.ANSWER1
         );
         ApplicationFormCreateRequest formRequest = new ApplicationFormCreateRequest(
                 "큐시즘",

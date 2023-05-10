@@ -8,7 +8,8 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static com.kusitms.wannafly.support.fixture.ApplicationFormFixture.KUSITMS_FORM_REQUEST;
+import static com.kusitms.wannafly.support.fixture.ApplicationFormFixture.FORM_CREATE_REQUEST;
+import static com.kusitms.wannafly.support.fixture.ApplicationFormFixture.FORM_UPDATE_REQUEST;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -16,6 +17,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -39,7 +41,7 @@ public class ApplicationFormControllerTest extends ControllerTest {
         ResultActions result = mockMvc.perform(post("/api/application-forms")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
-                .content(objectMapper.writeValueAsString(KUSITMS_FORM_REQUEST)));
+                .content(objectMapper.writeValueAsString(FORM_CREATE_REQUEST)));
 
         // then
         result.andExpect(status().isCreated())
@@ -51,6 +53,33 @@ public class ApplicationFormControllerTest extends ControllerTest {
                                 fieldWithPath("recruiter").type(JsonFieldType.STRING).description("동아리 명"),
                                 fieldWithPath("year").type(JsonFieldType.NUMBER).description("지원 년도"),
                                 fieldWithPath("semester").type(JsonFieldType.STRING).description("지원 분기"),
+                                fieldWithPath("applicationItems[].applicationQuestion")
+                                        .type(JsonFieldType.STRING).description("지원 문항"),
+                                fieldWithPath("applicationItems[].applicationAnswer")
+                                        .type(JsonFieldType.STRING).description("지원 답변")
+                        )
+                ));
+    }
+
+    @Test
+    void 지원서를_수정한다() throws Exception {
+        // when
+        ResultActions result = mockMvc.perform(patch("/api/application-forms/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .content(objectMapper.writeValueAsString(FORM_UPDATE_REQUEST)));
+
+        // then
+        result.andExpect(status().isNoContent())
+
+                .andDo(document("update-application-form", HOST_INFO,
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                fieldWithPath("recruiter").type(JsonFieldType.STRING).description("동아리 명"),
+                                fieldWithPath("year").type(JsonFieldType.NUMBER).description("지원 년도"),
+                                fieldWithPath("semester").type(JsonFieldType.STRING).description("지원 분기"),
+                                fieldWithPath("applicationItems[].applicationItemId")
+                                        .type(JsonFieldType.NUMBER).description("지원 항목 식별자"),
                                 fieldWithPath("applicationItems[].applicationQuestion")
                                         .type(JsonFieldType.STRING).description("지원 문항"),
                                 fieldWithPath("applicationItems[].applicationAnswer")

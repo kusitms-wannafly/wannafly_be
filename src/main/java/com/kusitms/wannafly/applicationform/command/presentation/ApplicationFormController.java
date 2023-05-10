@@ -2,13 +2,11 @@ package com.kusitms.wannafly.applicationform.command.presentation;
 
 import com.kusitms.wannafly.applicationform.command.application.ApplicationFormService;
 import com.kusitms.wannafly.applicationform.command.dto.ApplicationFormCreateRequest;
+import com.kusitms.wannafly.applicationform.command.dto.ApplicationFormUpdateRequest;
 import com.kusitms.wannafly.auth.LoginMember;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
@@ -25,5 +23,13 @@ public class ApplicationFormController {
         Long formId = applicationFormService.createForm(loginMember, request);
         return ResponseEntity.created(URI.create("/application-forms/" + formId))
                 .build();
+    }
+
+    @PatchMapping("{applicationFormId}")
+    public ResponseEntity<Void> updateForm(@PathVariable Long applicationFormId,
+                                           @RequestBody ApplicationFormUpdateRequest request,
+                                           LoginMember loginMember) {
+        applicationFormService.updateForm(applicationFormId, loginMember, request);
+        return ResponseEntity.noContent().build();
     }
 }

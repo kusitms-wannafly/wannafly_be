@@ -3,6 +3,7 @@ package com.kusitms.wannafly.applicationform.command.application;
 import com.kusitms.wannafly.applicationform.command.domain.ApplicationForm;
 import com.kusitms.wannafly.applicationform.command.domain.ApplicationFormRepository;
 import com.kusitms.wannafly.applicationform.command.dto.ApplicationFormCreateRequest;
+import com.kusitms.wannafly.applicationform.command.dto.ApplicationFormUpdateRequest;
 import com.kusitms.wannafly.auth.LoginMember;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,5 +20,11 @@ public class ApplicationFormService {
         ApplicationForm applicationForm = request.toDomain(loginMember.id());
         applicationFormRepository.save(applicationForm);
         return applicationForm.getId();
+    }
+
+    public void updateForm(Long applicationFormId,
+                           LoginMember loginMember,
+                           ApplicationFormUpdateRequest request) {
+
     }
 }

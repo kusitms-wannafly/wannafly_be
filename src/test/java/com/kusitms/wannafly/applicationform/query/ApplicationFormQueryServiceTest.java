@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static com.kusitms.wannafly.support.fixture.ApplicationFormFixture.KUSITMS_FORM_REQUEST;
+import static com.kusitms.wannafly.support.fixture.ApplicationFormFixture.FORM_CREATE_REQUEST;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -35,29 +35,29 @@ class ApplicationFormQueryServiceTest extends ServiceTest {
         void 로그인_회원이_지원를_작성했다면_조회한다() {
             // given
             LoginMember loginMember = new LoginMember(1L);
-            Long formId = applicationFormService.createForm(loginMember, KUSITMS_FORM_REQUEST);
+            Long formId = applicationFormService.createForm(loginMember, FORM_CREATE_REQUEST);
 
             // when
             ApplicationFormResponse response = applicationFormQueryService.findOne(formId, loginMember);
 
             // then
             assertAll(
-                    () -> assertThat(response.recruiter()).isEqualTo(KUSITMS_FORM_REQUEST.recruiter()),
-                    () -> assertThat(response.year()).isEqualTo(KUSITMS_FORM_REQUEST.year()),
-                    () -> assertThat(response.semester()).isEqualTo(KUSITMS_FORM_REQUEST.semester()),
+                    () -> assertThat(response.recruiter()).isEqualTo(FORM_CREATE_REQUEST.recruiter()),
+                    () -> assertThat(response.year()).isEqualTo(FORM_CREATE_REQUEST.year()),
+                    () -> assertThat(response.semester()).isEqualTo(FORM_CREATE_REQUEST.semester()),
                     () -> assertThat(response.applicationItems())
                             .map(ApplicationItemResponse::applicationQuestion)
                             .containsExactly(
-                                    ApplicationFormFixture.QUESTION,
-                                    ApplicationFormFixture.QUESTION,
-                                    ApplicationFormFixture.QUESTION
+                                    ApplicationFormFixture.QUESTION1,
+                                    ApplicationFormFixture.QUESTION1,
+                                    ApplicationFormFixture.QUESTION1
                             ),
                     () -> assertThat(response.applicationItems())
                             .map(ApplicationItemResponse::applicationAnswer)
                             .containsExactly(
-                                    ApplicationFormFixture.ANSWER,
-                                    ApplicationFormFixture.ANSWER,
-                                    ApplicationFormFixture.ANSWER
+                                    ApplicationFormFixture.ANSWER1,
+                                    ApplicationFormFixture.ANSWER1,
+                                    ApplicationFormFixture.ANSWER1
                             )
             );
         }
@@ -78,7 +78,7 @@ class ApplicationFormQueryServiceTest extends ServiceTest {
         void 로그인_회원이_지원서를_작성하지_않았으면_예외가_발생한다() {
             // given
             LoginMember writerOfForm = new LoginMember(1L);
-            Long formId = applicationFormService.createForm(writerOfForm, KUSITMS_FORM_REQUEST);
+            Long formId = applicationFormService.createForm(writerOfForm, FORM_CREATE_REQUEST);
 
             // when then
             assertThatThrownBy(() -> applicationFormQueryService.findOne(formId, new LoginMember(2L)))

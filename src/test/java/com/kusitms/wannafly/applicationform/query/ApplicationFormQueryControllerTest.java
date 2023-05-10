@@ -36,9 +36,9 @@ public class ApplicationFormQueryControllerTest extends ControllerTest {
     void 나의_지원서를_조회한다() throws Exception {
         // given
         List<ApplicationItemResponse> items = List.of(
-                new ApplicationItemResponse(1L, ApplicationFormFixture.QUESTION, ApplicationFormFixture.ANSWER),
-                new ApplicationItemResponse(2L, ApplicationFormFixture.QUESTION, ApplicationFormFixture.ANSWER),
-                new ApplicationItemResponse(3L, ApplicationFormFixture.QUESTION, ApplicationFormFixture.ANSWER)
+                new ApplicationItemResponse(1L, ApplicationFormFixture.QUESTION1, ApplicationFormFixture.ANSWER1),
+                new ApplicationItemResponse(2L, ApplicationFormFixture.QUESTION1, ApplicationFormFixture.ANSWER1),
+                new ApplicationItemResponse(3L, ApplicationFormFixture.QUESTION1, ApplicationFormFixture.ANSWER1)
         );
         given(applicationFormQueryService.findOne(any(), any()))
                 .willReturn(new ApplicationFormResponse("큐시즘", 2023, "first_half", items));

@@ -38,3 +38,11 @@ include::{snippets}/get-one-application-form/http-response.adoc[]
 === Response 필드
 include::{snippets}/get-one-application-form/response-fields.adoc[]
 
+== 지원서 수정
+=== Request
+include::{snippets}/update-application-form/http-request.adoc[]
+=== Request 필드
+include::{snippets}/update-application-form/request-fields.adoc[]
+=== Response
+include::{snippets}/update-application-form/http-response.adoc[]
+
