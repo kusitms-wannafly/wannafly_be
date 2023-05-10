@@ -1,5 +1,7 @@
 package com.kusitms.wannafly.applicationform.query.dto;
 
+import com.kusitms.wannafly.applicationform.command.domain.ApplicationForm;
+
 import java.util.List;
 
 public record ApplicationFormResponse(
@@ -8,4 +10,15 @@ public record ApplicationFormResponse(
         String semester,
         List<ApplicationItemResponse> applicationItems
 ) {
+    public static ApplicationFormResponse from(ApplicationForm applicationForm) {
+        return new ApplicationFormResponse(
+                applicationForm.getRecruiter(),
+                applicationForm.getYear(),
+                applicationForm.getSemester().name().toLowerCase(),
+                applicationForm.getApplicationItems()
+                        .stream()
+                        .map(ApplicationItemResponse::from)
+                        .toList()
+        );
+    }
 }

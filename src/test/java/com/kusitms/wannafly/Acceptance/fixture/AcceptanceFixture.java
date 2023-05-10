@@ -51,7 +51,7 @@ public class AcceptanceFixture {
                 .when()
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .post("/api/application-forms/" + formId)
+                .get("/api/application-forms/" + formId)
                 .then().log().all()
                 .extract();
     }
