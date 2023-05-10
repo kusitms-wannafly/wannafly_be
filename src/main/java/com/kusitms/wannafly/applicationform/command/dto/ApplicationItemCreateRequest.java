@@ -1,4 +1,4 @@
-package com.kusitms.wannafly.applicationform.dto;
+package com.kusitms.wannafly.applicationform.command.dto;
 
 public record ApplicationItemCreateRequest(
         String applicationQuestion,

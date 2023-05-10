@@ -1,4 +1,4 @@
-package com.kusitms.wannafly.applicationform.domain;
+package com.kusitms.wannafly.applicationform.command.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;

@@ -1,4 +1,4 @@
-package com.kusitms.wannafly.applicationform.domain;
+package com.kusitms.wannafly.applicationform.command.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

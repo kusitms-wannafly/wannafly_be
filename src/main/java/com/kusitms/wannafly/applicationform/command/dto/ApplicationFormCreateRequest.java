@@ -1,9 +1,9 @@
-package com.kusitms.wannafly.applicationform.dto;
+package com.kusitms.wannafly.applicationform.command.dto;
 
-import com.kusitms.wannafly.applicationform.domain.ApplicationAnswer;
-import com.kusitms.wannafly.applicationform.domain.ApplicationForm;
-import com.kusitms.wannafly.applicationform.domain.ApplicationQuestion;
-import com.kusitms.wannafly.applicationform.domain.Semester;
+import com.kusitms.wannafly.applicationform.command.domain.ApplicationAnswer;
+import com.kusitms.wannafly.applicationform.command.domain.ApplicationForm;
+import com.kusitms.wannafly.applicationform.command.domain.ApplicationQuestion;
+import com.kusitms.wannafly.applicationform.command.domain.Semester;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
-package com.kusitms.wannafly.applicationform.presentation;
+package com.kusitms.wannafly.applicationform.command.presentation;
 
-import com.kusitms.wannafly.applicationform.application.ApplicationFormService;
-import com.kusitms.wannafly.applicationform.dto.ApplicationFormCreateRequest;
+import com.kusitms.wannafly.applicationform.command.application.ApplicationFormService;
+import com.kusitms.wannafly.applicationform.command.dto.ApplicationFormCreateRequest;
 import com.kusitms.wannafly.auth.LoginMember;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

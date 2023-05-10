@@ -30,3 +30,11 @@ include::{snippets}/create-application-form/request-fields.adoc[]
 === Response
 include::{snippets}/create-application-form/http-response.adoc[]
 
+== 나의 지원서 하나 조회
+=== Request
+include::{snippets}/get-one-application-form/http-request.adoc[]
+=== Response
+include::{snippets}/get-one-application-form/http-response.adoc[]
+=== Response 필드
+include::{snippets}/get-one-application-form/response-fields.adoc[]
+

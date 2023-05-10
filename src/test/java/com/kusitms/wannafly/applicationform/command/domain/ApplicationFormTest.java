@@ -1,5 +1,7 @@
-package com.kusitms.wannafly.applicationform.domain;
+package com.kusitms.wannafly.applicationform.command.domain;
 
+import com.kusitms.wannafly.applicationform.command.domain.ApplicationForm;
+import com.kusitms.wannafly.applicationform.command.domain.Semester;
 import com.kusitms.wannafly.exception.BusinessException;
 import com.kusitms.wannafly.exception.ErrorCode;
 import org.junit.jupiter.api.DisplayName;

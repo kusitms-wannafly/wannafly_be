@@ -1,6 +1,6 @@
 package com.kusitms.wannafly.Acceptance.fixture;
 
-import com.kusitms.wannafly.applicationform.dto.ApplicationFormCreateRequest;
+import com.kusitms.wannafly.applicationform.command.dto.ApplicationFormCreateRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -42,6 +42,16 @@ public class AcceptanceFixture {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(request)
                 .post("/api/application-forms")
+                .then().log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 나의_지원서를_조회한다(String accessToken, Long formId){
+        return RestAssured.given().log().all()
+                .when()
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .post("/api/application-forms/" + formId)
                 .then().log().all()
                 .extract();
     }

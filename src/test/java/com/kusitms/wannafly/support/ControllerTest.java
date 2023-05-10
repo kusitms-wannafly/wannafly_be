@@ -1,8 +1,10 @@
 package com.kusitms.wannafly.support;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kusitms.wannafly.applicationform.application.ApplicationFormService;
-import com.kusitms.wannafly.applicationform.presentation.ApplicationFormController;
+import com.kusitms.wannafly.applicationform.command.application.ApplicationFormService;
+import com.kusitms.wannafly.applicationform.command.presentation.ApplicationFormController;
+import com.kusitms.wannafly.applicationform.query.ApplicationFormQueryController;
+import com.kusitms.wannafly.applicationform.query.ApplicationFormQueryService;
 import com.kusitms.wannafly.auth.AuthConfig;
 import com.kusitms.wannafly.auth.LoginMemberResolver;
 import com.kusitms.wannafly.auth.application.AuthService;
@@ -24,7 +26,8 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 
 @WebMvcTest(controllers = {
         AuthController.class,
-        ApplicationFormController.class
+        ApplicationFormController.class,
+        ApplicationFormQueryController.class
 })
 @Import({
         ControllerTestSecurityConfig.class,
@@ -55,6 +58,9 @@ public class ControllerTest {
 
     @MockBean
     protected ApplicationFormService applicationFormService;
+
+    @MockBean
+    protected ApplicationFormQueryService applicationFormQueryService;
 
     protected String loginAndGetAccessToken(Long memberId) {
         given(authService.authorize(any()))
