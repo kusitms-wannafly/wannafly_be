@@ -14,7 +14,7 @@ import java.io.IOException;
 @Component
 public class OAuthLoginFailureHandler implements AuthenticationFailureHandler {
 
-    @Value("${cors.allowed.origins}")
+    @Value("${security.jwt.token.redirect-uri}")
     private String redirectUrl;
 
     @Override
@@ -24,6 +24,6 @@ public class OAuthLoginFailureHandler implements AuthenticationFailureHandler {
         OAuth2AuthenticationException oAuthException = (OAuth2AuthenticationException) exception;
         OAuth2Error oAuth2Error = oAuthException.getError();
 
-        response.sendRedirect(redirectUrl + "/login-fail?errorCode=" + oAuth2Error.getErrorCode());
+        response.sendRedirect(redirectUrl + "/?errorCode=" + oAuth2Error.getErrorCode());
     }
 }

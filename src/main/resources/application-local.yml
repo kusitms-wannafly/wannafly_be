@@ -49,10 +49,12 @@ security:
   jwt:
     token:
       secret-key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ6.eyJzdWIiOiIiLCJuYW1lIjoiSm3obiBEb2UiLCJpYXQiOjE1MTYyMzkwMjJ9.ih1aovtQShabQ7l0cINw4k1fagApg3qLWiB8Kt23Lno
+      redirect-uri: http://localhost:3000/token
 
 cors:
   allowed:
-    origins: http://www.localhost:3000
+    origins: http://localhost:3000
+
 
 logging:
   level:
