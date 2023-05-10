@@ -3,7 +3,7 @@ package com.kusitms.wannafly.applicationform.query;
 import com.kusitms.wannafly.applicationform.query.dto.ApplicationFormResponse;
 import com.kusitms.wannafly.applicationform.query.dto.ApplicationItemResponse;
 import com.kusitms.wannafly.support.ControllerTest;
-import com.kusitms.wannafly.support.fixture.ApplicationFormText;
+import com.kusitms.wannafly.support.fixture.ApplicationFormFixture;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
@@ -36,9 +36,9 @@ public class ApplicationFormQueryControllerTest extends ControllerTest {
     void 나의_지원서를_조회한다() throws Exception {
         // given
         List<ApplicationItemResponse> items = List.of(
-                new ApplicationItemResponse(1L, ApplicationFormText.QUESTION, ApplicationFormText.ANSWER),
-                new ApplicationItemResponse(2L, ApplicationFormText.QUESTION, ApplicationFormText.ANSWER),
-                new ApplicationItemResponse(3L, ApplicationFormText.QUESTION, ApplicationFormText.ANSWER)
+                new ApplicationItemResponse(1L, ApplicationFormFixture.QUESTION, ApplicationFormFixture.ANSWER),
+                new ApplicationItemResponse(2L, ApplicationFormFixture.QUESTION, ApplicationFormFixture.ANSWER),
+                new ApplicationItemResponse(3L, ApplicationFormFixture.QUESTION, ApplicationFormFixture.ANSWER)
         );
         given(applicationFormQueryService.findOne(any(), any()))
                 .willReturn(new ApplicationFormResponse("큐시즘", 2023, "first_half", items));

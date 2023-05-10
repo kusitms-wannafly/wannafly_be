@@ -1,9 +1,6 @@
 package com.kusitms.wannafly.applicationform.command.presentation;
 
-import com.kusitms.wannafly.applicationform.command.dto.ApplicationFormCreateRequest;
-import com.kusitms.wannafly.applicationform.command.dto.ApplicationItemCreateRequest;
 import com.kusitms.wannafly.support.ControllerTest;
-import com.kusitms.wannafly.support.fixture.ApplicationFormText;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
@@ -11,8 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
-import java.util.List;
-
+import static com.kusitms.wannafly.support.fixture.ApplicationFormFixture.KUSITMS_FORM_REQUEST;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -25,18 +21,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class ApplicationFormControllerTest extends ControllerTest {
-
-    private final ApplicationItemCreateRequest itemRequest = new ApplicationItemCreateRequest(
-            ApplicationFormText.QUESTION,
-            ApplicationFormText.ANSWER
-    );
-
-    private final ApplicationFormCreateRequest formRequest = new ApplicationFormCreateRequest(
-            "큐시즘",
-            2023,
-            "first_half",
-            List.of(itemRequest, itemRequest, itemRequest)
-    );
 
     private String accessToken;
 
@@ -55,7 +39,7 @@ public class ApplicationFormControllerTest extends ControllerTest {
         ResultActions result = mockMvc.perform(post("/api/application-forms")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
-                .content(objectMapper.writeValueAsString(formRequest)));
+                .content(objectMapper.writeValueAsString(KUSITMS_FORM_REQUEST)));
 
         // then
         result.andExpect(status().isCreated())

@@ -6,7 +6,7 @@ import com.kusitms.wannafly.applicationform.command.dto.ApplicationFormCreateReq
 import com.kusitms.wannafly.applicationform.command.dto.ApplicationItemCreateRequest;
 import com.kusitms.wannafly.auth.LoginMember;
 import com.kusitms.wannafly.support.ServiceTest;
-import com.kusitms.wannafly.support.fixture.ApplicationFormText;
+import com.kusitms.wannafly.support.fixture.ApplicationFormFixture;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -28,8 +28,8 @@ class ApplicationFormServiceTest extends ServiceTest {
     void 지원서를_등록한다() {
         // given
         ApplicationItemCreateRequest itemRequest = new ApplicationItemCreateRequest(
-                ApplicationFormText.QUESTION,
-                ApplicationFormText.ANSWER
+                ApplicationFormFixture.QUESTION,
+                ApplicationFormFixture.ANSWER
         );
         ApplicationFormCreateRequest formRequest = new ApplicationFormCreateRequest(
                 "큐시즘",

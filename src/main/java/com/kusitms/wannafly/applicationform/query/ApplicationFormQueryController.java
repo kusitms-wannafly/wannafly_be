@@ -20,7 +20,7 @@ public class ApplicationFormQueryController {
     @GetMapping("{applicationFormId}")
     public ResponseEntity<ApplicationFormResponse> findOne(@PathVariable Long applicationFormId,
                                                            LoginMember loginMember) {
-        ApplicationFormResponse response = applicationFormQueryService.findOne(applicationFormId, loginMember.id());
+        ApplicationFormResponse response = applicationFormQueryService.findOne(applicationFormId, loginMember);
         return ResponseEntity.ok(response);
     }
 }

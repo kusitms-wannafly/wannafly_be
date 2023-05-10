@@ -1,10 +1,8 @@
 package com.kusitms.wannafly.Acceptance;
 
-import com.kusitms.wannafly.applicationform.command.dto.ApplicationFormCreateRequest;
-import com.kusitms.wannafly.applicationform.command.dto.ApplicationItemCreateRequest;
 import com.kusitms.wannafly.applicationform.query.dto.ApplicationFormResponse;
 import com.kusitms.wannafly.applicationform.query.dto.ApplicationItemResponse;
-import com.kusitms.wannafly.support.fixture.ApplicationFormText;
+import com.kusitms.wannafly.support.fixture.ApplicationFormFixture;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.apache.http.HttpHeaders;
@@ -12,25 +10,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
-import java.util.List;
-
 import static com.kusitms.wannafly.Acceptance.fixture.AcceptanceFixture.*;
+import static com.kusitms.wannafly.support.fixture.ApplicationFormFixture.KUSITMS_FORM_REQUEST;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 class ApplicationFormAcceptanceTest extends AcceptanceTest {
-
-    private final ApplicationItemCreateRequest itemRequest = new ApplicationItemCreateRequest(
-            ApplicationFormText.QUESTION,
-            ApplicationFormText.ANSWER
-    );
-
-    private final ApplicationFormCreateRequest formRequest = new ApplicationFormCreateRequest(
-            "큐시즘",
-            2023,
-            "first_half",
-            List.of(itemRequest, itemRequest, itemRequest)
-    );
 
     private String accessToken;
 
@@ -45,7 +30,7 @@ class ApplicationFormAcceptanceTest extends AcceptanceTest {
     @Test
     void 지원서를_작성하여_등록한다() {
         // when
-        ExtractableResponse<Response> response = 지원서를_등록한다(accessToken, formRequest);
+        ExtractableResponse<Response> response = 지원서를_등록한다(accessToken, KUSITMS_FORM_REQUEST);
 
 
         // then
@@ -58,7 +43,7 @@ class ApplicationFormAcceptanceTest extends AcceptanceTest {
     @Test
     void 나의_지원서_하나를_조회한다() {
         // given
-        String formId = 지원서를_등록한다(accessToken, formRequest)
+        String formId = 지원서를_등록한다(accessToken, KUSITMS_FORM_REQUEST)
                 .header(HttpHeaders.LOCATION)
                 .split("/")[2];
 
@@ -69,22 +54,22 @@ class ApplicationFormAcceptanceTest extends AcceptanceTest {
         ApplicationFormResponse actual = response.jsonPath().getObject(".", ApplicationFormResponse.class);
         assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
-                () -> assertThat(actual.recruiter()).isEqualTo(formRequest.recruiter()),
-                () -> assertThat(actual.year()).isEqualTo(formRequest.year()),
-                () -> assertThat(actual.semester()).isEqualTo(formRequest.semester()),
+                () -> assertThat(actual.recruiter()).isEqualTo(KUSITMS_FORM_REQUEST.recruiter()),
+                () -> assertThat(actual.year()).isEqualTo(KUSITMS_FORM_REQUEST.year()),
+                () -> assertThat(actual.semester()).isEqualTo(KUSITMS_FORM_REQUEST.semester()),
                 () -> assertThat(actual.applicationItems())
                         .map(ApplicationItemResponse::applicationQuestion)
                         .containsExactly(
-                                ApplicationFormText.QUESTION,
-                                ApplicationFormText.QUESTION,
-                                ApplicationFormText.QUESTION
+                                ApplicationFormFixture.QUESTION,
+                                ApplicationFormFixture.QUESTION,
+                                ApplicationFormFixture.QUESTION
                         ),
                 () -> assertThat(actual.applicationItems())
                         .map(ApplicationItemResponse::applicationAnswer)
                         .containsExactly(
-                                ApplicationFormText.ANSWER,
-                                ApplicationFormText.ANSWER,
-                                ApplicationFormText.ANSWER
+                                ApplicationFormFixture.ANSWER,
+                                ApplicationFormFixture.ANSWER,
+                                ApplicationFormFixture.ANSWER
                         )
         );
     }

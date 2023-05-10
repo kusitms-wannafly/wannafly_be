@@ -1,9 +1,27 @@
 package com.kusitms.wannafly.support.fixture;
 
-public class ApplicationFormText {
+import com.kusitms.wannafly.applicationform.command.dto.ApplicationFormCreateRequest;
+import com.kusitms.wannafly.applicationform.command.dto.ApplicationItemCreateRequest;
 
-    public static String QUESTION = "본 직군으로 지원을 결정하시게 된 계기를 말하고, 그 동안의 노력도 말해주세요. (1000자 이내)";
-    public static String ANSWER = """
+import java.util.List;
+
+public class ApplicationFormFixture {
+
+    private static final ApplicationItemCreateRequest ITEM_REQUEST = new ApplicationItemCreateRequest(
+            ApplicationFormFixture.QUESTION,
+            ApplicationFormFixture.ANSWER
+    );
+
+    public static final ApplicationFormCreateRequest KUSITMS_FORM_REQUEST = new ApplicationFormCreateRequest(
+            "큐시즘",
+            2023,
+            "first_half",
+            List.of(ITEM_REQUEST, ITEM_REQUEST, ITEM_REQUEST)
+    );
+
+
+    public final static String QUESTION = "본 직군으로 지원을 결정하시게 된 계기를 말하고, 그 동안의 노력도 말해주세요. (1000자 이내)";
+    public final static String ANSWER = """
             저는 Back-end 분야를 희망합니다. 백엔드 개발을 진행하고 학습할 수록 여러가지 매력을 느꼈습니다.
             첫 번째로 서비스의 비즈니스 규칙을 구현할 수 있다는 점입니다. 서비스에는 여러 규칙과 제약이 존재하고 이들은 반드시 지켜지고 절차대로 이행되어야 합니다. 버그를 줄이고 효율적으로 규칙과 제약을 구현하기 위해 고민하고 동료들과 소통하는 과정이 가치있게 느껴졌고 재미 또한 느꼈습니다.
             두 번째로 규칙과 제약을 구현한 코드를 보호하고 유지보수하기 쉽게 하기 위해 여러 디자인 패턴이나 개발 방법론을 고민하고 적용하는 과정도 흥미로웠습니다. 코드의 길이부터 의존성 방향, 나아가 전체적인 소프트웨어 아키텍처 설계까지 정답이 없는 문제에 자신과 팀만의 답을 찾아나가는 과정을 계속 겪어보고 싶다는 생각을 하고 있습니다.
