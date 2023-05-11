@@ -39,13 +39,8 @@ public class ApplicationItem {
         this.applicationAnswer = answer;
     }
 
-    public ApplicationItem(ApplicationQuestion question, ApplicationAnswer answer) {
-        this.applicationQuestion = question;
-        this.applicationAnswer = answer;
-    }
-
-    public void updateContents(ApplicationItem updateItem) {
-        this.applicationQuestion = updateItem.getApplicationQuestion();
-        this.applicationAnswer = updateItem.getApplicationAnswer();
+    public void updateContents(ApplicationItem updated) {
+        this.applicationQuestion = updated.getApplicationQuestion();
+        this.applicationAnswer = updated.getApplicationAnswer();
     }
 }

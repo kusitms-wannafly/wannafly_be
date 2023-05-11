@@ -49,22 +49,6 @@ public class ApplicationForm {
         this.semester = semester;
     }
 
-    public void updateInfo(String recruiter, Integer year, Semester semester) {
-        validateRecruiter(recruiter);
-        validateYear(year);
-        this.recruiter = recruiter;
-        this.year = year;
-        this.semester = semester;
-    }
-
-    public void updateItem(ApplicationItem updateItem) {
-        applicationItems.stream()
-                .filter(it -> it.getId().equals(updateItem.getId()))
-                .findAny()
-                .orElseThrow()
-                .updateContents(updateItem);
-    }
-
     private void validateRecruiter(String recruiter) {
         if (recruiter.isBlank()) {
             throw BusinessException.from(ErrorCode.EMPTY_RECRUITER);
@@ -77,8 +61,36 @@ public class ApplicationForm {
         }
     }
 
+    public void update(ApplicationForm updatedForm) {
+        validateFormWriter(updatedForm);
+        this.recruiter = updatedForm.getRecruiter();
+        this.year = updatedForm.getYear();
+        this.semester = updatedForm.getSemester();
+
+        List<ApplicationItem> updatedItems = updatedForm.getApplicationItems();
+        updatedItems.forEach(this::updateItem);
+    }
+
+    private void validateFormWriter(ApplicationForm updatedForm) {
+        if (!this.memberId.equals(updatedForm.getMemberId())) {
+            throw BusinessException.from(ErrorCode.INVALID_WRITER_OF_FORM);
+        }
+    }
+
+    private void updateItem(ApplicationItem updateItem) {
+        this.applicationItems.stream()
+                .filter(item -> item.getId().equals(updateItem.getId()))
+                .findAny()
+                .orElseThrow(() -> BusinessException.from(ErrorCode.NOT_FOUND_APPLICATION_ITEM))
+                .updateContents(updateItem);
+    }
+
     public void addItem(ApplicationQuestion question, ApplicationAnswer answer) {
         ApplicationItem item = new ApplicationItem(this, question, answer);
+        applicationItems.add(item);
+    }
+
+    public void addItem(ApplicationItem item) {
         applicationItems.add(item);
     }
 }

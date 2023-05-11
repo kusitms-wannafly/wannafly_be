@@ -32,7 +32,7 @@ class ApplicationFormQueryServiceTest extends ServiceTest {
     class FindOneTest {
 
         @Test
-        void 로그인_회원이_지원를_작성했다면_조회한다() {
+        void 로그인_회원이_지원서를_작성했다면_조회한다() {
             // given
             LoginMember loginMember = new LoginMember(1L);
             Long formId = applicationFormService.createForm(loginMember, FORM_CREATE_REQUEST);
