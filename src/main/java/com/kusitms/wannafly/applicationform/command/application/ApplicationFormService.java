@@ -3,6 +3,7 @@ package com.kusitms.wannafly.applicationform.command.application;
 import com.kusitms.wannafly.applicationform.command.domain.ApplicationForm;
 import com.kusitms.wannafly.applicationform.command.domain.ApplicationFormRepository;
 import com.kusitms.wannafly.applicationform.command.dto.ApplicationFormCreateRequest;
+import com.kusitms.wannafly.applicationform.command.dto.ApplicationFormMapper;
 import com.kusitms.wannafly.applicationform.command.dto.ApplicationFormUpdateRequest;
 import com.kusitms.wannafly.auth.LoginMember;
 import com.kusitms.wannafly.exception.BusinessException;
@@ -19,7 +20,7 @@ public class ApplicationFormService {
     private final ApplicationFormRepository applicationFormRepository;
 
     public Long createForm(LoginMember loginMember, ApplicationFormCreateRequest request) {
-        ApplicationForm applicationForm = request.toDomain(loginMember.id());
+        ApplicationForm applicationForm = ApplicationFormMapper.toDomain(request, loginMember.id());
         applicationFormRepository.save(applicationForm);
         return applicationForm.getId();
     }
@@ -28,7 +29,7 @@ public class ApplicationFormService {
                            LoginMember loginMember,
                            ApplicationFormUpdateRequest request) {
         ApplicationForm originalForm = getApplicationForm(applicationFormId);
-        ApplicationForm updatedForm = request.toDomain(loginMember.id());
+        ApplicationForm updatedForm = ApplicationFormMapper.toDomain(request, loginMember.id());
         originalForm.update(updatedForm);
     }
 
