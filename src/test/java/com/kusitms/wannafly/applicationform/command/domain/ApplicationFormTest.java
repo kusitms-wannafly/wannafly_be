@@ -56,9 +56,22 @@ class ApplicationFormTest {
     class UpdateFormTest {
 
         private final Long writerId = 1L;
+        private final Long itemId1 = 1L;
+        private final Long itemId2 = 2L;
 
         private final ApplicationForm form = ApplicationForm.createEmptyForm(
                 writerId, "큐시즘", 2023, Semester.FIRST_HALF
+        );
+
+        private final ApplicationItem item1 = new ApplicationItem(
+                1L,
+                new ApplicationQuestion(QUESTION1),
+                new ApplicationAnswer(ANSWER1)
+        );
+        private final ApplicationItem item2 = new ApplicationItem(
+                2L,
+                new ApplicationQuestion(QUESTION2),
+                new ApplicationAnswer(ANSWER2)
         );
 
         @Test
@@ -97,18 +110,6 @@ class ApplicationFormTest {
         @Test
         void 없는_지원_항목은_수정할_수_없다() {
             // given
-            Long itemId1 = 1L;
-            Long itemId2 = 2L;
-            ApplicationItem item1 = new ApplicationItem(
-                    itemId1,
-                    new ApplicationQuestion(QUESTION1),
-                    new ApplicationAnswer(ANSWER1)
-            );
-            ApplicationItem item2 = new ApplicationItem(
-                    itemId2,
-                    new ApplicationQuestion(QUESTION2),
-                    new ApplicationAnswer(ANSWER2)
-            );
             ApplicationForm updated = ApplicationForm.createEmptyForm(
                     writerId, "큐시즘 28기", 2024, Semester.SECOND_HALF
             );
@@ -125,18 +126,6 @@ class ApplicationFormTest {
         @Test
         void 지원_항목이_순서에_맞게_수정된다() {
             // given
-            Long itemId1 = 1L;
-            Long itemId2 = 2L;
-            ApplicationItem item1 = new ApplicationItem(
-                    itemId1,
-                    new ApplicationQuestion(QUESTION1),
-                    new ApplicationAnswer(ANSWER1)
-            );
-            ApplicationItem item2 = new ApplicationItem(
-                    itemId2,
-                    new ApplicationQuestion(QUESTION2),
-                    new ApplicationAnswer(ANSWER2)
-            );
             form.addItem(item1);
             form.addItem(item2);
 
