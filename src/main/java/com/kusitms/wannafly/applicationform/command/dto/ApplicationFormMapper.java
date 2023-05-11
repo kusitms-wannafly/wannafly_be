@@ -33,7 +33,7 @@ public class ApplicationFormMapper {
 
     private static ApplicationForm createEmptyForm(Long memberId, String recruiter, Integer year, String semester) {
         return ApplicationForm.createEmptyForm(
-                memberId, recruiter, year, Semester.valueOf(semester.toUpperCase())
+                memberId, recruiter, year, Semester.from(semester)
         );
     }
 }
