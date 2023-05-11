@@ -23,10 +23,10 @@ public class ApplicationFormMapper {
         for (ApplicationItemUpdateRequest requestItem : request.applicationItems()) {
             form.addItem(
                     new ApplicationItem(
-                    requestItem.applicationItemId(),
-                    new ApplicationQuestion(requestItem.applicationQuestion()),
-                    new ApplicationAnswer(requestItem.applicationAnswer())
-            ));
+                            requestItem.applicationItemId(),
+                            new ApplicationQuestion(requestItem.applicationQuestion()),
+                            new ApplicationAnswer(requestItem.applicationAnswer())
+                    ));
         }
         return form;
     }
