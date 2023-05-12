@@ -20,3 +20,29 @@ include::{snippets}/re-issue-tokens/response-fields.adoc[]
 include::{snippets}/delete-refresh-token/http-request.adoc[]
 === Response
 include::{snippets}/delete-refresh-token/http-response.adoc[]
+
+= 지원서
+== 지원서 등록
+=== Request
+include::{snippets}/create-application-form/http-request.adoc[]
+=== Request 필드
+include::{snippets}/create-application-form/request-fields.adoc[]
+=== Response
+include::{snippets}/create-application-form/http-response.adoc[]
+
+== 나의 지원서 하나 조회
+=== Request
+include::{snippets}/get-one-application-form/http-request.adoc[]
+=== Response
+include::{snippets}/get-one-application-form/http-response.adoc[]
+=== Response 필드
+include::{snippets}/get-one-application-form/response-fields.adoc[]
+
+== 지원서 수정
+=== Request
+include::{snippets}/update-application-form/http-request.adoc[]
+=== Request 필드
+include::{snippets}/update-application-form/request-fields.adoc[]
+=== Response
+include::{snippets}/update-application-form/http-response.adoc[]
+

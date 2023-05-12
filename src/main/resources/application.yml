@@ -4,7 +4,7 @@ spring:
   jpa:
     open-in-view: false
     hibernate:
-      ddl-auto: validate
+      ddl-auto: none
   flyway:
     enabled: true
     baseline-on-migrate: true
@@ -26,6 +26,15 @@ spring:
     activate:
       on-profile: local
     import: application-local.yml
+
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+    import:
+      - classpath:be-config/application-dev.yml
 
 ---
 spring:

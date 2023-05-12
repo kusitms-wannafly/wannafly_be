@@ -1,7 +1,6 @@
 package com.kusitms.wannafly.auth.security.oauth;
 
 import com.kusitms.wannafly.auth.dto.LoginRequest;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.Map;
