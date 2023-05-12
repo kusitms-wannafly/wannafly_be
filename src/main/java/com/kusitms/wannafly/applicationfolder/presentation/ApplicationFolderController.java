@@ -8,6 +8,8 @@ import com.kusitms.wannafly.exception.BusinessException;
 import com.kusitms.wannafly.exception.ErrorCode;
 import com.kusitms.wannafly.member.domain.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,10 +23,13 @@ import java.net.URI;
 @RequiredArgsConstructor
 public class ApplicationFolderController {
     private final ApplicationFolderService applicationFolderService;
+
+    private final ApplicationFolderRepository applicationFolderRepository;
     @PostMapping
     public ResponseEntity<Void> createFolder(@RequestBody ApplicationFolderCreateRequest request,
                                              LoginMember loginMember){
-        if (ApplicationFolderRepository.existsByYear(loginMember,request.year())){
+        Long memberId = loginMember.id();
+        if (applicationFolderRepository.existsByMemberIdAndYear(memberId,request.year())){
             throw BusinessException.from(ErrorCode.MEMBER_DUPLICATE_YEAR);
         }
         Long folderId = applicationFolderService.createFolder(loginMember,request);
