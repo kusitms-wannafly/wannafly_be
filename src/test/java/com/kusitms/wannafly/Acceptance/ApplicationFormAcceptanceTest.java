@@ -44,13 +44,11 @@ class ApplicationFormAcceptanceTest extends AcceptanceTest {
     @Test
     void 지원서를_수정한다() {
         // given
-        String formId = 지원서를_등록한다(accessToken, FORM_CREATE_REQUEST)
-                .header(HttpHeaders.LOCATION)
-                .split("/")[2];
+        Long formId = 지원서를_등록하고_ID를_응답(accessToken);
 
         // when
         ExtractableResponse<Response> response = 나의_지원서를_수정한다(
-                accessToken, Long.parseLong(formId), FORM_UPDATE_REQUEST
+                accessToken, formId, FORM_UPDATE_REQUEST
         );
 
         // then
@@ -60,12 +58,10 @@ class ApplicationFormAcceptanceTest extends AcceptanceTest {
     @Test
     void 나의_지원서_하나를_조회한다() {
         // given
-        String formId = 지원서를_등록한다(accessToken, FORM_CREATE_REQUEST)
-                .header(HttpHeaders.LOCATION)
-                .split("/")[2];
+        Long formId = 지원서를_등록하고_ID를_응답(accessToken);
 
         // when
-        ExtractableResponse<Response> response = 나의_지원서를_조회한다(accessToken, Long.parseLong(formId));
+        ExtractableResponse<Response> response = 나의_지원서를_조회한다(accessToken, formId);
 
         // then
         ApplicationFormResponse actual = response.jsonPath().getObject(".", ApplicationFormResponse.class);
@@ -88,6 +84,14 @@ class ApplicationFormAcceptanceTest extends AcceptanceTest {
                                 ApplicationFormFixture.ANSWER1,
                                 ApplicationFormFixture.ANSWER1
                         )
+        );
+    }
+
+    private Long 지원서를_등록하고_ID를_응답(String accessToken) {
+        return Long.parseLong(
+                지원서를_등록한다(accessToken, FORM_CREATE_REQUEST)
+                        .header(HttpHeaders.LOCATION)
+                        .split("/")[2]
         );
     }
 }
