@@ -20,8 +20,8 @@ public class ApplicationForm {
     @Column(name = "application_form_id")
     private Long id;
 
-    @Column(nullable = false)
-    private Long memberId;
+    @Embedded
+    private Writer writer;
 
     @Column(nullable = false)
     private String recruiter;
@@ -33,17 +33,18 @@ public class ApplicationForm {
     @Column(nullable = false)
     private Semester semester;
 
+
     @OneToMany(mappedBy = "applicationForm", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<ApplicationItem> applicationItems = new ArrayList<>();
 
-    public static ApplicationForm createEmptyForm(Long memberId, String recruiter, Integer year, Semester semester) {
-        return new ApplicationForm(memberId, recruiter, year, semester);
+    public static ApplicationForm createEmptyForm(Writer writer, String recruiter, Integer year, Semester semester) {
+        return new ApplicationForm(writer, recruiter, year, semester);
     }
 
-    private ApplicationForm(Long memberId, String recruiter, Integer year, Semester semester) {
+    private ApplicationForm(Writer writer, String recruiter, Integer year, Semester semester) {
         validateRecruiter(recruiter);
         validateYear(year);
-        this.memberId = memberId;
+        this.writer = writer;
         this.recruiter = recruiter;
         this.year = year;
         this.semester = semester;
@@ -62,19 +63,13 @@ public class ApplicationForm {
     }
 
     public void update(ApplicationForm updatedForm) {
-        validateFormWriter(updatedForm);
+        validateWriter(updatedForm.writer);
         this.recruiter = updatedForm.getRecruiter();
         this.year = updatedForm.getYear();
         this.semester = updatedForm.getSemester();
 
         List<ApplicationItem> updatedItems = updatedForm.getApplicationItems();
         updatedItems.forEach(this::updateItem);
-    }
-
-    private void validateFormWriter(ApplicationForm updatedForm) {
-        if (!this.memberId.equals(updatedForm.getMemberId())) {
-            throw BusinessException.from(ErrorCode.INVALID_WRITER_OF_FORM);
-        }
     }
 
     private void updateItem(ApplicationItem updateItem) {
@@ -85,12 +80,23 @@ public class ApplicationForm {
                 .updateContents(updateItem);
     }
 
-    public void addItem(ApplicationQuestion question, ApplicationAnswer answer) {
+    public ApplicationItem addItem(ApplicationQuestion question, ApplicationAnswer answer) {
         ApplicationItem item = new ApplicationItem(this, question, answer);
         applicationItems.add(item);
+        return item;
     }
 
     public void addItem(ApplicationItem item) {
         applicationItems.add(item);
+    }
+
+    private void validateWriter(Writer writer) {
+        if (!this.writer.equals(writer)) {
+            throw BusinessException.from(ErrorCode.INVALID_WRITER_OF_FORM);
+        }
+    }
+
+    public boolean isWriter(Writer requester) {
+        return this.writer.equals(requester);
     }
 }

@@ -26,11 +26,11 @@ class ApplicationFormTest {
         @ValueSource(strings = {"", " "})
         void 모집자는_공백일_수_없다(String recruiter) {
             // given
-            Long memberId = 1L;
+            Writer writer = new Writer(1L);
             Integer year = 2023;
 
             // when then
-            assertThatThrownBy(() -> ApplicationForm.createEmptyForm(memberId, recruiter, year, Semester.FIRST_HALF))
+            assertThatThrownBy(() -> ApplicationForm.createEmptyForm(writer, recruiter, year, Semester.FIRST_HALF))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(ErrorCode.EMPTY_RECRUITER);
@@ -40,11 +40,11 @@ class ApplicationFormTest {
         @ValueSource(ints = {0, -1})
         void 지원년도는_자연수여야_한다(int year) {
             // given
-            Long memberId = 1L;
+            Writer writer = new Writer(1L);
             String recruiter = "큐시즘";
 
             // when then
-            assertThatThrownBy(() -> ApplicationForm.createEmptyForm(memberId, recruiter, year, Semester.FIRST_HALF))
+            assertThatThrownBy(() -> ApplicationForm.createEmptyForm(writer, recruiter, year, Semester.FIRST_HALF))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(ErrorCode.INVALID_YEAR);
@@ -55,12 +55,12 @@ class ApplicationFormTest {
     @Nested
     class UpdateFormTest {
 
-        private final Long writerId = 1L;
+        private final Writer writer = new Writer(1L);
         private final Long itemId1 = 1L;
         private final Long itemId2 = 2L;
 
         private final ApplicationForm form = ApplicationForm.createEmptyForm(
-                writerId, "큐시즘", 2023, Semester.FIRST_HALF
+                writer, "큐시즘", 2023, Semester.FIRST_HALF
         );
 
         private final ApplicationItem item1 = new ApplicationItem(
@@ -78,7 +78,7 @@ class ApplicationFormTest {
         void 로그인_회원이_지원서_작성자면_수정_가능하다() {
             // given
             ApplicationForm updated = ApplicationForm.createEmptyForm(
-                    writerId, "큐시즘 28기", 2024, Semester.SECOND_HALF
+                    writer, "큐시즘 28기", 2024, Semester.SECOND_HALF
             );
 
             // when
@@ -96,8 +96,9 @@ class ApplicationFormTest {
         @Test
         void 로그인_회원이_지원서_작성자가_아니면_예외가_발생한다() {
             // given
+            Writer updater = new Writer(2L);
             ApplicationForm updated = ApplicationForm.createEmptyForm(
-                    2L, "큐시즘 28기", 2024, Semester.SECOND_HALF
+                    updater, "큐시즘 28기", 2024, Semester.SECOND_HALF
             );
 
             // when then
@@ -111,7 +112,7 @@ class ApplicationFormTest {
         void 없는_지원_항목은_수정할_수_없다() {
             // given
             ApplicationForm updated = ApplicationForm.createEmptyForm(
-                    writerId, "큐시즘 28기", 2024, Semester.SECOND_HALF
+                    writer, "큐시즘 28기", 2024, Semester.SECOND_HALF
             );
             form.addItem(item1);
             updated.addItem(item2);
@@ -130,7 +131,7 @@ class ApplicationFormTest {
             form.addItem(item2);
 
             ApplicationForm updated = ApplicationForm.createEmptyForm(
-                    writerId, "큐시즘 28기", 2024, Semester.SECOND_HALF
+                    writer, "큐시즘 28기", 2024, Semester.SECOND_HALF
             );
 
             ApplicationItem updatedItem1 = new ApplicationItem(
