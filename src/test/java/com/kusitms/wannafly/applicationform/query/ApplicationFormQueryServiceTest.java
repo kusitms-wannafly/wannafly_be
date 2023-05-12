@@ -27,7 +27,7 @@ class ApplicationFormQueryServiceTest extends ServiceTest {
     private ApplicationFormQueryService applicationFormQueryService;
 
 
-    @DisplayName("나의 지원서를 조회할 떼")
+    @DisplayName("나의 지원서를 조회할 때")
     @Nested
     class FindOneTest {
 

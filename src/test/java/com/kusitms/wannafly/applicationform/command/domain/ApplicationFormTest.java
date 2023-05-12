@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 class ApplicationFormTest {
 
-    @DisplayName("지원서를 생성할 떼")
+    @DisplayName("지원서를 생성할 때")
     @Nested
     class CreateFormTest {
 
@@ -51,7 +51,7 @@ class ApplicationFormTest {
         }
     }
 
-    @DisplayName("지원서를 수정할 떼")
+    @DisplayName("지원서를 수정할 때")
     @Nested
     class UpdateFormTest {
 
