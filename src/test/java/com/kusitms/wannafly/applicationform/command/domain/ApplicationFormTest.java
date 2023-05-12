@@ -1,5 +1,6 @@
 package com.kusitms.wannafly.applicationform.command.domain;
 
+import com.kusitms.wannafly.applicationform.command.domain.value.*;
 import com.kusitms.wannafly.exception.BusinessException;
 import com.kusitms.wannafly.exception.ErrorCode;
 import org.assertj.core.api.ListAssert;
@@ -27,10 +28,12 @@ class ApplicationFormTest {
         void 모집자는_공백일_수_없다(String recruiter) {
             // given
             Writer writer = new Writer(1L);
-            Integer year = 2023;
+            ApplicationYear year = new ApplicationYear(2023);
 
             // when then
-            assertThatThrownBy(() -> ApplicationForm.createEmptyForm(writer, recruiter, year, Semester.FIRST_HALF))
+            assertThatThrownBy(() -> ApplicationForm.createEmptyForm(
+                    writer, new Recruiter(recruiter), year, Semester.FIRST_HALF)
+            )
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(ErrorCode.EMPTY_RECRUITER);
@@ -41,10 +44,12 @@ class ApplicationFormTest {
         void 지원년도는_자연수여야_한다(int year) {
             // given
             Writer writer = new Writer(1L);
-            String recruiter = "큐시즘";
+            Recruiter recruiter = new Recruiter("큐시즘");
 
             // when then
-            assertThatThrownBy(() -> ApplicationForm.createEmptyForm(writer, recruiter, year, Semester.FIRST_HALF))
+            assertThatThrownBy(() -> ApplicationForm.createEmptyForm(
+                    writer, recruiter, new ApplicationYear(year), Semester.FIRST_HALF)
+            )
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(ErrorCode.INVALID_YEAR);
@@ -60,7 +65,7 @@ class ApplicationFormTest {
         private final Long itemId2 = 2L;
 
         private final ApplicationForm form = ApplicationForm.createEmptyForm(
-                writer, "큐시즘", 2023, Semester.FIRST_HALF
+                writer, new Recruiter("큐시즘"), new ApplicationYear(2023), Semester.FIRST_HALF
         );
 
         private final ApplicationItem item1 = new ApplicationItem(
@@ -74,13 +79,12 @@ class ApplicationFormTest {
                 new ApplicationAnswer(ANSWER2)
         );
 
+        private final ApplicationForm updated = ApplicationForm.createEmptyForm(
+                writer, new Recruiter("큐시즘 28기"), new ApplicationYear(2024), Semester.SECOND_HALF
+        );
+
         @Test
         void 로그인_회원이_지원서_작성자면_수정_가능하다() {
-            // given
-            ApplicationForm updated = ApplicationForm.createEmptyForm(
-                    writer, "큐시즘 28기", 2024, Semester.SECOND_HALF
-            );
-
             // when
             form.update(updated);
 
@@ -95,10 +99,6 @@ class ApplicationFormTest {
 
         @Test
         void 없는_지원_항목은_수정할_수_없다() {
-            // given
-            ApplicationForm updated = ApplicationForm.createEmptyForm(
-                    writer, "큐시즘 28기", 2024, Semester.SECOND_HALF
-            );
             form.addItem(item1);
             updated.addItem(item2);
 
@@ -114,10 +114,6 @@ class ApplicationFormTest {
             // given
             form.addItem(item1);
             form.addItem(item2);
-
-            ApplicationForm updated = ApplicationForm.createEmptyForm(
-                    writer, "큐시즘 28기", 2024, Semester.SECOND_HALF
-            );
 
             ApplicationItem updatedItem1 = new ApplicationItem(
                     itemId1,

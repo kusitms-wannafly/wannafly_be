@@ -1,6 +1,7 @@
 package com.kusitms.wannafly.applicationform.command.dto;
 
 import com.kusitms.wannafly.applicationform.command.domain.*;
+import com.kusitms.wannafly.applicationform.command.domain.value.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -33,7 +34,7 @@ public class ApplicationFormMapper {
 
     private static ApplicationForm createEmptyForm(Writer writer, String recruiter, Integer year, String semester) {
         return ApplicationForm.createEmptyForm(
-                writer, recruiter, year, Semester.from(semester)
+                writer, new Recruiter(recruiter), new ApplicationYear(year), Semester.from(semester)
         );
     }
 }

@@ -1,9 +1,10 @@
 package com.kusitms.wannafly.applicationform.command.application;
 
-import com.kusitms.wannafly.applicationform.command.domain.ApplicationForm;
-import com.kusitms.wannafly.applicationform.command.domain.ApplicationFormRepository;
-import com.kusitms.wannafly.applicationform.command.domain.Semester;
-import com.kusitms.wannafly.applicationform.command.domain.Writer;
+import com.kusitms.wannafly.applicationform.command.domain.*;
+import com.kusitms.wannafly.applicationform.command.domain.value.Recruiter;
+import com.kusitms.wannafly.applicationform.command.domain.value.Semester;
+import com.kusitms.wannafly.applicationform.command.domain.value.Writer;
+import com.kusitms.wannafly.applicationform.command.domain.value.ApplicationYear;
 import com.kusitms.wannafly.exception.BusinessException;
 import com.kusitms.wannafly.exception.ErrorCode;
 import com.kusitms.wannafly.support.ServiceTest;
@@ -29,12 +30,14 @@ class WriterCheckedFormServiceTest extends ServiceTest {
 
         private final Long writerId = 1L;
         private final Writer writer = new Writer(writerId);
+        private final Recruiter recruiter = new Recruiter("큐시즘");
+        private final ApplicationYear year = new ApplicationYear(2023);
 
         @Test
         void 지원서_작성자는_조회_가능하다() {
             // given
             ApplicationForm form = ApplicationForm.createEmptyForm(
-                    writer, "큐시즘", 2023, Semester.FIRST_HALF
+                    writer, recruiter, year, Semester.FIRST_HALF
             );
             ApplicationForm saved = applicationFormRepository.save(form);
 
@@ -49,7 +52,7 @@ class WriterCheckedFormServiceTest extends ServiceTest {
         void 지원서_작성자가_아니면_예외가_발생한다() {
             // given
             ApplicationForm form = ApplicationForm.createEmptyForm(
-                    writer, "큐시즘", 2023, Semester.FIRST_HALF
+                    writer, recruiter, year, Semester.FIRST_HALF
             );
             ApplicationForm saved = applicationFormRepository.save(form);
 

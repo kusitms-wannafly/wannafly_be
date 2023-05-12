@@ -1,5 +1,6 @@
 package com.kusitms.wannafly.applicationform.command.domain;
 
+import com.kusitms.wannafly.applicationform.command.domain.value.*;
 import com.kusitms.wannafly.exception.BusinessException;
 import com.kusitms.wannafly.exception.ErrorCode;
 import jakarta.persistence.*;
@@ -24,10 +25,12 @@ public class ApplicationForm {
     private Writer writer;
 
     @Column(nullable = false)
-    private String recruiter;
+    @Embedded
+    private Recruiter recruiter;
 
     @Column(nullable = false, name = "years")
-    private Integer year;
+    @Embedded
+    private ApplicationYear year;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -37,29 +40,18 @@ public class ApplicationForm {
     @OneToMany(mappedBy = "applicationForm", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<ApplicationItem> applicationItems = new ArrayList<>();
 
-    public static ApplicationForm createEmptyForm(Writer writer, String recruiter, Integer year, Semester semester) {
+    public static ApplicationForm createEmptyForm(Writer writer,
+                                                  Recruiter recruiter,
+                                                  ApplicationYear year,
+                                                  Semester semester) {
         return new ApplicationForm(writer, recruiter, year, semester);
     }
 
-    private ApplicationForm(Writer writer, String recruiter, Integer year, Semester semester) {
-        validateRecruiter(recruiter);
-        validateYear(year);
+    private ApplicationForm(Writer writer, Recruiter recruiter, ApplicationYear year, Semester semester) {
         this.writer = writer;
         this.recruiter = recruiter;
         this.year = year;
         this.semester = semester;
-    }
-
-    private void validateRecruiter(String recruiter) {
-        if (recruiter.isBlank()) {
-            throw BusinessException.from(ErrorCode.EMPTY_RECRUITER);
-        }
-    }
-
-    private void validateYear(Integer year) {
-        if (year <= 0) {
-            throw BusinessException.from(ErrorCode.INVALID_YEAR);
-        }
     }
 
     public void update(ApplicationForm updatedForm) {

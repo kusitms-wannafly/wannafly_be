@@ -12,8 +12,8 @@ public record ApplicationFormResponse(
 ) {
     public static ApplicationFormResponse from(ApplicationForm applicationForm) {
         return new ApplicationFormResponse(
-                applicationForm.getRecruiter(),
-                applicationForm.getYear(),
+                applicationForm.getRecruiter().getValue(),
+                applicationForm.getYear().getValue(),
                 applicationForm.getSemester().name().toLowerCase(),
                 applicationForm.getApplicationItems()
                         .stream()

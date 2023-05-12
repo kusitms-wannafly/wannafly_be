@@ -1,7 +1,7 @@
 package com.kusitms.wannafly.applicationform.query;
 
 import com.kusitms.wannafly.applicationform.command.domain.ApplicationForm;
-import com.kusitms.wannafly.applicationform.command.domain.Writer;
+import com.kusitms.wannafly.applicationform.command.domain.value.Writer;
 import com.kusitms.wannafly.applicationform.query.dto.ApplicationFormResponse;
 import com.kusitms.wannafly.auth.LoginMember;
 import com.kusitms.wannafly.exception.BusinessException;
