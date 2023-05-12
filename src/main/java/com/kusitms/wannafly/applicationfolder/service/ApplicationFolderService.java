@@ -28,7 +28,7 @@ public class ApplicationFolderService {
         List<Integer> years = folders.stream()
                 .filter(folder -> folder.getMemberId().equals(memberId))
                 .map(ApplicationFolder::getYear)
-                .sorted(Comparator.reverseOrder()) // sort by latest year
+                .sorted(Comparator.reverseOrder())
                 .collect(Collectors.toList());
         for (Integer year : years) {
             Map<String, Integer> map = new HashMap<>();

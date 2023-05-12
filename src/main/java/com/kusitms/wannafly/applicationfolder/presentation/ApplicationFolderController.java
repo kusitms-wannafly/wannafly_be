@@ -33,7 +33,7 @@ public class ApplicationFolderController {
             throw BusinessException.from(ErrorCode.MEMBER_DUPLICATE_YEAR);
         }
         Long folderId = applicationFolderService.createFolder(loginMember,request);
-        return ResponseEntity.created(URI.create("/application-folder/"+folderId))
+        return ResponseEntity.created(URI.create("/application-folders/"+folderId))
                 .build();
     }
 }
