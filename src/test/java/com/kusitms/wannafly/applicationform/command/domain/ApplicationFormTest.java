@@ -94,21 +94,6 @@ class ApplicationFormTest {
         }
 
         @Test
-        void 로그인_회원이_지원서_작성자가_아니면_예외가_발생한다() {
-            // given
-            Writer updater = new Writer(2L);
-            ApplicationForm updated = ApplicationForm.createEmptyForm(
-                    updater, "큐시즘 28기", 2024, Semester.SECOND_HALF
-            );
-
-            // when then
-            assertThatThrownBy(() -> form.update(updated))
-                    .isInstanceOf(BusinessException.class)
-                    .extracting("errorCode")
-                    .isEqualTo(ErrorCode.INVALID_WRITER_OF_FORM);
-        }
-
-        @Test
         void 없는_지원_항목은_수정할_수_없다() {
             // given
             ApplicationForm updated = ApplicationForm.createEmptyForm(

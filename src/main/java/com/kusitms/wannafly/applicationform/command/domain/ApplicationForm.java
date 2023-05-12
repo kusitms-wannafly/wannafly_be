@@ -63,7 +63,6 @@ public class ApplicationForm {
     }
 
     public void update(ApplicationForm updatedForm) {
-        validateWriter(updatedForm.writer);
         this.recruiter = updatedForm.getRecruiter();
         this.year = updatedForm.getYear();
         this.semester = updatedForm.getSemester();
@@ -90,13 +89,7 @@ public class ApplicationForm {
         applicationItems.add(item);
     }
 
-    private void validateWriter(Writer writer) {
-        if (!this.writer.equals(writer)) {
-            throw BusinessException.from(ErrorCode.INVALID_WRITER_OF_FORM);
-        }
-    }
-
-    public boolean isWriter(Writer requester) {
-        return this.writer.equals(requester);
+    public boolean isNotWriter(Writer writer) {
+        return !this.writer.equals(writer);
     }
 }

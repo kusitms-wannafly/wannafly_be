@@ -30,7 +30,7 @@ public class ApplicationFormQueryService {
     }
 
     private void validateWriter(Writer requester, ApplicationForm applicationForm) {
-        if (!applicationForm.isWriter(requester)) {
+        if (applicationForm.isNotWriter(requester)) {
             throw BusinessException.from(ErrorCode.INVALID_WRITER_OF_FORM);
         }
     }
