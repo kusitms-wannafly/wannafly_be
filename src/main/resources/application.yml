@@ -27,6 +27,15 @@ spring:
       on-profile: local
     import: application-local.yml
 
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+    import:
+      - classpath:be-config/application-dev.yml
+
 ---
 spring:
   config:
