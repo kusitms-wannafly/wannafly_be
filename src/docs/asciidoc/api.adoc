@@ -53,3 +53,9 @@ include::{snippets}/add-application-item/http-request.adoc[]
 include::{snippets}/add-application-item/request-fields.adoc[]
 === Response
 include::{snippets}/add-application-item/http-response.adoc[]
+
+== 지원서 삭제
+=== Request
+include::{snippets}/delete-application-form/http-request.adoc[]
+=== Response
+include::{snippets}/delete-application-form/http-response.adoc[]

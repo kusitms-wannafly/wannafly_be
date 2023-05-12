@@ -49,4 +49,10 @@ public class ApplicationFormService {
         applicationFormRepository.flush();
         return item.getId();
     }
+
+    public void deleteForm(Long applicationFormId, LoginMember loginMember) {
+        Writer writer = new Writer(loginMember.id());
+        ApplicationForm form = writerCheckedFormService.findById(applicationFormId, writer);
+        applicationFormRepository.delete(form);
+    }
 }

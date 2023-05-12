@@ -16,8 +16,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -109,6 +108,21 @@ public class ApplicationFormControllerTest extends ControllerTest {
                                 fieldWithPath("applicationQuestion").type(JsonFieldType.STRING).description("지원 문항"),
                                 fieldWithPath("applicationAnswer").type(JsonFieldType.STRING).description("지원 답변")
                         )
+                ));
+    }
+
+    @Test
+    void 지원서를_삭제한다() throws Exception {
+        // when
+        ResultActions result = mockMvc.perform(delete("/api/application-forms/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken));
+
+        // then
+        result.andExpect(status().isNoContent())
+
+                .andDo(document("delete-application-form", HOST_INFO,
+                        preprocessResponse(prettyPrint())
                 ));
     }
 }

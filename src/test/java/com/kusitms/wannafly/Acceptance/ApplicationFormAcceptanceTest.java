@@ -104,6 +104,18 @@ class ApplicationFormAcceptanceTest extends AcceptanceTest {
         );
     }
 
+    @Test
+    void 나의_지원서를_삭제한다() {
+        // given
+        Long formId = 지원서를_등록하고_ID를_응답(accessToken);
+
+        // when
+        ExtractableResponse<Response> response = 지원서를_삭제한다(accessToken, formId);
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
+    }
+
     private Long 지원서를_등록하고_ID를_응답(String accessToken) {
         return extractCreatedId(지원서를_등록한다(accessToken, FORM_CREATE_REQUEST));
     }

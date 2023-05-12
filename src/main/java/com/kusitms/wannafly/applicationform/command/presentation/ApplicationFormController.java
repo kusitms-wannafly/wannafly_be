@@ -42,4 +42,11 @@ public class ApplicationFormController {
         return ResponseEntity.created(URI.create("/application-items/" + itemId))
                 .build();
     }
+
+    @DeleteMapping("{applicationFormId}")
+    public ResponseEntity<Void> deleteForm(@PathVariable Long applicationFormId,
+                                           LoginMember loginMember) {
+        applicationFormService.deleteForm(applicationFormId, loginMember);
+        return ResponseEntity.noContent().build();
+    }
 }
