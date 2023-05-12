@@ -23,16 +23,13 @@ public class ApplicationFolderService {
         return applicationFolder.getId();
     }
 
-    public List<Integer> extractYearsByMemberId(List<ApplicationFolder> folders, Long memberId) {
-        return folders.stream()
+    public List<Map<String, Integer>> extractYearsByMemberId(List<ApplicationFolder> folders, Long memberId) {
+        List<Map<String, Integer>> result = new ArrayList<>();
+        List<Integer> years = folders.stream()
                 .filter(folder -> folder.getMemberId().equals(memberId))
                 .map(ApplicationFolder::getYear)
                 .sorted(Comparator.reverseOrder()) // sort by latest year
                 .collect(Collectors.toList());
-    }
-
-    public List<Map<String, Integer>> convertToMap(List<Integer> years) {
-        List<Map<String, Integer>> result = new ArrayList<>();
         for (Integer year : years) {
             Map<String, Integer> map = new HashMap<>();
             map.put("year", year);

@@ -26,8 +26,7 @@ public class ApplicationFolderCheckController {
     public ResponseEntity<List> CheckFolder(LoginMember loginMember){
         Long memberId = loginMember.id();
         List<ApplicationFolder> folders = applicationFolderRepository.findAll();
-        List<Integer> years = applicationFolderService.extractYearsByMemberId(folders, memberId);
-        List<Map<String, Integer>> yearsList = applicationFolderService.convertToMap(years);
+        List<Map<String, Integer>> yearsList = applicationFolderService.extractYearsByMemberId(folders, memberId);
         return ResponseEntity.ok(yearsList);
     }
 }
