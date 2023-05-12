@@ -4,6 +4,8 @@ import com.kusitms.wannafly.applicationfolder.domain.ApplicationFolder;
 import com.kusitms.wannafly.applicationfolder.domain.ApplicationFolderRepository;
 import com.kusitms.wannafly.applicationfolder.dto.ApplicationFolderCreateRequest;
 import com.kusitms.wannafly.auth.LoginMember;
+import com.kusitms.wannafly.exception.BusinessException;
+import com.kusitms.wannafly.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +21,10 @@ public class ApplicationFolderService {
 
     public Long createFolder(LoginMember loginMember, ApplicationFolderCreateRequest request) {
         ApplicationFolder applicationFolder = request.toDomain(loginMember.id());
+        Long memberId = loginMember.id();
+        if (applicationFolderRepository.existsByMemberIdAndYear(memberId,request.year())){
+            throw BusinessException.from(ErrorCode.MEMBER_DUPLICATE_YEAR);
+        }
         applicationFolderRepository.save(applicationFolder);
         return applicationFolder.getId();
     }

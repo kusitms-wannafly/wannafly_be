@@ -28,10 +28,6 @@ public class ApplicationFolderController {
     @PostMapping
     public ResponseEntity<Void> createFolder(@RequestBody ApplicationFolderCreateRequest request,
                                              LoginMember loginMember){
-        Long memberId = loginMember.id();
-        if (applicationFolderRepository.existsByMemberIdAndYear(memberId,request.year())){
-            throw BusinessException.from(ErrorCode.MEMBER_DUPLICATE_YEAR);
-        }
         Long folderId = applicationFolderService.createFolder(loginMember,request);
         return ResponseEntity.created(URI.create("/application-folders/"+folderId))
                 .build();
