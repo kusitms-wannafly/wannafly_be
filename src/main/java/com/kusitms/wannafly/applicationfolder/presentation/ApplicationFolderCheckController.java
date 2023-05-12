@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("api/application-folders")
+@RequestMapping("/api/application-folders")
 @RequiredArgsConstructor
 public class ApplicationFolderCheckController {
     private final ApplicationFolderService applicationFolderService;

@@ -1,10 +1,13 @@
 package com.kusitms.wannafly.support;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kusitms.wannafly.applicationfolder.service.ApplicationFolderService;
 import com.kusitms.wannafly.applicationform.command.application.ApplicationFormService;
 import com.kusitms.wannafly.applicationform.command.presentation.ApplicationFormController;
 import com.kusitms.wannafly.applicationform.query.ApplicationFormQueryController;
 import com.kusitms.wannafly.applicationform.query.ApplicationFormQueryService;
+import com.kusitms.wannafly.applicationfolder.presentation.ApplicationFolderCheckController;
+import com.kusitms.wannafly.applicationfolder.presentation.ApplicationFolderController;
 import com.kusitms.wannafly.auth.AuthConfig;
 import com.kusitms.wannafly.auth.LoginMemberResolver;
 import com.kusitms.wannafly.auth.application.AuthService;
@@ -23,11 +26,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 
 @WebMvcTest(controllers = {
         AuthController.class,
         ApplicationFormController.class,
-        ApplicationFormQueryController.class
+        ApplicationFormQueryController.class,
+        ApplicationFolderController.class,
+        ApplicationFolderCheckController.class
 })
 @Import({
         ControllerTestSecurityConfig.class,
@@ -61,6 +68,9 @@ public class ControllerTest {
 
     @MockBean
     protected ApplicationFormQueryService applicationFormQueryService;
+
+    @MockBean
+    protected ApplicationFolderService applicationFolderService;
 
     protected String loginAndGetAccessToken(Long memberId) {
         given(authService.authorize(any()))

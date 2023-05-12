@@ -21,6 +21,12 @@ include::{snippets}/delete-refresh-token/http-request.adoc[]
 === Response
 include::{snippets}/delete-refresh-token/http-response.adoc[]
 
+== 지원서 보관함 생성
+=== Request
+include::{snippets}/create-application-folder/http-request.adoc[]
+=== Response
+include::{snippets}/create-application-folder/http-response.adoc[]
+
 = 지원서
 == 지원서 등록
 === Request

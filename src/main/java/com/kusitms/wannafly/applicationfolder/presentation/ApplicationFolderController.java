@@ -24,7 +24,6 @@ import java.net.URI;
 public class ApplicationFolderController {
     private final ApplicationFolderService applicationFolderService;
 
-    private final ApplicationFolderRepository applicationFolderRepository;
     @PostMapping
     public ResponseEntity<Void> createFolder(@RequestBody ApplicationFolderCreateRequest request,
                                              LoginMember loginMember){
