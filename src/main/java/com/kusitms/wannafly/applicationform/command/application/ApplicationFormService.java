@@ -4,6 +4,7 @@ import com.kusitms.wannafly.applicationform.command.domain.*;
 import com.kusitms.wannafly.applicationform.command.domain.value.ApplicationAnswer;
 import com.kusitms.wannafly.applicationform.command.domain.value.ApplicationQuestion;
 import com.kusitms.wannafly.applicationform.command.domain.value.Writer;
+import com.kusitms.wannafly.applicationform.command.domain.value.WritingState;
 import com.kusitms.wannafly.applicationform.command.dto.*;
 import com.kusitms.wannafly.auth.LoginMember;
 import lombok.RequiredArgsConstructor;
@@ -54,6 +55,9 @@ public class ApplicationFormService {
     }
 
     public FormStateResponse changeState(Long applicationFormId, LoginMember loginMember) {
-        return null;
+        Writer writer = new Writer(loginMember.id());
+        ApplicationForm form = writerCheckedFormService.findById(applicationFormId, writer);
+        WritingState state = form.changeWritingState();
+        return new FormStateResponse(state.isCompleted);
     }
 }

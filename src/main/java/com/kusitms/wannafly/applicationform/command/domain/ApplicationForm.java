@@ -36,6 +36,10 @@ public class ApplicationForm {
     @Column(nullable = false)
     private Semester semester;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private WritingState writingState;
+
 
     @OneToMany(mappedBy = "applicationForm", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<ApplicationItem> applicationItems = new ArrayList<>();
@@ -44,14 +48,19 @@ public class ApplicationForm {
                                                   Recruiter recruiter,
                                                   ApplicationYear year,
                                                   Semester semester) {
-        return new ApplicationForm(writer, recruiter, year, semester);
+        return new ApplicationForm(writer, recruiter, year, semester, WritingState.ON_GOING);
     }
 
-    private ApplicationForm(Writer writer, Recruiter recruiter, ApplicationYear year, Semester semester) {
+    private ApplicationForm(Writer writer,
+                            Recruiter recruiter,
+                            ApplicationYear year,
+                            Semester semester,
+                            WritingState writingState) {
         this.writer = writer;
         this.recruiter = recruiter;
         this.year = year;
         this.semester = semester;
+        this.writingState = writingState;
     }
 
     public void update(ApplicationForm updatedForm) {
@@ -83,5 +92,10 @@ public class ApplicationForm {
 
     public boolean isNotWriter(Writer writer) {
         return !this.writer.equals(writer);
+    }
+
+    public WritingState changeWritingState() {
+        writingState = writingState.change();
+        return writingState;
     }
 }

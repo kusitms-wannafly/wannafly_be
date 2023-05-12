@@ -2,6 +2,7 @@ CREATE TABLE application_form
 (
     application_form_id BIGINT AUTO_INCREMENT NOT NULL,
     member_id           BIGINT                NOT NULL,
+    writing_state       VARCHAR(255)          NOT NULL,
     recruiter           VARCHAR(255)          NOT NULL,
     years               INT                   NOT NULL,
     semester            VARCHAR(255)          NOT NULL,

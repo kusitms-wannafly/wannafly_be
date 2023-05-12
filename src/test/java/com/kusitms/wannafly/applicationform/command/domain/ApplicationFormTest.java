@@ -154,4 +154,40 @@ class ApplicationFormTest {
         }
 
     }
+
+    @DisplayName("지원서의 작성 상태는")
+    @Nested
+    class ChangeTest {
+
+        private final ApplicationForm form = ApplicationForm.createEmptyForm(
+                new Writer(1L), new Recruiter("큐시즘"), new ApplicationYear(2023), Semester.FIRST_HALF
+        );
+
+        @Test
+        void 처음엔_작성_중_상태이다() {
+            // when then
+            assertThat(form.getWritingState()).isEqualTo(WritingState.ON_GOING);
+        }
+
+        @Test
+        void 작성_중이면_완료가_된다() {
+            // when
+            WritingState actual = form.changeWritingState();
+
+            // then
+            assertThat(actual).isEqualTo(WritingState.COMPLETE);
+        }
+
+        @Test
+        void 완료면_작성_중이_된다() {
+            // given
+            form.changeWritingState();
+
+            // when
+            WritingState actual = form.changeWritingState();
+
+            // then
+            assertThat(actual).isEqualTo(WritingState.ON_GOING);
+        }
+    }
 }

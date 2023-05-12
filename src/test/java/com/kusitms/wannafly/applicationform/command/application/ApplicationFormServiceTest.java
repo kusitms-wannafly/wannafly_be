@@ -2,6 +2,7 @@ package com.kusitms.wannafly.applicationform.command.application;
 
 import com.kusitms.wannafly.applicationform.command.domain.ApplicationForm;
 import com.kusitms.wannafly.applicationform.command.domain.ApplicationFormRepository;
+import com.kusitms.wannafly.applicationform.command.dto.FormStateResponse;
 import com.kusitms.wannafly.applicationform.query.ApplicationFormQueryService;
 import com.kusitms.wannafly.applicationform.query.dto.ApplicationFormResponse;
 import com.kusitms.wannafly.applicationform.query.dto.ApplicationItemResponse;
@@ -162,6 +163,36 @@ class ApplicationFormServiceTest extends ServiceTest {
             // when then
             LoginMember requester = new LoginMember(2L);
             assertThatThrownBy(() -> applicationFormService.deleteForm(formId, requester))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(ErrorCode.INVALID_WRITER_OF_FORM);
+        }
+    }
+
+    @DisplayName("지원서의 작성 상태를 변경할 때")
+    @Nested
+    class ChangeTest {
+
+        @Test
+        void 로그인_회원이_지원서_작성자면_변경_가능하다() {
+            // given
+            Long formId = applicationFormService.createForm(loginMember, FORM_CREATE_REQUEST);
+
+            // when
+            FormStateResponse actual = applicationFormService.changeState(formId, loginMember);
+
+            // then
+            assertThat(actual.isCompleted()).isEqualTo(true);
+        }
+
+        @Test
+        void 로그인_회원이_지원서_작성자가_아니면_예외가_발생한다() {
+            // given
+            Long formId = applicationFormService.createForm(loginMember, FORM_CREATE_REQUEST);
+
+            // when then
+            LoginMember requester = new LoginMember(2L);
+            assertThatThrownBy(() -> applicationFormService.changeState(formId, requester))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(ErrorCode.INVALID_WRITER_OF_FORM);
