@@ -8,8 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,16 +17,27 @@ import java.util.stream.Collectors;
 public class ApplicationFolderService {
     private final ApplicationFolderRepository applicationFolderRepository;
 
-    public Long createFolder(LoginMember loginMember, ApplicationFolderCreateRequest request){
+    public Long createFolder(LoginMember loginMember, ApplicationFolderCreateRequest request) {
         ApplicationFolder applicationFolder = request.toDomain(loginMember.id());
         applicationFolderRepository.save(applicationFolder);
         return applicationFolder.getId();
     }
+
     public List<Integer> extractYearsByMemberId(List<ApplicationFolder> folders, Long memberId) {
         return folders.stream()
                 .filter(folder -> folder.getMemberId().equals(memberId))
                 .map(ApplicationFolder::getYear)
                 .sorted(Comparator.reverseOrder()) // sort by latest year
                 .collect(Collectors.toList());
+    }
+
+    public List<Map<String, Integer>> convertToMap(List<Integer> years) {
+        List<Map<String, Integer>> result = new ArrayList<>();
+        for (Integer year : years) {
+            Map<String, Integer> map = new HashMap<>();
+            map.put("year", year);
+            result.add(map);
+        }
+        return result;
     }
 }

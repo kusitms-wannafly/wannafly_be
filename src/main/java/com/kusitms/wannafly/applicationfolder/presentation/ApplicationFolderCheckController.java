@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -26,6 +27,7 @@ public class ApplicationFolderCheckController {
         Long memberId = loginMember.id();
         List<ApplicationFolder> folders = applicationFolderRepository.findAll();
         List<Integer> years = applicationFolderService.extractYearsByMemberId(folders, memberId);
-        return ResponseEntity.ok(years);
+        List<Map<String, Integer>> yearsList = applicationFolderService.convertToMap(years);
+        return ResponseEntity.ok(yearsList);
     }
 }
