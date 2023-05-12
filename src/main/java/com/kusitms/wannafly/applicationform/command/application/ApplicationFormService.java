@@ -5,6 +5,7 @@ import com.kusitms.wannafly.applicationform.command.domain.ApplicationFormReposi
 import com.kusitms.wannafly.applicationform.command.dto.ApplicationFormCreateRequest;
 import com.kusitms.wannafly.applicationform.command.dto.ApplicationFormMapper;
 import com.kusitms.wannafly.applicationform.command.dto.ApplicationFormUpdateRequest;
+import com.kusitms.wannafly.applicationform.command.dto.ApplicationItemCreateRequest;
 import com.kusitms.wannafly.auth.LoginMember;
 import com.kusitms.wannafly.exception.BusinessException;
 import com.kusitms.wannafly.exception.ErrorCode;
@@ -36,5 +37,11 @@ public class ApplicationFormService {
     private ApplicationForm getApplicationForm(Long applicationFormId) {
         return applicationFormRepository.findById(applicationFormId)
                 .orElseThrow(() -> BusinessException.from(ErrorCode.NOT_FOUND_APPLICATION_FORM));
+    }
+
+    public Long addItem(Long applicationFormId,
+                        LoginMember loginMember,
+                        ApplicationItemCreateRequest request) {
+        return null;
     }
 }

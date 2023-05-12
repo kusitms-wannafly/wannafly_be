@@ -8,8 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static com.kusitms.wannafly.support.fixture.ApplicationFormFixture.FORM_CREATE_REQUEST;
-import static com.kusitms.wannafly.support.fixture.ApplicationFormFixture.FORM_UPDATE_REQUEST;
+import static com.kusitms.wannafly.support.fixture.ApplicationFormFixture.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -84,6 +83,31 @@ public class ApplicationFormControllerTest extends ControllerTest {
                                         .type(JsonFieldType.STRING).description("지원 문항"),
                                 fieldWithPath("applicationItems[].applicationAnswer")
                                         .type(JsonFieldType.STRING).description("지원 답변")
+                        )
+                ));
+    }
+
+    @Test
+    void 지원_항목을_추가한다() throws Exception {
+        // given
+        given(applicationFormService.addItem(any(), any(), any()))
+                .willReturn(4L);
+
+        // when
+        ResultActions result = mockMvc.perform(post("/api/application-forms/1/items")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .content(objectMapper.writeValueAsString(ITEM_CREATE_REQUEST)));
+
+        // then
+        result.andExpect(status().isCreated())
+                .andExpect(header().string(HttpHeaders.LOCATION, "/application-items/4"))
+
+                .andDo(document("add-application-item", HOST_INFO,
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                fieldWithPath("applicationQuestion").type(JsonFieldType.STRING).description("지원 문항"),
+                                fieldWithPath("applicationAnswer").type(JsonFieldType.STRING).description("지원 답변")
                         )
                 ));
     }

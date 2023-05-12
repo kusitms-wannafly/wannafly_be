@@ -8,7 +8,7 @@ import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
-import static com.kusitms.wannafly.Acceptance.fixture.AcceptanceFixture.*;
+import static com.kusitms.wannafly.Acceptance.fixture.AuthAcceptanceFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 

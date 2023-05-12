@@ -10,9 +10,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
-import static com.kusitms.wannafly.Acceptance.fixture.AcceptanceFixture.*;
-import static com.kusitms.wannafly.support.fixture.ApplicationFormFixture.FORM_CREATE_REQUEST;
-import static com.kusitms.wannafly.support.fixture.ApplicationFormFixture.FORM_UPDATE_REQUEST;
+import static com.kusitms.wannafly.Acceptance.fixture.ApplicationFormAcceptanceFixture.*;
+import static com.kusitms.wannafly.Acceptance.fixture.AuthAcceptanceFixture.소셜_로그인을_한다;
+import static com.kusitms.wannafly.support.fixture.ApplicationFormFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -35,9 +35,10 @@ class ApplicationFormAcceptanceTest extends AcceptanceTest {
 
 
         // then
+        long applicationFormId = extractCreatedId(response);
         assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value()),
-                () -> assertThat(response.header(HttpHeaders.LOCATION)).isEqualTo("/application-forms/" + 1)
+                () -> assertThat(applicationFormId).isEqualTo(1)
         );
     }
 
@@ -87,11 +88,27 @@ class ApplicationFormAcceptanceTest extends AcceptanceTest {
         );
     }
 
-    private Long 지원서를_등록하고_ID를_응답(String accessToken) {
-        return Long.parseLong(
-                지원서를_등록한다(accessToken, FORM_CREATE_REQUEST)
-                        .header(HttpHeaders.LOCATION)
-                        .split("/")[2]
+    @Test
+    void 지원서의_지원_항목을_추가한다() {
+        // given
+        Long formId = 지원서를_등록하고_ID를_응답(accessToken);
+
+        // when
+        ExtractableResponse<Response> response = 지원_항목을_추가한다(accessToken, formId, ITEM_CREATE_REQUEST);
+
+        // then
+        long applicationItemId = extractCreatedId(response);
+        assertAll(
+                () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value()),
+                () -> assertThat(applicationItemId).isEqualTo(4)
         );
+    }
+
+    private Long 지원서를_등록하고_ID를_응답(String accessToken) {
+        return extractCreatedId(지원서를_등록한다(accessToken, FORM_CREATE_REQUEST));
+    }
+
+    private long extractCreatedId(ExtractableResponse<Response> response) {
+        return Long.parseLong(response.header(HttpHeaders.LOCATION).split("/")[2]);
     }
 }

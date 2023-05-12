@@ -46,3 +46,10 @@ include::{snippets}/update-application-form/request-fields.adoc[]
 === Response
 include::{snippets}/update-application-form/http-response.adoc[]
 
+== 지원서 지원 항목 추가
+=== Request
+include::{snippets}/add-application-item/http-request.adoc[]
+=== Request 필드
+include::{snippets}/add-application-item/request-fields.adoc[]
+=== Response
+include::{snippets}/add-application-item/http-response.adoc[]
