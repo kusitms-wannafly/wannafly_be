@@ -67,4 +67,14 @@ public class ApplicationFormAcceptanceFixture {
                 .then().log().all()
                 .extract();
     }
+
+    public static ExtractableResponse<Response> 지원서_상태_변경(String accessToken, Long formId) {
+        return RestAssured.given().log().all()
+                .when()
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .patch("/api/application-forms/" + formId + "/state")
+                .then().log().all()
+                .extract();
+    }
 }

@@ -116,6 +116,39 @@ class ApplicationFormAcceptanceTest extends AcceptanceTest {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
     }
 
+    @Test
+    void 나의_지원서를_작성_완료한다() {
+        // given
+        Long formId = 지원서를_등록하고_ID를_응답(accessToken);
+
+        // when
+        ExtractableResponse<Response> response = 지원서_상태_변경(accessToken, formId);
+
+        // then
+        assertAll(
+                () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
+                () -> assertThat(response.jsonPath().getBoolean("isCompleted")).isEqualTo(true)
+        );
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
+    }
+
+    @Test
+    void 완료_지원서를_작성중으로_한다() {
+        // given
+        Long formId = 지원서를_등록하고_ID를_응답(accessToken);
+        지원서_상태_변경(accessToken, formId);
+
+        // when
+        ExtractableResponse<Response> response = 지원서_상태_변경(accessToken, formId);
+
+        // then
+        assertAll(
+                () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
+                () -> assertThat(response.jsonPath().getBoolean("isCompleted")).isEqualTo(false)
+        );
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
+    }
+
     private Long 지원서를_등록하고_ID를_응답(String accessToken) {
         return extractCreatedId(지원서를_등록한다(accessToken, FORM_CREATE_REQUEST));
     }

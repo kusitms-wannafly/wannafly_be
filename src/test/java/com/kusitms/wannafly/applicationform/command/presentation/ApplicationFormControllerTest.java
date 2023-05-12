@@ -1,5 +1,6 @@
 package com.kusitms.wannafly.applicationform.command.presentation;
 
+import com.kusitms.wannafly.applicationform.command.dto.FormStateResponse;
 import com.kusitms.wannafly.support.ControllerTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,8 +15,7 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -123,6 +123,28 @@ public class ApplicationFormControllerTest extends ControllerTest {
 
                 .andDo(document("delete-application-form", HOST_INFO,
                         preprocessResponse(prettyPrint())
+                ));
+    }
+
+    @Test
+    void 지원서_상태를_변경한다() throws Exception {
+        // given
+        given(applicationFormService.changeState(any(), any()))
+                .willReturn(new FormStateResponse(true));
+
+        // when
+        ResultActions result = mockMvc.perform(patch("/api/application-forms/1/state")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken));
+
+        // then
+        result.andExpect(status().isOk())
+
+                .andDo(document("application-form-state", HOST_INFO,
+                        preprocessResponse(prettyPrint()),
+                        responseFields(
+                                fieldWithPath("isCompleted").type(JsonFieldType.BOOLEAN).description("지원서 작성 완료 여부")
+                        )
                 ));
     }
 }
