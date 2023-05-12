@@ -186,6 +186,19 @@ class ApplicationFormServiceTest extends ServiceTest {
         }
 
         @Test
+        void 완료_상태_지원서는_작성_중이_된다() {
+            // given
+            Long formId = applicationFormService.createForm(loginMember, FORM_CREATE_REQUEST);
+            applicationFormService.changeState(formId, loginMember);
+
+            // when
+            FormStateResponse actual = applicationFormService.changeState(formId, loginMember);
+
+            // then
+            assertThat(actual.isCompleted()).isEqualTo(false);
+        }
+
+        @Test
         void 로그인_회원이_지원서_작성자가_아니면_예외가_발생한다() {
             // given
             Long formId = applicationFormService.createForm(loginMember, FORM_CREATE_REQUEST);

@@ -94,8 +94,11 @@ public class ApplicationForm {
         return !this.writer.equals(writer);
     }
 
-    public WritingState changeWritingState() {
+    public void changeWritingState() {
         writingState = writingState.change();
-        return writingState;
+    }
+
+    public Boolean isCompleted() {
+        return writingState.isCompleted;
     }
 }

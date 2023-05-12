@@ -166,16 +166,16 @@ class ApplicationFormTest {
         @Test
         void 처음엔_작성_중_상태이다() {
             // when then
-            assertThat(form.getWritingState()).isEqualTo(WritingState.ON_GOING);
+            assertThat(form.isCompleted()).isFalse();
         }
 
         @Test
         void 작성_중이면_완료가_된다() {
             // when
-            WritingState actual = form.changeWritingState();
+            form.changeWritingState();
 
             // then
-            assertThat(actual).isEqualTo(WritingState.COMPLETE);
+            assertThat(form.isCompleted()).isTrue();
         }
 
         @Test
@@ -184,10 +184,10 @@ class ApplicationFormTest {
             form.changeWritingState();
 
             // when
-            WritingState actual = form.changeWritingState();
+            form.changeWritingState();
 
             // then
-            assertThat(actual).isEqualTo(WritingState.ON_GOING);
+            assertThat(form.isCompleted()).isFalse();
         }
     }
 }
