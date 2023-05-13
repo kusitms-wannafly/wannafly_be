@@ -1,15 +1,10 @@
 package com.kusitms.wannafly.applicationform.command.domain;
 
 import com.kusitms.wannafly.applicationform.command.domain.value.*;
-import com.kusitms.wannafly.exception.BusinessException;
-import com.kusitms.wannafly.exception.ErrorCode;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -38,9 +33,8 @@ public class ApplicationForm {
     @Column(nullable = false)
     private WritingState writingState;
 
-
-    @OneToMany(mappedBy = "applicationForm", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    private List<ApplicationItem> applicationItems = new ArrayList<>();
+    @Embedded
+    private ApplicationItems applicationItems = new ApplicationItems();
 
     public static ApplicationForm createEmptyForm(Writer writer,
                                                   Recruiter recruiter,
@@ -62,30 +56,20 @@ public class ApplicationForm {
     }
 
     public void update(ApplicationForm updatedForm) {
-        this.recruiter = updatedForm.getRecruiter();
-        this.year = updatedForm.getYear();
-        this.semester = updatedForm.getSemester();
-
-        List<ApplicationItem> updatedItems = updatedForm.getApplicationItems();
-        updatedItems.forEach(this::updateItem);
-    }
-
-    private void updateItem(ApplicationItem updateItem) {
-        this.applicationItems.stream()
-                .filter(item -> item.getId().equals(updateItem.getId()))
-                .findAny()
-                .orElseThrow(() -> BusinessException.from(ErrorCode.NOT_FOUND_APPLICATION_ITEM))
-                .updateContents(updateItem);
+        recruiter = updatedForm.getRecruiter();
+        year = updatedForm.getYear();
+        semester = updatedForm.getSemester();
+        applicationItems.updateItems(updatedForm.getApplicationItems());
     }
 
     public ApplicationItem addItem(ApplicationQuestion question, ApplicationAnswer answer) {
         ApplicationItem item = new ApplicationItem(this, question, answer);
-        applicationItems.add(item);
+        applicationItems.addItem(item);
         return item;
     }
 
     public void addItem(ApplicationItem item) {
-        applicationItems.add(item);
+        applicationItems.addItem(item);
     }
 
     public boolean isNotWriter(Writer writer) {

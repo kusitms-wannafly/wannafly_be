@@ -15,7 +15,7 @@ public record ApplicationFormResponse(
                 applicationForm.getRecruiter().getValue(),
                 applicationForm.getYear().getValue(),
                 applicationForm.getSemester().name().toLowerCase(),
-                applicationForm.getApplicationItems()
+                applicationForm.getApplicationItems().getValues()
                         .stream()
                         .map(ApplicationItemResponse::from)
                         .toList()

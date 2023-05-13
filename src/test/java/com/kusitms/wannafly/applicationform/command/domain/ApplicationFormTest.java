@@ -132,7 +132,7 @@ class ApplicationFormTest {
             form.update(updated);
 
             // then
-            List<ApplicationItem> actualItems = form.getApplicationItems();
+            List<ApplicationItem> actualItems = form.getApplicationItems().getValues();
             ListAssert<ApplicationItem> actualItem1 = assertThat(actualItems)
                     .filteredOn(item -> item.getId().equals(itemId1));
             ListAssert<ApplicationItem> actualItem2 = assertThat(actualItems)
