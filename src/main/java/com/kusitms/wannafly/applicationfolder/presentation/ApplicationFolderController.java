@@ -1,15 +1,9 @@
 package com.kusitms.wannafly.applicationfolder.presentation;
 
-import com.kusitms.wannafly.applicationfolder.domain.ApplicationFolderRepository;
 import com.kusitms.wannafly.applicationfolder.dto.ApplicationFolderCreateRequest;
 import com.kusitms.wannafly.applicationfolder.service.ApplicationFolderService;
 import com.kusitms.wannafly.auth.LoginMember;
-import com.kusitms.wannafly.exception.BusinessException;
-import com.kusitms.wannafly.exception.ErrorCode;
-import com.kusitms.wannafly.member.domain.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,7 +17,6 @@ import java.net.URI;
 @RequiredArgsConstructor
 public class ApplicationFolderController {
     private final ApplicationFolderService applicationFolderService;
-
     @PostMapping
     public ResponseEntity<Void> createFolder(@RequestBody ApplicationFolderCreateRequest request,
                                              LoginMember loginMember){

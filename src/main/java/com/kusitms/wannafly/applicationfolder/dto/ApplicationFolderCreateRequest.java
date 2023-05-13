@@ -6,9 +6,8 @@ public record ApplicationFolderCreateRequest(
         Integer year
 ) {
     public ApplicationFolder toDomain(Long memberId) {
-    ApplicationFolder folder = ApplicationFolder.createEmptyFolder(
-            memberId, year
+        return ApplicationFolder.createEmptyFolder(
+                memberId, year
         );
-    return folder;
-}
+    }
 }

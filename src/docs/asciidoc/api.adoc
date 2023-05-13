@@ -21,12 +21,6 @@ include::{snippets}/delete-refresh-token/http-request.adoc[]
 === Response
 include::{snippets}/delete-refresh-token/http-response.adoc[]
 
-== 지원서 보관함 생성
-=== Request
-include::{snippets}/create-application-folder/http-request.adoc[]
-=== Response
-include::{snippets}/create-application-folder/http-response.adoc[]
-
 = 지원서
 == 지원서 등록
 === Request
@@ -73,3 +67,15 @@ include::{snippets}/application-form-state/http-request.adoc[]
 include::{snippets}/application-form-state/http-response.adoc[]
 === Response 필드
 include::{snippets}/application-form-state/response-fields.adoc[]
+
+== 지원서 보관함 생성
+=== Request
+include::{snippets}/create-application-folder/http-request.adoc[]
+=== Response
+include::{snippets}/create-application-folder/http-response.adoc[]
+
+== 지원서 보관함 조회
+=== Request
+include::{snippets}/get-one-application-folders/http-request.adoc[]
+=== Response
+include::{snippets}/get-one-application-folders/http-response.adoc[]

@@ -1,7 +1,5 @@
 package com.kusitms.wannafly.Acceptance;
 
-import com.kusitms.wannafly.applicationfolder.dto.ApplicationFolderCreateRequest;
-import com.nimbusds.oauth2.sdk.token.AccessToken;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.apache.http.HttpHeaders;

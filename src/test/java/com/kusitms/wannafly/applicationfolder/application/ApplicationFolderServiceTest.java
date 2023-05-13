@@ -2,6 +2,7 @@ package com.kusitms.wannafly.applicationfolder.application;
 
 import com.kusitms.wannafly.applicationfolder.domain.ApplicationFolder;
 import com.kusitms.wannafly.applicationfolder.domain.ApplicationFolderRepository;
+import com.kusitms.wannafly.applicationfolder.dto.ApplicationFolderCreateResponse;
 import com.kusitms.wannafly.applicationfolder.service.ApplicationFolderService;
 import com.kusitms.wannafly.auth.LoginMember;
 import com.kusitms.wannafly.exception.BusinessException;
@@ -13,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import static com.kusitms.wannafly.support.fixture.ApplicationFolderFixture.*;
@@ -44,11 +44,11 @@ public class ApplicationFolderServiceTest extends ServiceTest {
         @Test
         void 이미_있는_보관함_년도면_예외가_발생한다(){
             //given
-            LoginMember folderCreater = new LoginMember(1L);
-            applicationFolderService.createFolder(folderCreater,FOLDER_CREATE_2023);
+            LoginMember folderCreate = new LoginMember(1L);
+            applicationFolderService.createFolder(folderCreate,FOLDER_CREATE_2023);
             //when then
             assertThatThrownBy(()->applicationFolderService.createFolder(
-                    folderCreater,FOLDER_CREATE_2023)
+                    folderCreate,FOLDER_CREATE_2023)
             )
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
@@ -61,65 +61,55 @@ public class ApplicationFolderServiceTest extends ServiceTest {
         @Test
         void 로그인_회원이_지원서_보관함을_생성했다면_조회한다(){
             //given
-            LoginMember folderCreater = new LoginMember(1L);
-            applicationFolderService.createFolder(folderCreater,FOLDER_CREATE_2023);
+            LoginMember folderCreate = new LoginMember(1L);
+            applicationFolderService.createFolder(folderCreate,FOLDER_CREATE_2023);
 
             //when
-            List<ApplicationFolder> folders = applicationFolderRepository.findAll();
-            List<Map<String, Integer>> yearList = applicationFolderService.extractYearsByMemberId(folders,folderCreater.id());
+            List<ApplicationFolderCreateResponse> yearList = applicationFolderService.extractYearsByMemberId(folderCreate.id());
 
             //then
-            assertAll(
-                    () -> assertThat(yearList)
-                    .filteredOn(map -> map.get("year").equals(2023))
-                    .hasSize(1)
+            assertAll("Checking order of yearList",
+                    () -> assertThat(yearList).hasSize(1),
+                    () -> assertThat(yearList).extracting(ApplicationFolderCreateResponse::year)
+                            .containsExactly(2023)
             );
         }
         @Test
         void 지원서_보관함이_여러개일때_모두_조회한다(){
             //given
-            LoginMember folderCreater = new LoginMember(1L);
-            applicationFolderService.createFolder(folderCreater,FOLDER_CREATE_2023);
-            applicationFolderService.createFolder(folderCreater,FOLDER_CREATE_2022);
-            applicationFolderService.createFolder(folderCreater,FOLDER_CREATE_2021);
+            LoginMember folderCreate = new LoginMember(1L);
+            applicationFolderService.createFolder(folderCreate,FOLDER_CREATE_2023);
+            applicationFolderService.createFolder(folderCreate,FOLDER_CREATE_2022);
+            applicationFolderService.createFolder(folderCreate,FOLDER_CREATE_2021);
 
             //when
-            List<ApplicationFolder> folders = applicationFolderRepository.findAll();
-            List<Map<String, Integer>> yearList = applicationFolderService.extractYearsByMemberId(folders,folderCreater.id());
+            List<ApplicationFolderCreateResponse> yearList = applicationFolderService.extractYearsByMemberId(folderCreate.id());
 
             //then
-            assertAll(
+            //then
+            assertAll("Checking order of yearList",
                     () -> assertThat(yearList).hasSize(3),
-                    () -> assertThat(yearList)
-                    .filteredOn(map -> map.get("year").equals(2023))
-                    .hasSize(1),
-                    () -> assertThat(yearList)
-                    .filteredOn(map -> map.get("year").equals(2022))
-                    .hasSize(1),
-                    () -> assertThat(yearList)
-                    .filteredOn(map -> map.get("year").equals(2021))
-                    .hasSize(1)
+                    () -> assertThat(yearList).extracting(ApplicationFolderCreateResponse::year)
+                            .containsExactly(2023, 2022, 2021)
             );
         }
         @Test
         void 지원서_보관함이_최근_년도순으로_정렬되는지_조회한다(){
             //given
-            LoginMember folderCreater = new LoginMember(1L);
-            applicationFolderService.createFolder(folderCreater,FOLDER_CREATE_2022);
-            applicationFolderService.createFolder(folderCreater,FOLDER_CREATE_2021);
-            applicationFolderService.createFolder(folderCreater,FOLDER_CREATE_2023);
+            LoginMember folderCreate = new LoginMember(1L);
+            applicationFolderService.createFolder(folderCreate,FOLDER_CREATE_2022);
+            applicationFolderService.createFolder(folderCreate,FOLDER_CREATE_2021);
+            applicationFolderService.createFolder(folderCreate,FOLDER_CREATE_2023);
 
 
             //when
-            List<ApplicationFolder> folders = applicationFolderRepository.findAll();
-            List<Map<String, Integer>> yearList = applicationFolderService.extractYearsByMemberId(folders,folderCreater.id());
+            List<ApplicationFolderCreateResponse> yearList = applicationFolderService.extractYearsByMemberId(folderCreate.id());
 
             //then
-            assertAll(
-                    ()-> assertThat(yearList).hasSize(3),
-                    () -> assertThat(yearList.get(0).get("year")).isEqualTo(2023),
-                    () -> assertThat(yearList.get(1).get("year")).isEqualTo(2022),
-                    () -> assertThat(yearList.get(2).get("year")).isEqualTo(2021)
+            assertAll("Checking order of yearList",
+                    () -> assertThat(yearList).hasSize(3),
+                    () -> assertThat(yearList).extracting(ApplicationFolderCreateResponse::year)
+                            .containsExactly(2023, 2022, 2021)
             );
         }
     }
