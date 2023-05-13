@@ -79,3 +79,5 @@ include::{snippets}/create-application-folder/http-response.adoc[]
 include::{snippets}/get-one-application-folders/http-request.adoc[]
 === Response
 include::{snippets}/get-one-application-folders/http-response.adoc[]
+=== Response 필드
+include::{snippets}/get-one-application-folders/response-fields.adoc[]
