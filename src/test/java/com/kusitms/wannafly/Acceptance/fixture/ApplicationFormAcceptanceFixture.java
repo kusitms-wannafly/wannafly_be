@@ -77,4 +77,17 @@ public class ApplicationFormAcceptanceFixture {
                 .then().log().all()
                 .extract();
     }
+
+    public static ExtractableResponse<Response> 지원서들을_조회한다(String accessToken,
+                                                           Long cursor,
+                                                           Integer size,
+                                                           Integer year) {
+        return RestAssured.given().log().all()
+                .when()
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .get("/api/application-forms?cursor=" + cursor + "&size=" + size + "&year=" + year)
+                .then().log().all()
+                .extract();
+    }
 }
