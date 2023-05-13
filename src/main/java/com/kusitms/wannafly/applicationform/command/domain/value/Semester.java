@@ -1,4 +1,4 @@
-package com.kusitms.wannafly.applicationform.command.domain;
+package com.kusitms.wannafly.applicationform.command.domain.value;
 
 public enum Semester {
 

@@ -2,6 +2,7 @@ package com.kusitms.wannafly.applicationform.command.application;
 
 import com.kusitms.wannafly.applicationform.command.domain.ApplicationForm;
 import com.kusitms.wannafly.applicationform.command.domain.ApplicationFormRepository;
+import com.kusitms.wannafly.applicationform.command.dto.FormStateResponse;
 import com.kusitms.wannafly.applicationform.query.ApplicationFormQueryService;
 import com.kusitms.wannafly.applicationform.query.dto.ApplicationFormResponse;
 import com.kusitms.wannafly.applicationform.query.dto.ApplicationItemResponse;
@@ -17,8 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
 
-import static com.kusitms.wannafly.support.fixture.ApplicationFormFixture.FORM_CREATE_REQUEST;
-import static com.kusitms.wannafly.support.fixture.ApplicationFormFixture.FORM_UPDATE_REQUEST;
+import static com.kusitms.wannafly.support.fixture.ApplicationFormFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -33,6 +33,8 @@ class ApplicationFormServiceTest extends ServiceTest {
 
     @Autowired
     private ApplicationFormRepository applicationFormRepository;
+
+    private final LoginMember loginMember = new LoginMember(1L);
 
     @Test
     void 지원서를_등록한다() {
@@ -54,7 +56,6 @@ class ApplicationFormServiceTest extends ServiceTest {
         @Test
         void 로그인_회원이_지원서_작성자면_수정_가능하다() {
             // given
-            LoginMember loginMember = new LoginMember(1L);
             Long formId = applicationFormService.createForm(loginMember, FORM_CREATE_REQUEST);
 
             // when
@@ -88,14 +89,123 @@ class ApplicationFormServiceTest extends ServiceTest {
         @Test
         void 로그인_회원이_지원서_작성자가_아니면_예외가_발생한다() {
             // given
-            LoginMember formWriter = new LoginMember(1L);
-            Long formId = applicationFormService.createForm(formWriter, FORM_CREATE_REQUEST);
+            Long formId = applicationFormService.createForm(loginMember, FORM_CREATE_REQUEST);
 
             // when then
-            LoginMember loginMember = new LoginMember(2L);
+            LoginMember requester = new LoginMember(2L);
             assertThatThrownBy(() -> applicationFormService.updateForm(
-                    formId, loginMember, FORM_UPDATE_REQUEST)
+                    formId, requester, FORM_UPDATE_REQUEST)
             )
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(ErrorCode.INVALID_WRITER_OF_FORM);
+        }
+    }
+
+    @DisplayName("지원서의 지원 항목을 추가할 때")
+    @Nested
+    class AddItemTest {
+
+        @Test
+        void 로그인_회원이_지원서_작성자면_추가_가능하다() {
+            // given
+            Long formId = applicationFormService.createForm(loginMember, FORM_CREATE_REQUEST);
+
+            // when
+            Long itemId = applicationFormService.addItem(formId, loginMember, ITEM_CREATE_REQUEST);
+
+            // then
+            ApplicationFormResponse form = applicationFormQueryService.findOne(formId, loginMember);
+            assertAll(
+                    () -> assertThat(itemId).isEqualTo(4),
+                    () -> assertThat(form.applicationItems()).hasSize(4)
+            );
+        }
+
+        @Test
+        void 로그인_회원이_지원서_작성자가_아니면_예외가_발생한다() {
+            // given
+            Long formId = applicationFormService.createForm(loginMember, FORM_CREATE_REQUEST);
+
+            // when then
+            LoginMember requester = new LoginMember(2L);
+            assertThatThrownBy(() -> applicationFormService.addItem(
+                    formId, requester, ITEM_CREATE_REQUEST)
+            )
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(ErrorCode.INVALID_WRITER_OF_FORM);
+        }
+    }
+
+    @DisplayName("지원서를 삭제할 때")
+    @Nested
+    class DeleteTest {
+
+        @Test
+        void 로그인_회원이_지원서_작성자면_삭제_가능하다() {
+            // given
+            Long formId = applicationFormService.createForm(loginMember, FORM_CREATE_REQUEST);
+
+            // when
+            applicationFormService.deleteForm(formId, loginMember);
+
+            // then
+            Optional<ApplicationForm> actual = applicationFormRepository.findById(formId);
+            assertThat(actual).isEmpty();
+        }
+
+        @Test
+        void 로그인_회원이_지원서_작성자가_아니면_예외가_발생한다() {
+            // given
+            Long formId = applicationFormService.createForm(loginMember, FORM_CREATE_REQUEST);
+
+            // when then
+            LoginMember requester = new LoginMember(2L);
+            assertThatThrownBy(() -> applicationFormService.deleteForm(formId, requester))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(ErrorCode.INVALID_WRITER_OF_FORM);
+        }
+    }
+
+    @DisplayName("지원서의 작성 상태를 변경할 때")
+    @Nested
+    class ChangeTest {
+
+        @Test
+        void 로그인_회원이_지원서_작성자면_변경_가능하다() {
+            // given
+            Long formId = applicationFormService.createForm(loginMember, FORM_CREATE_REQUEST);
+
+            // when
+            FormStateResponse actual = applicationFormService.changeState(formId, loginMember);
+
+            // then
+            assertThat(actual.isCompleted()).isEqualTo(true);
+        }
+
+        @Test
+        void 완료_상태_지원서는_작성_중이_된다() {
+            // given
+            Long formId = applicationFormService.createForm(loginMember, FORM_CREATE_REQUEST);
+            applicationFormService.changeState(formId, loginMember);
+
+            // when
+            FormStateResponse actual = applicationFormService.changeState(formId, loginMember);
+
+            // then
+            assertThat(actual.isCompleted()).isEqualTo(false);
+        }
+
+        @Test
+        void 로그인_회원이_지원서_작성자가_아니면_예외가_발생한다() {
+            // given
+            Long formId = applicationFormService.createForm(loginMember, FORM_CREATE_REQUEST);
+
+            // when then
+            LoginMember requester = new LoginMember(2L);
+            assertThatThrownBy(() -> applicationFormService.changeState(formId, requester))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(ErrorCode.INVALID_WRITER_OF_FORM);

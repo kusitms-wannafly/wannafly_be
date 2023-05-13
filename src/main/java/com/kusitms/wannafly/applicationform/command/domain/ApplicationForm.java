@@ -1,14 +1,12 @@
 package com.kusitms.wannafly.applicationform.command.domain;
 
-import com.kusitms.wannafly.exception.BusinessException;
-import com.kusitms.wannafly.exception.ErrorCode;
+import com.kusitms.wannafly.applicationform.command.domain.value.*;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -20,77 +18,82 @@ public class ApplicationForm {
     @Column(name = "application_form_id")
     private Long id;
 
-    @Column(nullable = false)
-    private Long memberId;
+    @Embedded
+    private Writer writer;
 
-    @Column(nullable = false)
-    private String recruiter;
+    @Embedded
+    private Recruiter recruiter;
 
-    @Column(nullable = false, name = "years")
-    private Integer year;
+    @Embedded
+    private ApplicationYear year;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Semester semester;
 
-    @OneToMany(mappedBy = "applicationForm", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    private List<ApplicationItem> applicationItems = new ArrayList<>();
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private WritingState writingState;
 
-    public static ApplicationForm createEmptyForm(Long memberId, String recruiter, Integer year, Semester semester) {
-        return new ApplicationForm(memberId, recruiter, year, semester);
+    @Column(nullable = false)
+    private LocalDateTime lastModifiedTime;
+
+    @Embedded
+    private ApplicationItems applicationItems = new ApplicationItems();
+
+    public static ApplicationForm createEmptyForm(Writer writer,
+                                                  Recruiter recruiter,
+                                                  ApplicationYear year,
+                                                  Semester semester) {
+        return new ApplicationForm(writer, recruiter, year, semester, WritingState.ON_GOING);
     }
 
-    private ApplicationForm(Long memberId, String recruiter, Integer year, Semester semester) {
-        validateRecruiter(recruiter);
-        validateYear(year);
-        this.memberId = memberId;
+    private ApplicationForm(Writer writer,
+                            Recruiter recruiter,
+                            ApplicationYear year,
+                            Semester semester,
+                            WritingState writingState) {
+        this.writer = writer;
         this.recruiter = recruiter;
         this.year = year;
         this.semester = semester;
+        this.writingState = writingState;
+        updateModifiedDate();
     }
 
-    private void validateRecruiter(String recruiter) {
-        if (recruiter.isBlank()) {
-            throw BusinessException.from(ErrorCode.EMPTY_RECRUITER);
-        }
-    }
-
-    private void validateYear(Integer year) {
-        if (year <= 0) {
-            throw BusinessException.from(ErrorCode.INVALID_YEAR);
-        }
+    public ApplicationItem addItem(ApplicationQuestion question, ApplicationAnswer answer) {
+        ApplicationItem item = new ApplicationItem(this, question, answer);
+        applicationItems.addItem(item);
+        updateModifiedDate();
+        return item;
     }
 
     public void update(ApplicationForm updatedForm) {
-        validateFormWriter(updatedForm);
-        this.recruiter = updatedForm.getRecruiter();
-        this.year = updatedForm.getYear();
-        this.semester = updatedForm.getSemester();
-
-        List<ApplicationItem> updatedItems = updatedForm.getApplicationItems();
-        updatedItems.forEach(this::updateItem);
-    }
-
-    private void validateFormWriter(ApplicationForm updatedForm) {
-        if (!this.memberId.equals(updatedForm.getMemberId())) {
-            throw BusinessException.from(ErrorCode.INVALID_WRITER_OF_FORM);
-        }
-    }
-
-    private void updateItem(ApplicationItem updateItem) {
-        this.applicationItems.stream()
-                .filter(item -> item.getId().equals(updateItem.getId()))
-                .findAny()
-                .orElseThrow(() -> BusinessException.from(ErrorCode.NOT_FOUND_APPLICATION_ITEM))
-                .updateContents(updateItem);
-    }
-
-    public void addItem(ApplicationQuestion question, ApplicationAnswer answer) {
-        ApplicationItem item = new ApplicationItem(this, question, answer);
-        applicationItems.add(item);
+        recruiter = updatedForm.getRecruiter();
+        year = updatedForm.getYear();
+        semester = updatedForm.getSemester();
+        applicationItems.updateItems(updatedForm.getApplicationItems());
+        updateModifiedDate();
     }
 
     public void addItem(ApplicationItem item) {
-        applicationItems.add(item);
+        applicationItems.addItem(item);
+        updateModifiedDate();
+    }
+
+    public boolean isNotWriter(Writer writer) {
+        return !this.writer.equals(writer);
+    }
+
+    public void changeWritingState() {
+        writingState = writingState.change();
+    }
+
+    public Boolean isCompleted() {
+        return writingState.isCompleted;
+    }
+
+    private void updateModifiedDate() {
+        lastModifiedTime = LocalDateTime.now();
     }
 }

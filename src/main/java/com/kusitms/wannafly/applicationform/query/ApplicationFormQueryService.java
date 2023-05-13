@@ -1,6 +1,7 @@
 package com.kusitms.wannafly.applicationform.query;
 
 import com.kusitms.wannafly.applicationform.command.domain.ApplicationForm;
+import com.kusitms.wannafly.applicationform.command.domain.value.Writer;
 import com.kusitms.wannafly.applicationform.query.dto.ApplicationFormResponse;
 import com.kusitms.wannafly.auth.LoginMember;
 import com.kusitms.wannafly.exception.BusinessException;
@@ -17,8 +18,9 @@ public class ApplicationFormQueryService {
     private final ApplicationFormQueryRepository applicationFormQueryRepository;
 
     public ApplicationFormResponse findOne(Long applicationFormId, LoginMember loginMember) {
+        Writer requester = new Writer(loginMember.id());
         ApplicationForm applicationForm = getApplicationForm(applicationFormId);
-        validateWriter(loginMember, applicationForm);
+        validateWriter(requester, applicationForm);
         return ApplicationFormResponse.from(applicationForm);
     }
 
@@ -27,8 +29,8 @@ public class ApplicationFormQueryService {
                 .orElseThrow(() -> BusinessException.from(ErrorCode.NOT_FOUND_APPLICATION_FORM));
     }
 
-    private void validateWriter(LoginMember loginMember, ApplicationForm applicationForm) {
-        if (!loginMember.equalsId(applicationForm.getMemberId())) {
+    private void validateWriter(Writer requester, ApplicationForm applicationForm) {
+        if (applicationForm.isNotWriter(requester)) {
             throw BusinessException.from(ErrorCode.INVALID_WRITER_OF_FORM);
         }
     }

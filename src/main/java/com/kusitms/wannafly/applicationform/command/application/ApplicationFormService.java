@@ -2,12 +2,12 @@ package com.kusitms.wannafly.applicationform.command.application;
 
 import com.kusitms.wannafly.applicationform.command.domain.ApplicationForm;
 import com.kusitms.wannafly.applicationform.command.domain.ApplicationFormRepository;
-import com.kusitms.wannafly.applicationform.command.dto.ApplicationFormCreateRequest;
-import com.kusitms.wannafly.applicationform.command.dto.ApplicationFormMapper;
-import com.kusitms.wannafly.applicationform.command.dto.ApplicationFormUpdateRequest;
+import com.kusitms.wannafly.applicationform.command.domain.ApplicationItem;
+import com.kusitms.wannafly.applicationform.command.domain.value.ApplicationAnswer;
+import com.kusitms.wannafly.applicationform.command.domain.value.ApplicationQuestion;
+import com.kusitms.wannafly.applicationform.command.domain.value.Writer;
+import com.kusitms.wannafly.applicationform.command.dto.*;
 import com.kusitms.wannafly.auth.LoginMember;
-import com.kusitms.wannafly.exception.BusinessException;
-import com.kusitms.wannafly.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,9 +18,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class ApplicationFormService {
 
     private final ApplicationFormRepository applicationFormRepository;
+    private final WriterCheckedFormService writerCheckedFormService;
 
     public Long createForm(LoginMember loginMember, ApplicationFormCreateRequest request) {
-        ApplicationForm applicationForm = ApplicationFormMapper.toDomain(request, loginMember.id());
+        Writer writer = new Writer(loginMember.id());
+        ApplicationForm applicationForm = ApplicationFormMapper.toDomain(request, writer);
         applicationFormRepository.save(applicationForm);
         return applicationForm.getId();
     }
@@ -28,13 +30,35 @@ public class ApplicationFormService {
     public void updateForm(Long applicationFormId,
                            LoginMember loginMember,
                            ApplicationFormUpdateRequest request) {
-        ApplicationForm originalForm = getApplicationForm(applicationFormId);
-        ApplicationForm updatedForm = ApplicationFormMapper.toDomain(request, loginMember.id());
+        Writer writer = new Writer(loginMember.id());
+        ApplicationForm originalForm = writerCheckedFormService.checkWriterAndGet(applicationFormId, writer);
+        ApplicationForm updatedForm = ApplicationFormMapper.toDomain(request, writer);
         originalForm.update(updatedForm);
     }
 
-    private ApplicationForm getApplicationForm(Long applicationFormId) {
-        return applicationFormRepository.findById(applicationFormId)
-                .orElseThrow(() -> BusinessException.from(ErrorCode.NOT_FOUND_APPLICATION_FORM));
+    public Long addItem(Long applicationFormId,
+                        LoginMember loginMember,
+                        ApplicationItemCreateRequest request) {
+        Writer writer = new Writer(loginMember.id());
+        ApplicationForm form = writerCheckedFormService.checkWriterAndGet(applicationFormId, writer);
+        ApplicationItem item = form.addItem(
+                new ApplicationQuestion(request.applicationQuestion()),
+                new ApplicationAnswer(request.applicationAnswer())
+        );
+        applicationFormRepository.flush();
+        return item.getId();
+    }
+
+    public void deleteForm(Long applicationFormId, LoginMember loginMember) {
+        Writer writer = new Writer(loginMember.id());
+        ApplicationForm form = writerCheckedFormService.checkWriterAndGet(applicationFormId, writer);
+        applicationFormRepository.delete(form);
+    }
+
+    public FormStateResponse changeState(Long applicationFormId, LoginMember loginMember) {
+        Writer writer = new Writer(loginMember.id());
+        ApplicationForm form = writerCheckedFormService.checkWriterAndGet(applicationFormId, writer);
+        form.changeWritingState();
+        return new FormStateResponse(form.isCompleted());
     }
 }

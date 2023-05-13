@@ -1,16 +1,14 @@
-package com.kusitms.wannafly.applicationform.command.domain;
+package com.kusitms.wannafly.applicationform.command.domain.value;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Lob;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@EqualsAndHashCode
 @Getter
 public class ApplicationAnswer {
 

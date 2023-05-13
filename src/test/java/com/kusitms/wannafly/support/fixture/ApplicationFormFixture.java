@@ -9,21 +9,15 @@ import java.util.List;
 
 public class ApplicationFormFixture {
 
+    public static final ApplicationItemCreateRequest ITEM_CREATE_REQUEST = new ApplicationItemCreateRequest(
+            ApplicationFormFixture.QUESTION1, ApplicationFormFixture.ANSWER1
+    );
+
     public static final ApplicationFormCreateRequest FORM_CREATE_REQUEST = new ApplicationFormCreateRequest(
             "큐시즘",
             2023,
             "first_half",
-            List.of(
-                    new ApplicationItemCreateRequest(
-                            ApplicationFormFixture.QUESTION1, ApplicationFormFixture.ANSWER1
-                    ),
-                    new ApplicationItemCreateRequest(
-                            ApplicationFormFixture.QUESTION1, ApplicationFormFixture.ANSWER1
-                    ),
-                    new ApplicationItemCreateRequest(
-                            ApplicationFormFixture.QUESTION1, ApplicationFormFixture.ANSWER1
-                    )
-            )
+            List.of(ITEM_CREATE_REQUEST, ITEM_CREATE_REQUEST, ITEM_CREATE_REQUEST)
     );
 
     public static final ApplicationFormUpdateRequest FORM_UPDATE_REQUEST = new ApplicationFormUpdateRequest(

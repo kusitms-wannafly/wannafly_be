@@ -46,3 +46,24 @@ include::{snippets}/update-application-form/request-fields.adoc[]
 === Response
 include::{snippets}/update-application-form/http-response.adoc[]
 
+== 지원서 지원 항목 추가
+=== Request
+include::{snippets}/add-application-item/http-request.adoc[]
+=== Request 필드
+include::{snippets}/add-application-item/request-fields.adoc[]
+=== Response
+include::{snippets}/add-application-item/http-response.adoc[]
+
+== 지원서 삭제
+=== Request
+include::{snippets}/delete-application-form/http-request.adoc[]
+=== Response
+include::{snippets}/delete-application-form/http-response.adoc[]
+
+== 지원서 작성 상태 변경
+=== Request
+include::{snippets}/application-form-state/http-request.adoc[]
+=== Response
+include::{snippets}/application-form-state/http-response.adoc[]
+=== Response 필드
+include::{snippets}/application-form-state/response-fields.adoc[]

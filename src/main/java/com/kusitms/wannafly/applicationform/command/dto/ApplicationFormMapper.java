@@ -1,14 +1,15 @@
 package com.kusitms.wannafly.applicationform.command.dto;
 
 import com.kusitms.wannafly.applicationform.command.domain.*;
+import com.kusitms.wannafly.applicationform.command.domain.value.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ApplicationFormMapper {
 
-    public static ApplicationForm toDomain(ApplicationFormCreateRequest request, Long memberId) {
-        ApplicationForm form = createEmptyForm(memberId, request.recruiter(), request.year(), request.semester());
+    public static ApplicationForm toDomain(ApplicationFormCreateRequest request, Writer writer) {
+        ApplicationForm form = createEmptyForm(writer, request.recruiter(), request.year(), request.semester());
         for (ApplicationItemCreateRequest item : request.applicationItems()) {
             form.addItem(
                     new ApplicationQuestion(item.applicationQuestion()),
@@ -18,8 +19,8 @@ public class ApplicationFormMapper {
         return form;
     }
 
-    public static ApplicationForm toDomain(ApplicationFormUpdateRequest request, Long memberId) {
-        ApplicationForm form = createEmptyForm(memberId, request.recruiter(), request.year(), request.semester());
+    public static ApplicationForm toDomain(ApplicationFormUpdateRequest request, Writer writer) {
+        ApplicationForm form = createEmptyForm(writer, request.recruiter(), request.year(), request.semester());
         for (ApplicationItemUpdateRequest requestItem : request.applicationItems()) {
             form.addItem(
                     new ApplicationItem(
@@ -31,9 +32,9 @@ public class ApplicationFormMapper {
         return form;
     }
 
-    private static ApplicationForm createEmptyForm(Long memberId, String recruiter, Integer year, String semester) {
+    private static ApplicationForm createEmptyForm(Writer writer, String recruiter, Integer year, String semester) {
         return ApplicationForm.createEmptyForm(
-                memberId, recruiter, year, Semester.from(semester)
+                writer, new Recruiter(recruiter), new ApplicationYear(year), Semester.from(semester)
         );
     }
 }
