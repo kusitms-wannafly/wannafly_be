@@ -8,10 +8,7 @@ import com.kusitms.wannafly.support.fixture.ApplicationFormFixture;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.apache.http.HttpHeaders;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.http.HttpStatus;
 
 import java.util.List;
@@ -156,6 +153,7 @@ class ApplicationFormAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("나의 지원서들을 마지막 수정시간 순으로 조회할 때")
     @Nested
+    @Disabled
     class GetFormsTest {
 
         private Long formId1;

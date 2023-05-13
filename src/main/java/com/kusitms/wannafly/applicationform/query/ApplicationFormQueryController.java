@@ -1,7 +1,7 @@
 package com.kusitms.wannafly.applicationform.query;
 
 import com.kusitms.wannafly.applicationform.query.dto.ApplicationFormResponse;
-import com.kusitms.wannafly.applicationform.query.dto.QueryConditionRequest;
+import com.kusitms.wannafly.applicationform.query.dto.PagingParams;
 import com.kusitms.wannafly.applicationform.query.dto.SimpleFormResponse;
 import com.kusitms.wannafly.auth.LoginMember;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +27,8 @@ public class ApplicationFormQueryController {
 
     @GetMapping
     public ResponseEntity<List<SimpleFormResponse>> findAllByCondition(LoginMember loginMember,
-                                                                       @ModelAttribute QueryConditionRequest request) {
-        List<SimpleFormResponse> responses = applicationFormQueryService.findAllByCondition(loginMember, request);
+                                                                       @ModelAttribute PagingParams params) {
+        List<SimpleFormResponse> responses = applicationFormQueryService.findAllByCondition(loginMember, params);
         return ResponseEntity.ok(responses);
     }
 }
