@@ -24,11 +24,9 @@ public class ApplicationForm {
     @Embedded
     private Writer writer;
 
-    @Column(nullable = false)
     @Embedded
     private Recruiter recruiter;
 
-    @Column(nullable = false, name = "years")
     @Embedded
     private ApplicationYear year;
 
