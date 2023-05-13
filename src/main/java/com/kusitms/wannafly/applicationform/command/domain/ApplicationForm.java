@@ -6,6 +6,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -33,6 +35,9 @@ public class ApplicationForm {
     @Column(nullable = false)
     private WritingState writingState;
 
+    @Column(nullable = false)
+    private LocalDateTime lastModifiedTime;
+
     @Embedded
     private ApplicationItems applicationItems = new ApplicationItems();
 
@@ -53,6 +58,14 @@ public class ApplicationForm {
         this.year = year;
         this.semester = semester;
         this.writingState = writingState;
+        updateModifiedDate();
+    }
+
+    public ApplicationItem addItem(ApplicationQuestion question, ApplicationAnswer answer) {
+        ApplicationItem item = new ApplicationItem(this, question, answer);
+        applicationItems.addItem(item);
+        updateModifiedDate();
+        return item;
     }
 
     public void update(ApplicationForm updatedForm) {
@@ -60,16 +73,12 @@ public class ApplicationForm {
         year = updatedForm.getYear();
         semester = updatedForm.getSemester();
         applicationItems.updateItems(updatedForm.getApplicationItems());
-    }
-
-    public ApplicationItem addItem(ApplicationQuestion question, ApplicationAnswer answer) {
-        ApplicationItem item = new ApplicationItem(this, question, answer);
-        applicationItems.addItem(item);
-        return item;
+        updateModifiedDate();
     }
 
     public void addItem(ApplicationItem item) {
         applicationItems.addItem(item);
+        updateModifiedDate();
     }
 
     public boolean isNotWriter(Writer writer) {
@@ -82,5 +91,9 @@ public class ApplicationForm {
 
     public Boolean isCompleted() {
         return writingState.isCompleted;
+    }
+
+    private void updateModifiedDate() {
+        lastModifiedTime = LocalDateTime.now();
     }
 }
