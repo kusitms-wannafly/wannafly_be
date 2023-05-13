@@ -24,7 +24,7 @@ class WriterCheckedFormServiceTest extends ServiceTest {
     @Autowired
     private ApplicationFormRepository applicationFormRepository;
 
-    @DisplayName("지원서를 조회할 떼")
+    @DisplayName("지원서를 조회할 때")
     @Nested
     class FindTest {
 
