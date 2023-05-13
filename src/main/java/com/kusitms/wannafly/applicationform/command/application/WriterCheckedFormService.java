@@ -16,7 +16,7 @@ public class WriterCheckedFormService {
 
     private final ApplicationFormRepository applicationFormRepository;
 
-    public ApplicationForm findById(Long applicationFormId, Writer writer) {
+    public ApplicationForm checkWriterAndGet(Long applicationFormId, Writer writer) {
         ApplicationForm form = applicationFormRepository.findById(applicationFormId)
                 .orElseThrow(() -> BusinessException.from(ErrorCode.NOT_FOUND_APPLICATION_FORM));
         validateWriter(writer, form);

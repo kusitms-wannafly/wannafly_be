@@ -42,7 +42,7 @@ class WriterCheckedFormServiceTest extends ServiceTest {
             ApplicationForm saved = applicationFormRepository.save(form);
 
             // when
-            ApplicationForm actual = writerCheckedFormService.findById(saved.getId(), writer);
+            ApplicationForm actual = writerCheckedFormService.checkWriterAndGet(saved.getId(), writer);
 
             // then
             Assertions.assertThat(actual.getId()).isEqualTo(saved.getId());
@@ -58,7 +58,7 @@ class WriterCheckedFormServiceTest extends ServiceTest {
 
             // when
             Writer requester = new Writer(2L);
-            assertThatThrownBy(() -> writerCheckedFormService.findById(saved.getId(), requester))
+            assertThatThrownBy(() -> writerCheckedFormService.checkWriterAndGet(saved.getId(), requester))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(ErrorCode.INVALID_WRITER_OF_FORM);

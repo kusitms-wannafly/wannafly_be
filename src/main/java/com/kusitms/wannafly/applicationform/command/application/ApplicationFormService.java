@@ -31,7 +31,7 @@ public class ApplicationFormService {
                            LoginMember loginMember,
                            ApplicationFormUpdateRequest request) {
         Writer writer = new Writer(loginMember.id());
-        ApplicationForm originalForm = writerCheckedFormService.findById(applicationFormId, writer);
+        ApplicationForm originalForm = writerCheckedFormService.checkWriterAndGet(applicationFormId, writer);
         ApplicationForm updatedForm = ApplicationFormMapper.toDomain(request, writer);
         originalForm.update(updatedForm);
     }
@@ -40,7 +40,7 @@ public class ApplicationFormService {
                         LoginMember loginMember,
                         ApplicationItemCreateRequest request) {
         Writer writer = new Writer(loginMember.id());
-        ApplicationForm form = writerCheckedFormService.findById(applicationFormId, writer);
+        ApplicationForm form = writerCheckedFormService.checkWriterAndGet(applicationFormId, writer);
         ApplicationItem item = form.addItem(
                 new ApplicationQuestion(request.applicationQuestion()),
                 new ApplicationAnswer(request.applicationAnswer())
@@ -51,13 +51,13 @@ public class ApplicationFormService {
 
     public void deleteForm(Long applicationFormId, LoginMember loginMember) {
         Writer writer = new Writer(loginMember.id());
-        ApplicationForm form = writerCheckedFormService.findById(applicationFormId, writer);
+        ApplicationForm form = writerCheckedFormService.checkWriterAndGet(applicationFormId, writer);
         applicationFormRepository.delete(form);
     }
 
     public FormStateResponse changeState(Long applicationFormId, LoginMember loginMember) {
         Writer writer = new Writer(loginMember.id());
-        ApplicationForm form = writerCheckedFormService.findById(applicationFormId, writer);
+        ApplicationForm form = writerCheckedFormService.checkWriterAndGet(applicationFormId, writer);
         form.changeWritingState();
         return new FormStateResponse(form.isCompleted());
     }
