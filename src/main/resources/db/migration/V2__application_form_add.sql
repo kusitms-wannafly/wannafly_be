@@ -10,6 +10,8 @@ CREATE TABLE application_form
     CONSTRAINT pk_applicationform PRIMARY KEY (application_form_id)
 );
 
+CREATE INDEX idx_writer ON application_form (member_id);
+
 CREATE TABLE application_item
 (
     application_item_id  BIGINT AUTO_INCREMENT NOT NULL,
