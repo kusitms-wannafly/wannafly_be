@@ -17,10 +17,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ApplicationFolderCheckController {
     private final ApplicationFolderService applicationFolderService;
+
     @GetMapping
-    public ResponseEntity<List<ApplicationFolderCreateResponse>> CheckFolder(LoginMember loginMember){
+    public ResponseEntity<List<ApplicationFolderCreateResponse>> CheckFolder(LoginMember loginMember) {
         Long memberId = loginMember.id();
-        List<ApplicationFolderCreateResponse> yearsList = applicationFolderService.extractYearsByMemberId(memberId);
-        return ResponseEntity.ok(yearsList);
+        List<ApplicationFolderCreateResponse> responses = applicationFolderService.extractYearsByMemberId(memberId);
+        return ResponseEntity.ok(responses);
     }
 }

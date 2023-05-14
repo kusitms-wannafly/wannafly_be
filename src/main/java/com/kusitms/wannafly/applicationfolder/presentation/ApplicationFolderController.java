@@ -17,11 +17,12 @@ import java.net.URI;
 @RequiredArgsConstructor
 public class ApplicationFolderController {
     private final ApplicationFolderService applicationFolderService;
+
     @PostMapping
     public ResponseEntity<Void> createFolder(@RequestBody ApplicationFolderCreateRequest request,
-                                             LoginMember loginMember){
-        Long folderId = applicationFolderService.createFolder(loginMember,request);
-        return ResponseEntity.created(URI.create("/application-folders/"+folderId))
+                                             LoginMember loginMember) {
+        Long folderId = applicationFolderService.createFolder(loginMember, request);
+        return ResponseEntity.created(URI.create("/application-folders/" + folderId))
                 .build();
     }
 }

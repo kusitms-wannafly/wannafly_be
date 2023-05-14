@@ -14,17 +14,18 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 public class ApplicationFolderAcceptanceTest extends AcceptanceTest {
     private String accessToken;
+
     @BeforeEach
-    void setToken(){
+    void setToken() {
         accessToken = 소셜_로그인을_한다("google")
                 .jsonPath()
                 .getString("accessToken");
     }
 
     @Test
-    void 원하는_년도의_지원서_보관함을_생성한다(){
+    void 원하는_년도의_지원서_보관함을_생성한다() {
         //when
-        ExtractableResponse<Response> response = 지원서_보관함을_생성한다(accessToken,FOLDER_CREATE_2023);
+        ExtractableResponse<Response> response = 지원서_보관함을_생성한다(accessToken, FOLDER_CREATE_2023);
 
         //then
         assertAll(
@@ -32,10 +33,11 @@ public class ApplicationFolderAcceptanceTest extends AcceptanceTest {
                 () -> assertThat(response.header(HttpHeaders.LOCATION)).isEqualTo("/application-folders/" + 1)
         );
     }
+
     @Test
-    void 나의_지원서_보관함을_조회한다(){
+    void 나의_지원서_보관함을_조회한다() {
         //given
-        지원서_보관함을_생성한다(accessToken,FOLDER_CREATE_2023);
+        지원서_보관함을_생성한다(accessToken, FOLDER_CREATE_2023);
 
         //when
         ExtractableResponse<Response> response = 지원서를_조회한다(accessToken);

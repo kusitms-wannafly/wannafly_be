@@ -28,6 +28,7 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+
 @WebMvcTest(controllers = {
         AuthController.class,
         ApplicationFormController.class,

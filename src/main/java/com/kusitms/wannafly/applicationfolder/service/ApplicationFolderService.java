@@ -20,11 +20,9 @@ public class ApplicationFolderService {
     private final ApplicationFolderRepository applicationFolderRepository;
 
     public Long createFolder(LoginMember loginMember, ApplicationFolderCreateRequest request) {
-        ApplicationFolder applicationFolder = request.toDomain(loginMember.id());
         Long memberId = loginMember.id();
-        if (applicationFolderRepository.existsByMemberIdAndYear(memberId,request.year())){
-            throw BusinessException.from(ErrorCode.MEMBER_DUPLICATE_YEAR);
-        }
+        ApplicationFolder applicationFolder = ApplicationFolder.createFolderByYear(memberId, request.year());
+        checkDuplicateYear(memberId, request.year());
         applicationFolderRepository.save(applicationFolder);
         return applicationFolder.getId();
     }
@@ -34,5 +32,11 @@ public class ApplicationFolderService {
                 .stream()
                 .map(folder -> new ApplicationFolderCreateResponse(folder.getYear()))
                 .toList();
+    }
+
+    private void checkDuplicateYear(Long memberId, int year) {
+        if (applicationFolderRepository.existsByMemberIdAndYear(memberId, year)) {
+            throw BusinessException.from(ErrorCode.MEMBER_DUPLICATE_YEAR);
+        }
     }
 }

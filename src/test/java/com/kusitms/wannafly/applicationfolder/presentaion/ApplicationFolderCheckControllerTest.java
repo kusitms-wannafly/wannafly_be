@@ -21,11 +21,12 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 public class ApplicationFolderCheckControllerTest extends ControllerTest {
     private String accessToken;
 
     @BeforeEach
-    void setToken(){
+    void setToken() {
         accessToken = loginAndGetAccessToken(1L);
     }
 
@@ -51,9 +52,9 @@ public class ApplicationFolderCheckControllerTest extends ControllerTest {
                         preprocessResponse(prettyPrint()),
                         responseFields(
                                 fieldWithPath("[]year")
-                                .type(JsonFieldType.NUMBER)
-                                .description("지원 년도")
+                                        .type(JsonFieldType.NUMBER)
+                                        .description("지원 년도")
                         )
-                        ));
+                ));
     }
 }

@@ -17,17 +17,19 @@ public class ApplicationFolder {
     private Long id;
     @Column(nullable = false)
     private Long memberId;
-    @Column(nullable = false,name ="years")
+    @Column(nullable = false, name = "years")
     private Integer year;
 
-    public static ApplicationFolder createEmptyFolder(Long memberId, Integer year) {
+    public static ApplicationFolder createFolderByYear(Long memberId, Integer year) {
         return new ApplicationFolder(memberId, year);
     }
-    private ApplicationFolder(Long memberId, Integer year){
+
+    private ApplicationFolder(Long memberId, Integer year) {
         validateYear(year);
         this.memberId = memberId;
         this.year = year;
     }
+
     private void validateYear(Integer year) {
         if (year <= 0) {
             throw BusinessException.from(ErrorCode.INVALID_YEAR);
