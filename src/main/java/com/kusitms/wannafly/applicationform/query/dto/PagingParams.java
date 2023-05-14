@@ -12,9 +12,6 @@ public class PagingParams {
     private Integer year;
 
     public Long getCursor() {
-        if (cursor == null) {
-            return 0L;
-        }
         return cursor;
     }
 

@@ -22,12 +22,13 @@ public class ApplicationFormDynamicRepositoryImpl implements ApplicationFormDyna
                 .selectFrom(applicationForm)
                 .where(booleanBuilder
                         .and(()-> applicationForm.writer.id.eq(memberId))
-                        .and(() -> applicationForm.lastModifiedTime.loe(findCursorTime(params.getCursor())))
-                        .and(() -> applicationForm.id.ne(params.getCursor()))
                         .and(() -> applicationForm.year.value.eq(params.getYear()))
+                        .and(() -> applicationForm.lastModifiedTime.loe(findCursorTime(params.getCursor())))
+                        .and(() -> applicationForm.id.lt(params.getCursor()))
                         .build()
                 )
                 .orderBy(applicationForm.lastModifiedTime.desc())
+                .orderBy(applicationForm.id.desc())
                 .limit(params.getSize())
                 .fetch();
     }

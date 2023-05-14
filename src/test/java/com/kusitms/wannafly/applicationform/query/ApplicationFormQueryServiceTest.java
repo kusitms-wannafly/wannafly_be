@@ -3,6 +3,8 @@ package com.kusitms.wannafly.applicationform.query;
 import com.kusitms.wannafly.applicationform.command.application.ApplicationFormService;
 import com.kusitms.wannafly.applicationform.query.dto.ApplicationFormResponse;
 import com.kusitms.wannafly.applicationform.query.dto.ApplicationItemResponse;
+import com.kusitms.wannafly.applicationform.query.dto.PagingParams;
+import com.kusitms.wannafly.applicationform.query.dto.SimpleFormResponse;
 import com.kusitms.wannafly.auth.LoginMember;
 import com.kusitms.wannafly.exception.BusinessException;
 import com.kusitms.wannafly.exception.ErrorCode;
@@ -12,10 +14,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.jdbc.Sql;
+
+import java.util.List;
 
 import static com.kusitms.wannafly.support.fixture.ApplicationFormFixture.FORM_CREATE_REQUEST;
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 class ApplicationFormQueryServiceTest extends ServiceTest {
@@ -89,4 +94,168 @@ class ApplicationFormQueryServiceTest extends ServiceTest {
 
     }
 
+    @DisplayName("나의 지원서를 마지막 수정 시간 순으로 모두 조회할 때")
+    @Nested
+    @Sql(scripts = "/mock_forms_init.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    class FindByParamsTest {
+
+        private Long cursor;
+        private Integer size;
+        private Integer year;
+        private final LoginMember loginMember = new LoginMember(1L);
+
+        @Test
+        void 기본적으로_모든_년도에서_9개_조회한다() {
+            // when
+            List<SimpleFormResponse> actual = applicationFormQueryService.findAllByCondition(
+                    loginMember, new PagingParams(cursor, size, year)
+            );
+
+            // then
+            assertAll(
+                    () -> assertThat(actual).hasSize(9),
+                    () -> assertThat(actual)
+                            .extracting("applicationFormId")
+                            .containsExactly(18L, 17L, 16L, 15L, 14L, 13L, 12L, 11L, 10L)
+            );
+        }
+
+        @Test
+        void 커서_이후_9개를_조회한다() {
+            // given
+            cursor = 10L;
+
+            // when
+            List<SimpleFormResponse> actual = applicationFormQueryService.findAllByCondition(
+                    loginMember, new PagingParams(cursor, size, year)
+            );
+
+            // then
+            assertAll(
+                    () -> assertThat(actual).hasSize(9),
+                    () -> assertThat(actual)
+                            .extracting("applicationFormId")
+                            .containsExactly(9L, 8L, 7L, 6L, 5L, 4L, 3L, 2L, 1L)
+            );
+        }
+
+        @Test
+        void 특정_년도의_지원서만_조회한다() {
+            // given
+            year = 2022;
+
+            // when
+            List<SimpleFormResponse> actual = applicationFormQueryService.findAllByCondition(
+                    loginMember, new PagingParams(cursor, size, year)
+            );
+
+            // then
+            assertAll(
+                    () -> assertThat(actual).hasSize(6),
+                    () -> assertThat(actual)
+                            .extracting("applicationFormId")
+                            .containsExactly(12L, 11L, 10L, 9L, 8L, 7L)
+            );
+        }
+
+        @Test
+        void 다섯개만_조회한다() {
+            // given
+            size = 5;
+
+            // when
+            List<SimpleFormResponse> actual = applicationFormQueryService.findAllByCondition(
+                    loginMember, new PagingParams(cursor, size, year)
+            );
+
+            // then
+            assertAll(
+                    () -> assertThat(actual).hasSize(5),
+                    () -> assertThat(actual)
+                            .extracting("applicationFormId")
+                            .containsExactly(18L, 17L, 16L, 15L, 14L)
+            );
+        }
+
+        @Test
+        void 특정_년도의_커서_이후를_조회한다() {
+            // given
+            year = 2021;
+            cursor = 4L;
+
+            // when
+            List<SimpleFormResponse> actual = applicationFormQueryService.findAllByCondition(
+                    loginMember, new PagingParams(cursor, size, year)
+            );
+
+            // then
+            assertAll(
+                    () -> assertThat(actual).hasSize(3),
+                    () -> assertThat(actual)
+                            .extracting("applicationFormId")
+                            .containsExactly(3L, 2L, 1L)
+            );
+        }
+
+        @Test
+        void 커서_이후_5개만_조회한다() {
+            // given
+            size = 5;
+            cursor = 10L;
+
+            // when
+            List<SimpleFormResponse> actual = applicationFormQueryService.findAllByCondition(
+                    loginMember, new PagingParams(cursor, size, year)
+            );
+
+            // then
+            assertAll(
+                    () -> assertThat(actual).hasSize(5),
+                    () -> assertThat(actual)
+                            .extracting("applicationFormId")
+                            .containsExactly(9L, 8L, 7L, 6L, 5L)
+            );
+        }
+
+        @Test
+        void 특정_년도_5개만_조회한다() {
+            // given
+            size = 5;
+            year = 2022;
+
+            // when
+            List<SimpleFormResponse> actual = applicationFormQueryService.findAllByCondition(
+                    loginMember, new PagingParams(cursor, size, year)
+            );
+
+            // then
+            assertAll(
+                    () -> assertThat(actual).hasSize(5),
+                    () -> assertThat(actual)
+                            .extracting("applicationFormId")
+                            .containsExactly(12L, 11L, 10L, 9L, 8L)
+            );
+        }
+
+        @Test
+        void 특정_년도_3개를_커서_이후로_조회한다() {
+            // given
+            size = 3;
+            year = 2021;
+            cursor = 5L;
+
+            // when
+            List<SimpleFormResponse> actual = applicationFormQueryService.findAllByCondition(
+                    loginMember, new PagingParams(cursor, size, year)
+            );
+
+            // then
+            assertAll(
+                    () -> assertThat(actual).hasSize(3),
+                    () -> assertThat(actual)
+                            .extracting("applicationFormId")
+                            .containsExactly(4L, 3L, 2L)
+            );
+        }
+    }
 }
