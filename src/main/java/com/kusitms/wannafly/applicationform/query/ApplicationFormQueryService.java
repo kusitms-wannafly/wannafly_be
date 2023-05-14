@@ -5,6 +5,7 @@ import com.kusitms.wannafly.applicationform.command.domain.value.Writer;
 import com.kusitms.wannafly.applicationform.query.dto.ApplicationFormResponse;
 import com.kusitms.wannafly.applicationform.query.dto.PagingParams;
 import com.kusitms.wannafly.applicationform.query.dto.SimpleFormResponse;
+import com.kusitms.wannafly.applicationform.query.repository.ApplicationFormQueryRepository;
 import com.kusitms.wannafly.auth.LoginMember;
 import com.kusitms.wannafly.exception.BusinessException;
 import com.kusitms.wannafly.exception.ErrorCode;
@@ -29,7 +30,10 @@ public class ApplicationFormQueryService {
     }
 
     public List<SimpleFormResponse> findAllByCondition(LoginMember loginMember, PagingParams params) {
-        return null;
+        return applicationFormQueryRepository.findByParams(loginMember.id(), params)
+                .stream()
+                .map(SimpleFormResponse::from)
+                .toList();
     }
 
     private ApplicationForm getApplicationForm(Long applicationFormId) {

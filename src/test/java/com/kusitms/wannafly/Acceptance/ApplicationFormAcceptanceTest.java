@@ -8,7 +8,10 @@ import com.kusitms.wannafly.support.fixture.ApplicationFormFixture;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.apache.http.HttpHeaders;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
 import java.util.List;
@@ -153,7 +156,6 @@ class ApplicationFormAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("나의 지원서들을 마지막 수정시간 순으로 조회할 때")
     @Nested
-    @Disabled
     class GetFormsTest {
 
         private Long formId1;
@@ -164,21 +166,25 @@ class ApplicationFormAcceptanceTest extends AcceptanceTest {
         private Long formId6;
         private Long formId7;
         private Long formId8;
+        private Long formId9;
+        private Long formId10;
 
         @BeforeEach
         void createForm() {
-            formId1 = 지원서를_등록하고_ID를_응답(accessToken, FORM_2020_1);
-            formId2 = 지원서를_등록하고_ID를_응답(accessToken, FORM_2020_2);
-            formId3 = 지원서를_등록하고_ID를_응답(accessToken, FORM_2021_1);
-            formId4 = 지원서를_등록하고_ID를_응답(accessToken, FORM_2021_2);
-            formId5 = 지원서를_등록하고_ID를_응답(accessToken, FORM_2022_1);
-            formId6 = 지원서를_등록하고_ID를_응답(accessToken, FORM_2022_2);
-            formId7 = 지원서를_등록하고_ID를_응답(accessToken, FORM_2023_1);
-            formId8 = 지원서를_등록하고_ID를_응답(accessToken, FORM_2023_2);
+            formId1 = 지원서를_등록하고_ID를_응답(accessToken, FORM_2019_1);
+            formId2 = 지원서를_등록하고_ID를_응답(accessToken, FORM_2019_2);
+            formId3 = 지원서를_등록하고_ID를_응답(accessToken, FORM_2020_1);
+            formId4 = 지원서를_등록하고_ID를_응답(accessToken, FORM_2020_2);
+            formId5 = 지원서를_등록하고_ID를_응답(accessToken, FORM_2021_1);
+            formId6 = 지원서를_등록하고_ID를_응답(accessToken, FORM_2021_2);
+            formId7 = 지원서를_등록하고_ID를_응답(accessToken, FORM_2022_1);
+            formId8 = 지원서를_등록하고_ID를_응답(accessToken, FORM_2022_2);
+            formId9 = 지원서를_등록하고_ID를_응답(accessToken, FORM_2023_1);
+            formId10 = 지원서를_등록하고_ID를_응답(accessToken, FORM_2023_2);
         }
 
         @Test
-        void 모든_년도에서_6개를_조회한다() {
+        void 모든_년도에서_9개를_조회한다() {
             // when
             ExtractableResponse<Response> response = 지원서들을_조회한다(accessToken, null, null, null);
 
@@ -186,10 +192,12 @@ class ApplicationFormAcceptanceTest extends AcceptanceTest {
             List<SimpleFormResponse> actual = response.jsonPath().getList(".", SimpleFormResponse.class);
             assertAll(
                     () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
-                    () -> assertThat(actual).hasSize(6),
+                    () -> assertThat(actual).hasSize(9),
                     () -> assertThat(actual)
                             .extracting("applicationFormId")
-                            .containsExactly(formId8, formId7, formId6, formId5, formId4, formId3)
+                            .containsExactly(
+                                    formId10, formId9, formId8, formId7, formId6, formId5, formId4, formId3, formId2
+                            )
             );
         }
 
@@ -224,30 +232,31 @@ class ApplicationFormAcceptanceTest extends AcceptanceTest {
                     () -> assertThat(actual).hasSize(2),
                     () -> assertThat(actual)
                             .extracting("applicationFormId")
-                            .containsExactly(formId4, formId3)
+                            .containsExactly(formId6, formId5)
             );
         }
 
         @Test
-        void 모든_년도에서_4개_조회_후_다음_4개를_마저_조회한다() {
+        void 모든_년도에서_5개_조회_후_다음_5개를_마저_조회한다() {
             // given
-            Long cursor = 지원서들을_조회한다(accessToken, null, 4, null)
+            Integer size = 5;
+            Long cursor = 지원서들을_조회한다(accessToken, null, size, null)
                     .jsonPath()
                     .getList(".", SimpleFormResponse.class)
-                    .get(2)
+                    .get(4)
                     .applicationFormId();
 
             // when
-            ExtractableResponse<Response> response = 지원서들을_조회한다(accessToken, cursor, 3, 2021);
+            ExtractableResponse<Response> response = 지원서들을_조회한다(accessToken, cursor, size, null);
 
             // then
             List<SimpleFormResponse> actual = response.jsonPath().getList(".", SimpleFormResponse.class);
             assertAll(
                     () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
-                    () -> assertThat(actual).hasSize(4),
+                    () -> assertThat(actual).hasSize(size),
                     () -> assertThat(actual)
                             .extracting("applicationFormId")
-                            .containsExactly(formId4, formId3, formId2, formId1)
+                            .containsExactly(formId5, formId4, formId3, formId2, formId1)
             );
         }
     }

@@ -39,6 +39,20 @@ public class ApplicationFormFixture {
             )
     );
 
+    public static final ApplicationFormCreateRequest FORM_2019_1 = new ApplicationFormCreateRequest(
+            RECRUITER,
+            2019,
+            "first_half",
+            List.of()
+    );
+
+    public static final ApplicationFormCreateRequest FORM_2019_2 = new ApplicationFormCreateRequest(
+            RECRUITER,
+            2019,
+            "second_half",
+            List.of()
+    );
+
     public static final ApplicationFormCreateRequest FORM_2020_1 = new ApplicationFormCreateRequest(
             RECRUITER,
             2020,

@@ -9,6 +9,9 @@ import io.restassured.response.Response;
 import org.apache.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ApplicationFormAcceptanceFixture {
 
     public static ExtractableResponse<Response> 지원서를_등록한다(String accessToken, ApplicationFormCreateRequest request) {
@@ -86,8 +89,23 @@ public class ApplicationFormAcceptanceFixture {
                 .when()
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .get("/api/application-forms?cursor=" + cursor + "&size=" + size + "&year=" + year)
+                .queryParams(getQueryString(cursor, size, year))
+                .get("/api/application-forms")
                 .then().log().all()
                 .extract();
+    }
+
+    private static Map<String, Object> getQueryString(Long cursor, Integer size, Integer year) {
+        Map<String, Object> params = new HashMap<>();
+        if (cursor != null) {
+            params.put("cursor", cursor);
+        }
+        if (size != null) {
+            params.put("size", size);
+        }
+        if (year != null) {
+            params.put("year", year);
+        }
+        return params;
     }
 }
