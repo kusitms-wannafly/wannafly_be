@@ -9,19 +9,21 @@ import java.util.List;
 
 public class ApplicationFormFixture {
 
+    private static final String RECRUITER = "큐시즘";
+
     public static final ApplicationItemCreateRequest ITEM_CREATE_REQUEST = new ApplicationItemCreateRequest(
             ApplicationFormFixture.QUESTION1, ApplicationFormFixture.ANSWER1
     );
 
     public static final ApplicationFormCreateRequest FORM_CREATE_REQUEST = new ApplicationFormCreateRequest(
-            "큐시즘",
+            RECRUITER,
             2023,
             "first_half",
             List.of(ITEM_CREATE_REQUEST, ITEM_CREATE_REQUEST, ITEM_CREATE_REQUEST)
     );
 
     public static final ApplicationFormUpdateRequest FORM_UPDATE_REQUEST = new ApplicationFormUpdateRequest(
-            "큐시즘 28기",
+            RECRUITER + " 28기",
             2024,
             "second_half",
             List.of(
@@ -37,6 +39,75 @@ public class ApplicationFormFixture {
             )
     );
 
+    public static final ApplicationFormCreateRequest FORM_2019_1 = new ApplicationFormCreateRequest(
+            RECRUITER,
+            2019,
+            "first_half",
+            List.of()
+    );
+
+    public static final ApplicationFormCreateRequest FORM_2019_2 = new ApplicationFormCreateRequest(
+            RECRUITER,
+            2019,
+            "second_half",
+            List.of()
+    );
+
+    public static final ApplicationFormCreateRequest FORM_2020_1 = new ApplicationFormCreateRequest(
+            RECRUITER,
+            2020,
+            "first_half",
+            List.of()
+    );
+
+    public static final ApplicationFormCreateRequest FORM_2020_2 = new ApplicationFormCreateRequest(
+            RECRUITER,
+            2020,
+            "first_half",
+            List.of()
+    );
+
+    public static final ApplicationFormCreateRequest FORM_2021_1 = new ApplicationFormCreateRequest(
+            RECRUITER,
+            2021,
+            "first_half",
+            List.of()
+    );
+
+    public static final ApplicationFormCreateRequest FORM_2021_2 = new ApplicationFormCreateRequest(
+            RECRUITER,
+            2021,
+            "second_half",
+            List.of()
+    );
+
+    public static final ApplicationFormCreateRequest FORM_2022_1 = new ApplicationFormCreateRequest(
+            RECRUITER,
+            2022,
+            "first_half",
+            List.of()
+    );
+
+    public static final ApplicationFormCreateRequest FORM_2022_2 = new ApplicationFormCreateRequest(
+            RECRUITER,
+            2022,
+            "second_half",
+            List.of()
+    );
+
+    public static final ApplicationFormCreateRequest FORM_2023_1 = new ApplicationFormCreateRequest(
+            RECRUITER,
+            2023,
+            "first_half",
+            List.of()
+    );
+
+    public static final ApplicationFormCreateRequest FORM_2023_2 = new ApplicationFormCreateRequest(
+            RECRUITER,
+            2023,
+            "second_half",
+            List.of()
+    );
 
     public final static String QUESTION1 = "본 직군으로 지원을 결정하시게 된 계기를 말하고, 그 동안의 노력도 말해주세요. (1000자 이내)";
     public final static String ANSWER1 = """

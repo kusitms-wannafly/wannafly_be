@@ -2,6 +2,7 @@ package com.kusitms.wannafly.applicationform.query;
 
 import com.kusitms.wannafly.applicationform.query.dto.ApplicationFormResponse;
 import com.kusitms.wannafly.applicationform.query.dto.ApplicationItemResponse;
+import com.kusitms.wannafly.applicationform.query.dto.SimpleFormResponse;
 import com.kusitms.wannafly.support.ControllerTest;
 import com.kusitms.wannafly.support.fixture.ApplicationFormFixture;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -64,6 +66,44 @@ public class ApplicationFormQueryControllerTest extends ControllerTest {
                                         .type(JsonFieldType.STRING).description("지원 문항"),
                                 fieldWithPath("applicationItems[].applicationAnswer")
                                         .type(JsonFieldType.STRING).description("지원 답변")
+                        )
+                ));
+    }
+
+    @Test
+    void 나의_지원서들을_조회한다() throws Exception {
+        // given
+        LocalDateTime time = LocalDateTime.of(2023, 2, 20, 10, 0, 0);
+        SimpleFormResponse response1 = new SimpleFormResponse(
+                3L, "큐시즘", 2023, "first_half", false, time
+        );
+        SimpleFormResponse response2 = new SimpleFormResponse(
+                2L, "우테코", 2023, "first_half", false, time.minusDays(1)
+        );
+        SimpleFormResponse response3 = new SimpleFormResponse(
+                1L, "soft", 2023, "first_half", false, time.minusMonths(1)
+        );
+        given(applicationFormQueryService.findAllByCondition(any(), any()))
+                .willReturn(List.of(response1, response2, response3));
+
+
+        // when
+        ResultActions result = mockMvc.perform(get("/api/application-forms?cursor=4&size=3&year=2023")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken));
+
+        // then
+        result.andExpect(status().isOk())
+
+                .andDo(document("get-application-forms", HOST_INFO,
+                        preprocessResponse(prettyPrint()),
+                        responseFields(
+                                fieldWithPath("[].applicationFormId").type(JsonFieldType.NUMBER).description("지원서 식별자"),
+                                fieldWithPath("[].recruiter").type(JsonFieldType.STRING).description("동아리 명"),
+                                fieldWithPath("[].year").type(JsonFieldType.NUMBER).description("지원 년도"),
+                                fieldWithPath("[].semester").type(JsonFieldType.STRING).description("지원 분기"),
+                                fieldWithPath("[].isCompleted").type(JsonFieldType.BOOLEAN).description("작성 완료 상태"),
+                                fieldWithPath("[].lastModifiedTime").type(JsonFieldType.STRING).description("마지막 수정 시간")
                         )
                 ));
     }

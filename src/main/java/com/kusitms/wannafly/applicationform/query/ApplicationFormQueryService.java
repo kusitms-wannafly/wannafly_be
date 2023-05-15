@@ -3,12 +3,17 @@ package com.kusitms.wannafly.applicationform.query;
 import com.kusitms.wannafly.applicationform.command.domain.ApplicationForm;
 import com.kusitms.wannafly.applicationform.command.domain.value.Writer;
 import com.kusitms.wannafly.applicationform.query.dto.ApplicationFormResponse;
+import com.kusitms.wannafly.applicationform.query.dto.PagingParams;
+import com.kusitms.wannafly.applicationform.query.dto.SimpleFormResponse;
+import com.kusitms.wannafly.applicationform.query.repository.ApplicationFormQueryRepository;
 import com.kusitms.wannafly.auth.LoginMember;
 import com.kusitms.wannafly.exception.BusinessException;
 import com.kusitms.wannafly.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -22,6 +27,13 @@ public class ApplicationFormQueryService {
         ApplicationForm applicationForm = getApplicationForm(applicationFormId);
         validateWriter(requester, applicationForm);
         return ApplicationFormResponse.from(applicationForm);
+    }
+
+    public List<SimpleFormResponse> findAllByCondition(LoginMember loginMember, PagingParams params) {
+        return applicationFormQueryRepository.findByParams(loginMember.id(), params)
+                .stream()
+                .map(SimpleFormResponse::from)
+                .toList();
     }
 
     private ApplicationForm getApplicationForm(Long applicationFormId) {
