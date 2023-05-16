@@ -3,6 +3,7 @@ package com.kusitms.wannafly.Acceptance.fixture;
 import com.kusitms.wannafly.applicationform.command.dto.ApplicationFormCreateRequest;
 import com.kusitms.wannafly.applicationform.command.dto.ApplicationFormUpdateRequest;
 import com.kusitms.wannafly.applicationform.command.dto.ApplicationItemCreateRequest;
+import com.kusitms.wannafly.applicationform.command.dto.FormStateRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -71,11 +72,12 @@ public class ApplicationFormAcceptanceFixture {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 지원서_상태_변경(String accessToken, Long formId) {
+    public static ExtractableResponse<Response> 지원서_상태_변경(String accessToken, Long formId, FormStateRequest request) {
         return RestAssured.given().log().all()
                 .when()
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(request)
                 .patch("/api/application-forms/" + formId + "/state")
                 .then().log().all()
                 .extract();

@@ -170,21 +170,21 @@ class ApplicationFormTest {
         }
 
         @Test
-        void 작성_중이면_완료가_된다() {
+        void 작성_중을_완료로_변경한다() {
             // when
-            form.changeWritingState();
+            form.changeWritingState(true);
 
             // then
             assertThat(form.isCompleted()).isTrue();
         }
 
         @Test
-        void 완료면_작성_중이_된다() {
+        void 완료를_작성_중으로_변경한다() {
             // given
-            form.changeWritingState();
+            form.changeWritingState(true);
 
             // when
-            form.changeWritingState();
+            form.changeWritingState(false);
 
             // then
             assertThat(form.isCompleted()).isFalse();

@@ -2,7 +2,7 @@ package com.kusitms.wannafly.applicationform.command.application;
 
 import com.kusitms.wannafly.applicationform.command.domain.ApplicationForm;
 import com.kusitms.wannafly.applicationform.command.domain.ApplicationFormRepository;
-import com.kusitms.wannafly.applicationform.command.dto.FormStateResponse;
+import com.kusitms.wannafly.applicationform.command.dto.FormStateRequest;
 import com.kusitms.wannafly.applicationform.query.ApplicationFormQueryService;
 import com.kusitms.wannafly.applicationform.query.dto.ApplicationFormResponse;
 import com.kusitms.wannafly.applicationform.query.dto.ApplicationItemResponse;
@@ -173,15 +173,19 @@ class ApplicationFormServiceTest extends ServiceTest {
     @Nested
     class ChangeTest {
 
+        private final FormStateRequest completeRequest = new FormStateRequest(true);
+        private final FormStateRequest notCompleteRequest = new FormStateRequest(false);
+
         @Test
         void 로그인_회원이_지원서_작성자면_변경_가능하다() {
             // given
             Long formId = applicationFormService.createForm(loginMember, FORM_CREATE_REQUEST);
 
             // when
-            FormStateResponse actual = applicationFormService.changeState(formId, loginMember);
+            applicationFormService.changeState(formId, loginMember, completeRequest);
 
             // then
+            ApplicationForm actual = applicationFormRepository.findById(formId).orElseThrow();
             assertThat(actual.isCompleted()).isEqualTo(true);
         }
 
@@ -189,12 +193,13 @@ class ApplicationFormServiceTest extends ServiceTest {
         void 완료_상태_지원서는_작성_중이_된다() {
             // given
             Long formId = applicationFormService.createForm(loginMember, FORM_CREATE_REQUEST);
-            applicationFormService.changeState(formId, loginMember);
+            applicationFormService.changeState(formId, loginMember, completeRequest);
 
             // when
-            FormStateResponse actual = applicationFormService.changeState(formId, loginMember);
+            applicationFormService.changeState(formId, loginMember, notCompleteRequest);
 
             // then
+            ApplicationForm actual = applicationFormRepository.findById(formId).orElseThrow();
             assertThat(actual.isCompleted()).isEqualTo(false);
         }
 
@@ -205,7 +210,7 @@ class ApplicationFormServiceTest extends ServiceTest {
 
             // when then
             LoginMember requester = new LoginMember(2L);
-            assertThatThrownBy(() -> applicationFormService.changeState(formId, requester))
+            assertThatThrownBy(() -> applicationFormService.changeState(formId, requester, completeRequest))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(ErrorCode.INVALID_WRITER_OF_FORM);

@@ -1,19 +1,11 @@
 package com.kusitms.wannafly.applicationform.command.domain.value;
 
+import java.util.Arrays;
+
 public enum WritingState {
 
-    COMPLETE(true) {
-        @Override
-        public WritingState change() {
-            return ON_GOING;
-        }
-    },
-    ON_GOING(false) {
-        @Override
-        public WritingState change() {
-            return COMPLETE;
-        }
-    }
+    COMPLETE(true),
+    ON_GOING(false)
 
     ;
 
@@ -23,5 +15,10 @@ public enum WritingState {
         this.isCompleted = isCompleted;
     }
 
-    public abstract WritingState change();
+    public static WritingState from(Boolean isCompleted) {
+        return Arrays.stream(values())
+                .filter(state -> state.isCompleted == isCompleted)
+                .findFirst()
+                .orElseThrow();
+    }
 }

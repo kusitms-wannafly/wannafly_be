@@ -1,4 +1,4 @@
 package com.kusitms.wannafly.applicationform.command.dto;
 
-public record FormStateResponse(Boolean isCompleted) {
+public record FormStateRequest(Boolean isCompleted) {
 }

@@ -4,7 +4,7 @@ import com.kusitms.wannafly.applicationform.command.application.ApplicationFormS
 import com.kusitms.wannafly.applicationform.command.dto.ApplicationFormCreateRequest;
 import com.kusitms.wannafly.applicationform.command.dto.ApplicationFormUpdateRequest;
 import com.kusitms.wannafly.applicationform.command.dto.ApplicationItemCreateRequest;
-import com.kusitms.wannafly.applicationform.command.dto.FormStateResponse;
+import com.kusitms.wannafly.applicationform.command.dto.FormStateRequest;
 import com.kusitms.wannafly.auth.LoginMember;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -52,9 +52,10 @@ public class ApplicationFormController {
     }
 
     @PatchMapping("{applicationFormId}/state")
-    public ResponseEntity<FormStateResponse> changeFormState(@PathVariable Long applicationFormId,
+    public ResponseEntity<Void> changeFormState(@PathVariable Long applicationFormId,
+                                                @RequestBody FormStateRequest request,
                                                 LoginMember loginMember) {
-        FormStateResponse response = applicationFormService.changeState(applicationFormId, loginMember);
-        return ResponseEntity.ok(response);
+        applicationFormService.changeState(applicationFormId, loginMember, request);
+        return ResponseEntity.noContent().build();
     }
 }

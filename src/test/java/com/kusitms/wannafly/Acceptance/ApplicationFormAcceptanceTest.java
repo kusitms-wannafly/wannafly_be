@@ -1,6 +1,7 @@
 package com.kusitms.wannafly.Acceptance;
 
 import com.kusitms.wannafly.applicationform.command.dto.ApplicationFormCreateRequest;
+import com.kusitms.wannafly.applicationform.command.dto.FormStateRequest;
 import com.kusitms.wannafly.applicationform.query.dto.ApplicationFormResponse;
 import com.kusitms.wannafly.applicationform.query.dto.ApplicationItemResponse;
 import com.kusitms.wannafly.applicationform.query.dto.SimpleFormResponse;
@@ -126,32 +127,26 @@ class ApplicationFormAcceptanceTest extends AcceptanceTest {
     void 나의_지원서를_작성_완료한다() {
         // given
         Long formId = 지원서를_등록하고_ID를_응답(accessToken, FORM_CREATE_REQUEST);
+        FormStateRequest request = new FormStateRequest(true);
 
         // when
-        ExtractableResponse<Response> response = 지원서_상태_변경(accessToken, formId);
+        ExtractableResponse<Response> response = 지원서_상태_변경(accessToken, formId, request);
 
         // then
-        assertAll(
-                () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
-                () -> assertThat(response.jsonPath().getBoolean("isCompleted")).isEqualTo(true)
-        );
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
     }
 
     @Test
     void 완료_지원서를_작성중으로_한다() {
         // given
         Long formId = 지원서를_등록하고_ID를_응답(accessToken, FORM_CREATE_REQUEST);
-        지원서_상태_변경(accessToken, formId);
+        FormStateRequest request = new FormStateRequest(true);
 
         // when
-        ExtractableResponse<Response> response = 지원서_상태_변경(accessToken, formId);
+        ExtractableResponse<Response> response = 지원서_상태_변경(accessToken, formId, request);
 
         // then
-        assertAll(
-                () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
-                () -> assertThat(response.jsonPath().getBoolean("isCompleted")).isEqualTo(false)
-        );
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
     }
 
     @DisplayName("나의 지원서들을 마지막 수정시간 순으로 조회할 때")

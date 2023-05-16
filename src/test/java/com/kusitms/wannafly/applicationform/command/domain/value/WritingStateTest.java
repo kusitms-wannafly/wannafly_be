@@ -13,24 +13,18 @@ class WritingStateTest {
     class ChangeTest {
 
         @Test
-        void 작성_중이면_완료가_된다() {
-            // given
-            WritingState state = WritingState.ON_GOING;
-
+        void 완료_상태를_생성한다() {
             // when
-            WritingState actual = state.change();
+            WritingState actual = WritingState.from(true);
 
             // then
             assertThat(actual).isEqualTo(WritingState.COMPLETE);
         }
 
         @Test
-        void 완료면_작성_중이_된다() {
-            // given
-            WritingState state = WritingState.COMPLETE;
-
+        void 작성중_상태를_생성한다() {
             // when
-            WritingState actual = state.change();
+            WritingState actual = WritingState.from(false);
 
             // then
             assertThat(actual).isEqualTo(WritingState.ON_GOING);

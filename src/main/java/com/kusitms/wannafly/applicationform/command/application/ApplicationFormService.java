@@ -55,10 +55,11 @@ public class ApplicationFormService {
         applicationFormRepository.delete(form);
     }
 
-    public FormStateResponse changeState(Long applicationFormId, LoginMember loginMember) {
+    public void changeState(Long applicationFormId,
+                                         LoginMember loginMember,
+                                         FormStateRequest request) {
         Writer writer = new Writer(loginMember.id());
         ApplicationForm form = writerCheckedFormService.checkWriterAndGet(applicationFormId, writer);
-        form.changeWritingState();
-        return new FormStateResponse(form.isCompleted());
+        form.changeWritingState(request.isCompleted());
     }
 }
