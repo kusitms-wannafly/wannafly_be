@@ -2,7 +2,7 @@ package com.kusitms.wannafly.applicationfolder.application;
 
 import com.kusitms.wannafly.applicationfolder.domain.ApplicationFolder;
 import com.kusitms.wannafly.applicationfolder.domain.ApplicationFolderRepository;
-import com.kusitms.wannafly.applicationfolder.dto.ApplicationFolderCreateResponse;
+import com.kusitms.wannafly.applicationfolder.dto.ApplicationFolderResponse;
 import com.kusitms.wannafly.applicationfolder.service.ApplicationFolderService;
 import com.kusitms.wannafly.auth.LoginMember;
 import com.kusitms.wannafly.exception.BusinessException;
@@ -17,9 +17,9 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.kusitms.wannafly.support.fixture.ApplicationFolderFixture.*;
-import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 public class ApplicationFolderServiceTest extends ServiceTest {
     @Autowired
@@ -67,13 +67,15 @@ public class ApplicationFolderServiceTest extends ServiceTest {
             applicationFolderService.createFolder(folderCreate, FOLDER_CREATE_2023);
 
             //when
-            List<ApplicationFolderCreateResponse> yearList = applicationFolderService.extractYearsByMemberId(folderCreate.id());
+            List<ApplicationFolderResponse> actual = applicationFolderService.extractYearsByMemberId(folderCreate.id());
 
             //then
             assertAll("Checking order of yearList",
-                    () -> assertThat(yearList).hasSize(1),
-                    () -> assertThat(yearList).extracting(ApplicationFolderCreateResponse::year)
-                            .containsExactly(2023)
+                    () -> assertThat(actual).hasSize(1),
+                    () -> assertThat(actual).extracting(ApplicationFolderResponse::year)
+                            .containsExactly(2023),
+                    () -> assertThat(actual).extracting(ApplicationFolderResponse::count)
+                            .containsExactly(0)
             );
         }
 
@@ -86,12 +88,12 @@ public class ApplicationFolderServiceTest extends ServiceTest {
             applicationFolderService.createFolder(folderCreate, FOLDER_CREATE_2021);
 
             //when
-            List<ApplicationFolderCreateResponse> yearList = applicationFolderService.extractYearsByMemberId(folderCreate.id());
+            List<ApplicationFolderResponse> actual = applicationFolderService.extractYearsByMemberId(folderCreate.id());
 
             //then
             assertAll("Checking order of yearList",
-                    () -> assertThat(yearList).hasSize(3),
-                    () -> assertThat(yearList).extracting(ApplicationFolderCreateResponse::year)
+                    () -> assertThat(actual).hasSize(3),
+                    () -> assertThat(actual).extracting(ApplicationFolderResponse::year)
                             .containsExactly(2023, 2022, 2021)
             );
         }
@@ -106,12 +108,12 @@ public class ApplicationFolderServiceTest extends ServiceTest {
 
 
             //when
-            List<ApplicationFolderCreateResponse> yearList = applicationFolderService.extractYearsByMemberId(folderCreate.id());
+            List<ApplicationFolderResponse> actual = applicationFolderService.extractYearsByMemberId(folderCreate.id());
 
             //then
             assertAll("Checking order of yearList",
-                    () -> assertThat(yearList).hasSize(3),
-                    () -> assertThat(yearList).extracting(ApplicationFolderCreateResponse::year)
+                    () -> assertThat(actual).hasSize(3),
+                    () -> assertThat(actual).extracting(ApplicationFolderResponse::year)
                             .containsExactly(2023, 2022, 2021)
             );
         }

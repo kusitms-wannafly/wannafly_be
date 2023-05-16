@@ -1,6 +1,6 @@
 package com.kusitms.wannafly.applicationfolder.presentaion;
 
-import com.kusitms.wannafly.applicationfolder.dto.ApplicationFolderCreateResponse;
+import com.kusitms.wannafly.applicationfolder.dto.ApplicationFolderResponse;
 import com.kusitms.wannafly.support.ControllerTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,10 +33,10 @@ public class ApplicationFolderCheckControllerTest extends ControllerTest {
     @Test
     void 지원서_보관함을_조회한다() throws Exception {
         // given
-        List<ApplicationFolderCreateResponse> items = Arrays.asList(
-                new ApplicationFolderCreateResponse(2023),
-                new ApplicationFolderCreateResponse(2022),
-                new ApplicationFolderCreateResponse(2021)
+        List<ApplicationFolderResponse> items = Arrays.asList(
+                new ApplicationFolderResponse(2023, 0),
+                new ApplicationFolderResponse(2022, 1),
+                new ApplicationFolderResponse(2021, 2)
         );
         given(applicationFolderService.extractYearsByMemberId(anyLong()))
                 .willReturn(items);
@@ -53,7 +53,10 @@ public class ApplicationFolderCheckControllerTest extends ControllerTest {
                         responseFields(
                                 fieldWithPath("[]year")
                                         .type(JsonFieldType.NUMBER)
-                                        .description("지원 년도")
+                                        .description("지원 년도"),
+                                fieldWithPath("[]count")
+                                        .type(JsonFieldType.NUMBER)
+                                        .description("지원서 개수")
                         )
                 ));
     }

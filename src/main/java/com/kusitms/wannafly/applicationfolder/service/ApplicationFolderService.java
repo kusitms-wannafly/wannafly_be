@@ -3,7 +3,7 @@ package com.kusitms.wannafly.applicationfolder.service;
 import com.kusitms.wannafly.applicationfolder.domain.ApplicationFolder;
 import com.kusitms.wannafly.applicationfolder.domain.ApplicationFolderRepository;
 import com.kusitms.wannafly.applicationfolder.dto.ApplicationFolderCreateRequest;
-import com.kusitms.wannafly.applicationfolder.dto.ApplicationFolderCreateResponse;
+import com.kusitms.wannafly.applicationfolder.dto.ApplicationFolderResponse;
 import com.kusitms.wannafly.auth.LoginMember;
 import com.kusitms.wannafly.exception.BusinessException;
 import com.kusitms.wannafly.exception.ErrorCode;
@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.List;
 
 @Service
 @Transactional
@@ -27,10 +27,10 @@ public class ApplicationFolderService {
         return applicationFolder.getId();
     }
 
-    public List<ApplicationFolderCreateResponse> extractYearsByMemberId(Long memberId) {
+    public List<ApplicationFolderResponse> extractYearsByMemberId(Long memberId) {
         return applicationFolderRepository.findAllByMemberIdOrderByYearDesc(memberId)
                 .stream()
-                .map(folder -> new ApplicationFolderCreateResponse(folder.getYear()))
+                .map(folder -> new ApplicationFolderResponse(folder.getYear(), folder.getFormCount()))
                 .toList();
     }
 

@@ -1,7 +1,7 @@
 package com.kusitms.wannafly.applicationfolder.presentation;
 
 
-import com.kusitms.wannafly.applicationfolder.dto.ApplicationFolderCreateResponse;
+import com.kusitms.wannafly.applicationfolder.dto.ApplicationFolderResponse;
 import com.kusitms.wannafly.applicationfolder.service.ApplicationFolderService;
 import com.kusitms.wannafly.auth.LoginMember;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +19,9 @@ public class ApplicationFolderCheckController {
     private final ApplicationFolderService applicationFolderService;
 
     @GetMapping
-    public ResponseEntity<List<ApplicationFolderCreateResponse>> CheckFolder(LoginMember loginMember) {
+    public ResponseEntity<List<ApplicationFolderResponse>> checkFolders(LoginMember loginMember) {
         Long memberId = loginMember.id();
-        List<ApplicationFolderCreateResponse> responses = applicationFolderService.extractYearsByMemberId(memberId);
+        List<ApplicationFolderResponse> responses = applicationFolderService.extractYearsByMemberId(memberId);
         return ResponseEntity.ok(responses);
     }
 }
