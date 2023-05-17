@@ -1,9 +1,9 @@
 package com.kusitms.wannafly.support.fixture;
 
-import com.kusitms.wannafly.applicationform.command.dto.ApplicationFormCreateRequest;
-import com.kusitms.wannafly.applicationform.command.dto.ApplicationFormUpdateRequest;
-import com.kusitms.wannafly.applicationform.command.dto.ApplicationItemCreateRequest;
-import com.kusitms.wannafly.applicationform.command.dto.ApplicationItemUpdateRequest;
+import com.kusitms.wannafly.command.applicationform.dto.ApplicationFormCreateRequest;
+import com.kusitms.wannafly.command.applicationform.dto.ApplicationFormUpdateRequest;
+import com.kusitms.wannafly.command.applicationform.dto.ApplicationItemCreateRequest;
+import com.kusitms.wannafly.command.applicationform.dto.ApplicationItemUpdateRequest;
 
 import java.util.List;
 

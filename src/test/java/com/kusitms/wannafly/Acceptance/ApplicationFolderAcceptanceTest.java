@@ -44,9 +44,11 @@ public class ApplicationFolderAcceptanceTest extends AcceptanceTest {
 
         //then
         int year = response.body().jsonPath().getInt("[0].year");
+        int count = response.body().jsonPath().getInt("[0].count");
         assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
-                () -> assertThat(year).isEqualTo(2023)
+                () -> assertThat(year).isEqualTo(2023),
+                () -> assertThat(count).isEqualTo(0)
         );
     }
 }
