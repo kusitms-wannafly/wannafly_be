@@ -139,7 +139,11 @@ public class ApplicationFormControllerTest extends ControllerTest {
         result.andExpect(status().isNoContent())
 
                 .andDo(document("application-form-state", HOST_INFO,
-                        preprocessResponse(prettyPrint())
+                        preprocessResponse(prettyPrint()),
+
+                        requestFields(
+                                fieldWithPath("isCompleted").type(JsonFieldType.BOOLEAN).description("변경할 상태")
+                        )
                 ));
     }
 }

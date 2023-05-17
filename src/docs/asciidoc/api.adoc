@@ -63,10 +63,10 @@ include::{snippets}/delete-application-form/http-response.adoc[]
 == 지원서 작성 상태 변경
 === Request
 include::{snippets}/application-form-state/http-request.adoc[]
+=== Request 필드
+include::{snippets}/application-form-state/request-fields.adoc[]
 === Response
 include::{snippets}/application-form-state/http-response.adoc[]
-=== Response 필드
-include::{snippets}/application-form-state/response-fields.adoc[]
 
 == 나의 지원서 모두 조회
 === Request
