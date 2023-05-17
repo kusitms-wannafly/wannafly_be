@@ -1,6 +1,6 @@
 package com.kusitms.wannafly.Acceptance.fixture;
 
-import com.kusitms.wannafly.applicationfolder.dto.ApplicationFolderCreateRequest;
+import com.kusitms.wannafly.command.applicationfolder.dto.ApplicationFolderCreateRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;

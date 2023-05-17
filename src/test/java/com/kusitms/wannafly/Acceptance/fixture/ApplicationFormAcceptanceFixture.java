@@ -1,9 +1,9 @@
 package com.kusitms.wannafly.Acceptance.fixture;
 
-import com.kusitms.wannafly.applicationform.command.dto.ApplicationFormCreateRequest;
-import com.kusitms.wannafly.applicationform.command.dto.ApplicationFormUpdateRequest;
-import com.kusitms.wannafly.applicationform.command.dto.ApplicationItemCreateRequest;
-import com.kusitms.wannafly.applicationform.command.dto.FormStateRequest;
+import com.kusitms.wannafly.command.applicationform.dto.ApplicationFormCreateRequest;
+import com.kusitms.wannafly.command.applicationform.dto.ApplicationFormUpdateRequest;
+import com.kusitms.wannafly.command.applicationform.dto.ApplicationItemCreateRequest;
+import com.kusitms.wannafly.command.applicationform.dto.FormStateRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;

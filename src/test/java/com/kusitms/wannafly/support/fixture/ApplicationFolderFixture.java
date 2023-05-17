@@ -1,6 +1,6 @@
 package com.kusitms.wannafly.support.fixture;
 
-import com.kusitms.wannafly.applicationfolder.dto.ApplicationFolderCreateRequest;
+import com.kusitms.wannafly.command.applicationfolder.dto.ApplicationFolderCreateRequest;
 
 public class ApplicationFolderFixture {
     public static final ApplicationFolderCreateRequest FOLDER_CREATE_2023 = new ApplicationFolderCreateRequest(
