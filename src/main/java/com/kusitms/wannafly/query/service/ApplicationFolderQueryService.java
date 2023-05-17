@@ -16,9 +16,6 @@ public class ApplicationFolderQueryService {
     private final ApplicationFolderQueryRepository applicationFolderQueryRepository;
 
     public List<ApplicationFolderResponse> extractYearsByMemberId(Long memberId) {
-        return applicationFolderQueryRepository.findAllByMemberIdOrderByYearDesc(memberId)
-                .stream()
-                .map(folder -> new ApplicationFolderResponse(folder.getYear(), 0))
-                .toList();
+        return applicationFolderQueryRepository.findAllByMemberIdOrderByYearDesc(memberId);
     }
 }

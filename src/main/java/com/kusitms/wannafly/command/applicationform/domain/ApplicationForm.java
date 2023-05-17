@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(indexes = @Index(name = "idx_writer", columnList = "member_id"))
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class ApplicationForm {

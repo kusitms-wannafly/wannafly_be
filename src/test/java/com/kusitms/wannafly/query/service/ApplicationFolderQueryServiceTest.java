@@ -1,6 +1,7 @@
 package com.kusitms.wannafly.query.service;
 
 import com.kusitms.wannafly.command.applicationfolder.service.ApplicationFolderService;
+import com.kusitms.wannafly.command.applicationform.application.ApplicationFormService;
 import com.kusitms.wannafly.command.auth.LoginMember;
 import com.kusitms.wannafly.query.dto.ApplicationFolderResponse;
 import com.kusitms.wannafly.support.ServiceTest;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 import static com.kusitms.wannafly.support.fixture.ApplicationFolderFixture.*;
+import static com.kusitms.wannafly.support.fixture.ApplicationFormFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -19,6 +21,9 @@ class ApplicationFolderQueryServiceTest extends ServiceTest {
 
     @Autowired
     private ApplicationFolderQueryService applicationFolderQueryService;
+
+    @Autowired
+    private ApplicationFormService applicationFormService;
 
     @Autowired
     private ApplicationFolderService applicationFolderService;
@@ -44,7 +49,7 @@ class ApplicationFolderQueryServiceTest extends ServiceTest {
                     () -> assertThat(actual).extracting(ApplicationFolderResponse::year)
                             .containsExactly(2023),
                     () -> assertThat(actual).extracting(ApplicationFolderResponse::count)
-                            .containsExactly(0)
+                            .containsExactly(0L)
             );
         }
 
@@ -82,6 +87,33 @@ class ApplicationFolderQueryServiceTest extends ServiceTest {
                     () -> assertThat(actual).hasSize(3),
                     () -> assertThat(actual).extracting(ApplicationFolderResponse::year)
                             .containsExactly(2023, 2022, 2021)
+            );
+        }
+
+        @Test
+        void 지원서_보관함에_지원서_개수를_조회한다() {
+            //given
+            applicationFolderService.createFolder(folderCreate, FOLDER_CREATE_2022);
+            applicationFolderService.createFolder(folderCreate, FOLDER_CREATE_2021);
+            applicationFolderService.createFolder(folderCreate, FOLDER_CREATE_2023);
+
+            applicationFormService.createForm(folderCreate, FORM_2021_1);
+            applicationFormService.createForm(folderCreate, FORM_2022_1);
+            applicationFormService.createForm(folderCreate, FORM_2022_2);
+            applicationFormService.createForm(folderCreate, FORM_2023_2);
+            applicationFormService.createForm(folderCreate, FORM_2023_1);
+            applicationFormService.createForm(folderCreate, FORM_2023_2);
+
+            //when
+            List<ApplicationFolderResponse> actual = applicationFolderQueryService.extractYearsByMemberId(memberId);
+
+            //then
+            assertAll(
+                    () -> assertThat(actual).hasSize(3),
+                    () -> assertThat(actual).extracting(ApplicationFolderResponse::year)
+                            .containsExactly(2023, 2022, 2021),
+                    () -> assertThat(actual).extracting(ApplicationFolderResponse::count)
+                            .containsExactly(3L, 2L, 1L)
             );
         }
     }

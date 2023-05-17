@@ -34,9 +34,9 @@ public class ApplicationFolderQueryControllerTest extends ControllerTest {
     void 지원서_보관함을_조회한다() throws Exception {
         // given
         List<ApplicationFolderResponse> items = Arrays.asList(
-                new ApplicationFolderResponse(2023, 0),
-                new ApplicationFolderResponse(2022, 1),
-                new ApplicationFolderResponse(2021, 2)
+                new ApplicationFolderResponse(2023, 0L),
+                new ApplicationFolderResponse(2022, 1L),
+                new ApplicationFolderResponse(2021, 2L)
         );
         given(applicationFolderQueryService.extractYearsByMemberId(anyLong()))
                 .willReturn(items);

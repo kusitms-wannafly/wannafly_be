@@ -10,7 +10,7 @@ CREATE TABLE application_form
     CONSTRAINT pk_applicationform PRIMARY KEY (application_form_id)
 );
 
-CREATE INDEX idx_writer ON application_form (member_id);
+CREATE INDEX idx_writer_year ON application_form (member_id, years);
 
 CREATE TABLE application_item
 (
