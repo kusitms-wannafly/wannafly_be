@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class ApplicationFolder {
-    private static final int INITIAL_FORM_COUNT = 0;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,9 +23,6 @@ public class ApplicationFolder {
     @Column(nullable = false, name = "years")
     private Integer year;
 
-    @Column(nullable = false)
-    private Integer formCount;
-
     public static ApplicationFolder createFolderByYear(Long memberId, Integer year) {
         return new ApplicationFolder(memberId, year);
     }
@@ -35,7 +31,6 @@ public class ApplicationFolder {
         validateYear(year);
         this.memberId = memberId;
         this.year = year;
-        this.formCount = INITIAL_FORM_COUNT;
     }
 
     private void validateYear(Integer year) {

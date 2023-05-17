@@ -22,7 +22,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.response
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class ApplicationFolderCheckControllerTest extends ControllerTest {
+public class ApplicationFolderQueryControllerTest extends ControllerTest {
     private String accessToken;
 
     @BeforeEach
@@ -38,7 +38,7 @@ public class ApplicationFolderCheckControllerTest extends ControllerTest {
                 new ApplicationFolderResponse(2022, 1),
                 new ApplicationFolderResponse(2021, 2)
         );
-        given(applicationFolderService.extractYearsByMemberId(anyLong()))
+        given(applicationFolderQueryService.extractYearsByMemberId(anyLong()))
                 .willReturn(items);
 
         // when
