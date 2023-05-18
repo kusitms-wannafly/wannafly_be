@@ -20,8 +20,8 @@ public enum ErrorCode {
 
     MEMBER_DUPLICATE_YEAR(4001, 400, "이미 해당 년도가 존재합니다"),
 
-    INVALID_NAME(5001,400,"올바르지 않은 카테고리입니다."),
-    MEMBER_DEPULICATE_NAME(5002,400,"이미 해당 카테고리가 존재합니다");
+    INVALID_NAME(5001, 400, "카테고리 이름이 없습니다."),
+    MEMBER_DEPULICATE_NAME(5002, 400, "이미 해당 카테고리가 존재합니다");
 
     private final int value;
     private final int httpStatusCode;

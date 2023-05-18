@@ -20,8 +20,8 @@ public class CategoryController {
 
     @PostMapping
     public ResponseEntity<Void> createCategory(@RequestBody CategoryCreateRequest request,
-                                                 LoginMember loginMember){
-        Long CategoryId = categoryService.createCategory(loginMember,request);
+                                               LoginMember loginMember) {
+        Long CategoryId = categoryService.createCategory(loginMember, request);
         return ResponseEntity.created(URI.create("/categories/" + CategoryId))
                 .build();
     }
