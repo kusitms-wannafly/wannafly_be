@@ -33,7 +33,7 @@ public class Category {
     }
 
     private void validateName(String name) {
-        if (name == "") {
+        if (name.isBlank()) {
             throw BusinessException.from(ErrorCode.INVALID_NAME);
         }
     }
