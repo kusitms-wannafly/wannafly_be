@@ -33,7 +33,7 @@ public class CategoryService {
 
     public void deleteCategory(Long categoryId, LoginMember loginMember) {
         Long memberId = loginMember.id();
-        Category category = checkedCategoryService.checkCategoryIdAndGet(categoryId,memberId);
+        Category category = checkedCategoryService.checkCategoryIdAndGet(categoryId, memberId);
         categoryRepository.delete(category);
     }
 }
