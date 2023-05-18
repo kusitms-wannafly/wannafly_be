@@ -20,6 +20,13 @@ security:
       expire-day: 1
 
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
+
+
 ---
 spring:
   config:
