@@ -55,6 +55,8 @@ cors:
   allowed:
     origins: http://localhost:3000
 
+grammar:
+  origin: https://fake-origin.com
 
 logging:
   level:
