@@ -19,7 +19,7 @@ public class CategoryQueryController {
     private final CategoryQueryService categoryQueryService;
 
     @GetMapping
-    public ResponseEntity<List<CategoryResponse>> checkCategory(LoginMember loginMember){
+    public ResponseEntity<List<CategoryResponse>> checkCategory(LoginMember loginMember) {
         Long memberId = loginMember.id();
         List<CategoryResponse> responses = categoryQueryService.extractCategoryByMemberId(memberId);
         return ResponseEntity.ok(responses);
