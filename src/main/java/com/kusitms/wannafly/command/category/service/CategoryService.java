@@ -16,17 +16,18 @@ import org.springframework.transaction.annotation.Transactional;
 public class CategoryService {
     private final CategoryRepository categoryRepository;
 
-    public Long createCategory(LoginMember loginMember, CategoryCreateRequest request){
+    public Long createCategory(LoginMember loginMember, CategoryCreateRequest request) {
         Long memberId = loginMember.id();
         Category category = Category.createCategoryByName(memberId, request.name());
         checkDuplicateName(memberId, request.name());
         categoryRepository.save(category);
-        return category.getId();
+        return category.getCategoryId();
 
 
     }
-    private void checkDuplicateName(Long memberId, String name){
-        if(categoryRepository.existsByMemberIdAndName(memberId,name)){
+
+    private void checkDuplicateName(Long memberId, String name) {
+        if (categoryRepository.existsByMemberIdAndName(memberId, name)) {
             throw BusinessException.from(ErrorCode.MEMBER_DEPULICATE_NAME);
         }
     }

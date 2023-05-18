@@ -14,7 +14,7 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
-    private Long id;
+    private Long categoryId;
 
     @Column(nullable = false)
     private Long memberId;
@@ -25,13 +25,15 @@ public class Category {
     public static Category createCategoryByName(Long memberId, String name) {
         return new Category(memberId, name);
     }
-    private Category(Long memberId, String name){
+
+    private Category(Long memberId, String name) {
         validateName(name);
-        this.memberId=memberId;
+        this.memberId = memberId;
         this.name = name;
     }
-    private void validateName(String name){
-        if(name == ""){
+
+    private void validateName(String name) {
+        if (name == "") {
             throw BusinessException.from(ErrorCode.INVALID_NAME);
         }
     }
