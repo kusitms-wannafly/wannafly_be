@@ -16,7 +16,7 @@ public class CategoryTest {
         Long memberId = 1L;
 
         // when then
-        assertThatThrownBy(() -> Category.createCategoryByName(memberId,name))
+        assertThatThrownBy(() -> Category.createCategoryByName(memberId, name))
                 .isInstanceOf(BusinessException.class)
                 .extracting("errorCode")
                 .isEqualTo(ErrorCode.INVALID_NAME);

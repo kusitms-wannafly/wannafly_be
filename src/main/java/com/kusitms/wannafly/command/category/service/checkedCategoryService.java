@@ -18,12 +18,12 @@ public class checkedCategoryService {
     public Category checkCategoryIdAndGet(Long categoryId, Long memberId) {
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> BusinessException.from(ErrorCode.NOT_FOUND_CATEGORY_ID));
-        validateMemberId(memberId,category);
+        validateMemberId(memberId, category);
         return category;
     }
 
     private static void validateMemberId(Long memberId, Category category) {
-        if(category.isNotMember(memberId)){
+        if (category.isNotMember(memberId)) {
             throw BusinessException.from(ErrorCode.INVALID_MEMBER_OF_CATEGORY);
         }
     }

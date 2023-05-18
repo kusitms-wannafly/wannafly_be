@@ -4,6 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kusitms.wannafly.command.applicationform.application.ApplicationItemService;
 import com.kusitms.wannafly.command.grammar.application.GrammarService;
 import com.kusitms.wannafly.command.grammar.presentation.GrammarController;
+import com.kusitms.wannafly.command.category.presentaion.CategoryControllerTest;
+import com.kusitms.wannafly.command.category.presentation.CategoryController;
+import com.kusitms.wannafly.command.category.service.CategoryService;
+import com.kusitms.wannafly.query.controller.CategoryQueryController;
+import com.kusitms.wannafly.command.category.presentation.CategoryController;
+import com.kusitms.wannafly.query.controller.CategoryQueryController;
 import com.kusitms.wannafly.query.service.ApplicationFolderQueryService;
 import com.kusitms.wannafly.command.applicationfolder.presentation.ApplicationFolderController;
 import com.kusitms.wannafly.query.controller.ApplicationFolderQueryController;
@@ -36,7 +42,9 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
         ApplicationFormController.class,
         ApplicationFormQueryController.class,
         ApplicationFolderController.class,
-        ApplicationFolderQueryController.class,
+        ApplicationFolderQueryController.class
+        CategoryController.class,
+        CategoryQueryController.class,
         GrammarController.class
 })
 @Import({
@@ -80,6 +88,10 @@ public class ControllerTest {
 
     @MockBean
     protected ApplicationFolderQueryService applicationFolderQueryService;
+    @MockBean
+    protected CategoryService categoryService;
+    @MockBean
+    protected CategoryQueryService categoryQueryService;
 
     @MockBean
     protected GrammarService grammarService;

@@ -44,45 +44,46 @@ public class CategoryQueryServiceTest extends ServiceTest {
                             .containsExactly("지원동기")
             );
         }
-    }
-
-    @Test
-    void 카테고리가_여러개일때_모두_조회한다() {
-        //given
-        categoryService.createCategory(loginMember, CATEGORY_CREATE_MOTIVE);
-        categoryService.createCategory(loginMember, CATEGORY_CREATE_PROS_CONS);
-        categoryService.createCategory(loginMember, CATEGORY_CREATE_EXPERIENCE);
-
-        //when
-        List<CategoryResponse> actual = categoryQueryService.extractCategoryByMemberId(memberId);
-
-        //then
-        assertAll("Checking order of Categories",
-                () -> assertThat(actual).hasSize(3),
-                () -> assertThat(actual).extracting(CategoryResponse::name)
-                        .containsExactly("지원동기", "장단점", "경험")
-        );
-    }
-
-    @Test
-    void 카테고리가_최근_만들어진_순서로_정렬된다() {
-        //given
-        categoryService.createCategory(loginMember, CATEGORY_CREATE_PROS_CONS);
-        categoryService.createCategory(loginMember, CATEGORY_CREATE_MOTIVE);
-        categoryService.createCategory(loginMember, CATEGORY_CREATE_EXPERIENCE);
 
 
-        //when
-        List<CategoryResponse> actual = categoryQueryService.extractCategoryByMemberId(memberId);
+        @Test
+        void 카테고리가_여러개일때_모두_조회한다() {
+            //given
+            categoryService.createCategory(loginMember, CATEGORY_CREATE_MOTIVE);
+            categoryService.createCategory(loginMember, CATEGORY_CREATE_PROS_CONS);
+            categoryService.createCategory(loginMember, CATEGORY_CREATE_EXPERIENCE);
 
-        //then
-        assertAll("Checking order of Categories",
-                () -> assertThat(actual).hasSize(3),
-                () -> assertThat(actual).extracting(CategoryResponse::categoryId)
-                        .containsExactly(1L, 2L, 3L),
-                () -> assertThat(actual).extracting(CategoryResponse::name)
-                        .containsExactly("장단점", "지원동기", "경험")
-        );
+            //when
+            List<CategoryResponse> actual = categoryQueryService.extractCategoryByMemberId(memberId);
+
+            //then
+            assertAll("Checking order of Categories",
+                    () -> assertThat(actual).hasSize(3),
+                    () -> assertThat(actual).extracting(CategoryResponse::name)
+                            .containsExactly("지원동기", "장단점", "경험")
+            );
+        }
+
+        @Test
+        void 카테고리가_최근_만들어진_순서로_정렬된다() {
+            //given
+            categoryService.createCategory(loginMember, CATEGORY_CREATE_PROS_CONS);
+            categoryService.createCategory(loginMember, CATEGORY_CREATE_MOTIVE);
+            categoryService.createCategory(loginMember, CATEGORY_CREATE_EXPERIENCE);
+
+
+            //when
+            List<CategoryResponse> actual = categoryQueryService.extractCategoryByMemberId(memberId);
+
+            //then
+            assertAll("Checking order of Categories",
+                    () -> assertThat(actual).hasSize(3),
+                    () -> assertThat(actual).extracting(CategoryResponse::categoryId)
+                            .containsExactly(1L, 2L, 3L),
+                    () -> assertThat(actual).extracting(CategoryResponse::name)
+                            .containsExactly("장단점", "지원동기", "경험")
+            );
+        }
     }
 }
 
