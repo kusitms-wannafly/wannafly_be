@@ -22,7 +22,8 @@ public enum ErrorCode {
 
     INVALID_NAME(5001, 400, "카테고리 이름이 없습니다."),
     MEMBER_DEPULICATE_NAME(5002, 400, "이미 해당 카테고리가 존재합니다"),
-    NOT_FOUND_CATEGORY_ID(5003,404 ,"존재하지 않는 카테고리입니다." );
+    NOT_FOUND_CATEGORY_ID(5003,404 ,"존재하지 않는 카테고리입니다." ),
+    INVALID_MEMBER_OF_CATEGORY(5004,403 ,"자신의 카테고리만 지울 수 있습니다." );
 
     private final int value;
     private final int httpStatusCode;
