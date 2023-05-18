@@ -1,6 +1,5 @@
 package com.kusitms.wannafly.query.controller;
 
-import com.kusitms.wannafly.query.dto.ApplicationFolderResponse;
 import com.kusitms.wannafly.query.dto.CategoryResponse;
 import com.kusitms.wannafly.support.ControllerTest;
 import org.junit.jupiter.api.BeforeEach;
