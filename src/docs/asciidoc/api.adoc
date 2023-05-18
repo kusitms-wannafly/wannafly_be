@@ -91,6 +91,25 @@ include::{snippets}/get-one-application-folders/http-response.adoc[]
 === Response 필드
 include::{snippets}/get-one-application-folders/response-fields.adoc[]
 
+= 카테고리
+== 카테고리 생성
+=== Request
+include::{snippets}/create-category/http-request.adoc[]
+=== Response
+include::{snippets}/create-category/http-response.adoc[]
+
+== 카테고리 조회
+include::{snippets}/get-one-category/http-request.adoc[]
+=== Response
+include::{snippets}/get-one-category/http-response.adoc[]
+=== Response 필드
+include::{snippets}/get-one-category/response-fields.adoc[]
+
+== 카테고리 삭제
+include::{snippets}/delete-categories/http-request.adoc[]
+=== Response
+include::{snippets}/delete-categories/http-response.adoc[]
+
 = 맞춤법 검사
 == 지원서 보관함 생성
 === Request

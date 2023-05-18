@@ -93,7 +93,7 @@ public class CategoryServiceTest extends ServiceTest {
         }
 
         @Test
-        void 없는_카테고리는_삭제할수_없다() {
+        void 없는_카테고리를_삭제할때_예외가_발생한다() {
             // given
             LoginMember loginMember = new LoginMember(1L);
 
