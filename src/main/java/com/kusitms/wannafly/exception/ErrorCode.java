@@ -18,7 +18,10 @@ public enum ErrorCode {
     INVALID_WRITER_OF_FORM(3005, 403, "지원서를 작성한 회원만 열람할 수 있습니다."),
     NOT_FOUND_APPLICATION_ITEM(3006, 404, "존재하지 않는 지원 항목입니다."),
 
-    MEMBER_DUPLICATE_YEAR(4001, 400, "이미 해당 년도가 존재합니다");
+    MEMBER_DUPLICATE_YEAR(4001, 400, "이미 해당 년도가 존재합니다"),
+
+    INVALID_NAME(5001,400,"올바르지 않은 카테고리입니다."),
+    MEMBER_DEPULICATE_NAME(5002,400,"이미 해당 카테고리가 존재합니다");
 
     private final int value;
     private final int httpStatusCode;
