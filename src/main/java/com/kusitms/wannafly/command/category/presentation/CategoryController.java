@@ -5,10 +5,7 @@ import com.kusitms.wannafly.command.category.dto.CategoryCreateRequest;
 import com.kusitms.wannafly.command.category.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
@@ -24,5 +21,12 @@ public class CategoryController {
         Long CategoryId = categoryService.createCategory(loginMember, request);
         return ResponseEntity.created(URI.create("/categories/" + CategoryId))
                 .build();
+    }
+
+    @DeleteMapping("{categoryId}")
+    public ResponseEntity<Void> deleteCategory(@PathVariable Long categoryId,
+                                               LoginMember loginMember){
+        categoryService.deleteCategory(categoryId,loginMember);
+        return ResponseEntity.noContent().build();
     }
 }

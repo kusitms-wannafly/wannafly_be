@@ -37,4 +37,7 @@ public class Category {
             throw BusinessException.from(ErrorCode.INVALID_NAME);
         }
     }
+    public boolean isNotMemberId(Long memberId){
+        return !this.memberId.equals(memberId);
+    }
 }
