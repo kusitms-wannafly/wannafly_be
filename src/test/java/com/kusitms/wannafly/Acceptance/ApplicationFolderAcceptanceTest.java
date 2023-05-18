@@ -7,6 +7,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
+import static com.kusitms.wannafly.Acceptance.fixture.ApplicationFolderAcceptanceFixture.지원서_보관함을_생성한다;
+import static com.kusitms.wannafly.Acceptance.fixture.ApplicationFolderAcceptanceFixture.지원서_보관함을_조회한다;
 import static com.kusitms.wannafly.Acceptance.fixture.AuthAcceptanceFixture.*;
 import static com.kusitms.wannafly.support.fixture.ApplicationFolderFixture.FOLDER_CREATE_2023;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -40,7 +42,7 @@ public class ApplicationFolderAcceptanceTest extends AcceptanceTest {
         지원서_보관함을_생성한다(accessToken, FOLDER_CREATE_2023);
 
         //when
-        ExtractableResponse<Response> response = 지원서를_조회한다(accessToken);
+        ExtractableResponse<Response> response = 지원서_보관함을_조회한다(accessToken);
 
         //then
         int year = response.body().jsonPath().getInt("[0].year");
