@@ -111,7 +111,7 @@ include::{snippets}/delete-categories/http-request.adoc[]
 include::{snippets}/delete-categories/http-response.adoc[]
 
 = 맞춤법 검사
-== 지원서 보관함 생성
+== 맞춤법 검사 요청
 === Request
 include::{snippets}/grammar-check/http-request.adoc[]
 === Request 필드
