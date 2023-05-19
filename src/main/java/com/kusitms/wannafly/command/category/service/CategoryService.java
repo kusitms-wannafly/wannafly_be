@@ -22,7 +22,7 @@ public class CategoryService {
         Category category = Category.createCategory(memberId, request.name());
         checkDuplicateName(memberId, request.name());
         categoryRepository.save(category);
-        return category.getCategoryId();
+        return category.getId();
     }
 
     private void checkDuplicateName(Long memberId, String name) {

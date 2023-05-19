@@ -15,6 +15,9 @@ public class CategoryQueryService {
     private final CategoryQueryRepository categoryQueryRepository;
 
     public List<CategoryResponse> extractCategoryByMemberId(Long memberId) {
-        return categoryQueryRepository.findAllByMemberId(memberId);
+        return categoryQueryRepository.findAllByMemberId(memberId)
+                .stream()
+                .map(category -> new CategoryResponse(category.getId(), category.getName()))
+                .toList();
     }
 }
