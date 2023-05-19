@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CheckedCategoryService {
     private final CategoryRepository categoryRepository;
 
-    public Category checkCategoryIdAndGet(Long categoryId, Long memberId) {
+    public Category checkAndGet(Long categoryId, Long memberId) {
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> BusinessException.from(ErrorCode.NOT_FOUND_CATEGORY_ID));
         validateMemberId(memberId, category);
