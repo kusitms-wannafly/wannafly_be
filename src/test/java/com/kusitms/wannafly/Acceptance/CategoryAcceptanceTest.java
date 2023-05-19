@@ -16,14 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 public class CategoryAcceptanceTest extends AcceptanceTest {
-    private String accessToken;
 
-    @BeforeEach
-    void setToken() {
-        accessToken = 소셜_로그인을_한다("google")
-                .jsonPath()
-                .getString("accessToken");
-    }
 
     @Test
     void 원하는_카테고리를_생성한다() {
