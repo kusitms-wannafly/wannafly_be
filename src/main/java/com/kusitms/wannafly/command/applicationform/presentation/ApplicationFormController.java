@@ -1,6 +1,7 @@
 package com.kusitms.wannafly.command.applicationform.presentation;
 
 import com.kusitms.wannafly.command.applicationform.application.ApplicationFormService;
+import com.kusitms.wannafly.command.applicationform.application.ApplicationItemService;
 import com.kusitms.wannafly.command.applicationform.dto.ApplicationFormCreateRequest;
 import com.kusitms.wannafly.command.applicationform.dto.ApplicationFormUpdateRequest;
 import com.kusitms.wannafly.command.applicationform.dto.ApplicationItemCreateRequest;
@@ -18,6 +19,7 @@ import java.net.URI;
 public class ApplicationFormController {
 
     private final ApplicationFormService applicationFormService;
+    private final ApplicationItemService applicationItemService;
 
     @PostMapping
     public ResponseEntity<Void> createForm(@RequestBody ApplicationFormCreateRequest request,
@@ -39,7 +41,7 @@ public class ApplicationFormController {
     public ResponseEntity<Void> addItem(@PathVariable Long applicationFormId,
                                         @RequestBody ApplicationItemCreateRequest request,
                                         LoginMember loginMember) {
-        Long itemId = applicationFormService.addItem(applicationFormId, loginMember, request);
+        Long itemId = applicationItemService.addItem(applicationFormId, loginMember, request);
         return ResponseEntity.created(URI.create("/application-items/" + itemId))
                 .build();
     }

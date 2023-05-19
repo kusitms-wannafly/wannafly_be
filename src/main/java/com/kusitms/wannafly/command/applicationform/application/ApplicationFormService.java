@@ -2,11 +2,11 @@ package com.kusitms.wannafly.command.applicationform.application;
 
 import com.kusitms.wannafly.command.applicationform.domain.ApplicationForm;
 import com.kusitms.wannafly.command.applicationform.domain.ApplicationFormRepository;
-import com.kusitms.wannafly.command.applicationform.domain.ApplicationItem;
-import com.kusitms.wannafly.command.applicationform.domain.value.ApplicationAnswer;
-import com.kusitms.wannafly.command.applicationform.domain.value.ApplicationQuestion;
 import com.kusitms.wannafly.command.applicationform.domain.value.Writer;
-import com.kusitms.wannafly.command.applicationform.dto.*;
+import com.kusitms.wannafly.command.applicationform.dto.ApplicationFormCreateRequest;
+import com.kusitms.wannafly.command.applicationform.dto.ApplicationFormMapper;
+import com.kusitms.wannafly.command.applicationform.dto.ApplicationFormUpdateRequest;
+import com.kusitms.wannafly.command.applicationform.dto.FormStateRequest;
 import com.kusitms.wannafly.command.auth.LoginMember;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -34,19 +34,6 @@ public class ApplicationFormService {
         ApplicationForm originalForm = writerCheckedFormService.checkWriterAndGet(applicationFormId, writer);
         ApplicationForm updatedForm = ApplicationFormMapper.toDomain(request, writer);
         originalForm.update(updatedForm);
-    }
-
-    public Long addItem(Long applicationFormId,
-                        LoginMember loginMember,
-                        ApplicationItemCreateRequest request) {
-        Writer writer = new Writer(loginMember.id());
-        ApplicationForm form = writerCheckedFormService.checkWriterAndGet(applicationFormId, writer);
-        ApplicationItem item = form.addItem(
-                new ApplicationQuestion(request.applicationQuestion()),
-                new ApplicationAnswer(request.applicationAnswer())
-        );
-        applicationFormRepository.flush();
-        return item.getId();
     }
 
     public void deleteForm(Long applicationFormId, LoginMember loginMember) {

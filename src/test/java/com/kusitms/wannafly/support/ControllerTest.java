@@ -1,6 +1,7 @@
 package com.kusitms.wannafly.support;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kusitms.wannafly.command.applicationform.application.ApplicationItemService;
 import com.kusitms.wannafly.command.grammar.application.GrammarService;
 import com.kusitms.wannafly.command.grammar.presentation.GrammarController;
 import com.kusitms.wannafly.query.service.ApplicationFolderQueryService;
@@ -73,6 +74,9 @@ public class ControllerTest {
 
     @MockBean
     protected ApplicationFolderService applicationFolderService;
+
+    @MockBean
+    protected ApplicationItemService applicationItemService;
 
     @MockBean
     protected ApplicationFolderQueryService applicationFolderQueryService;

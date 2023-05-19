@@ -90,7 +90,7 @@ public class ApplicationFormControllerTest extends ControllerTest {
     @Test
     void 지원_항목을_추가한다() throws Exception {
         // given
-        given(applicationFormService.addItem(any(), any(), any()))
+        given(applicationItemService.addItem(any(), any(), any()))
                 .willReturn(4L);
 
         // when

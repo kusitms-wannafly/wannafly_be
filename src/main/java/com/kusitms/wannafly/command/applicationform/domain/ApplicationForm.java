@@ -61,18 +61,17 @@ public class ApplicationForm {
         updateModifiedDate();
     }
 
-    public ApplicationItem addItem(ApplicationQuestion question, ApplicationAnswer answer) {
-        ApplicationItem item = new ApplicationItem(this, question, answer);
-        applicationItems.addItem(item);
-        updateModifiedDate();
-        return item;
-    }
-
     public void update(ApplicationForm updatedForm) {
         recruiter = updatedForm.getRecruiter();
         year = updatedForm.getYear();
         semester = updatedForm.getSemester();
         applicationItems.updateItems(updatedForm.getApplicationItems());
+        updateModifiedDate();
+    }
+
+    public void addItem(ApplicationQuestion question, ApplicationAnswer answer) {
+        ApplicationItem item = new ApplicationItem(this, question, answer);
+        applicationItems.addItem(item);
         updateModifiedDate();
     }
 
