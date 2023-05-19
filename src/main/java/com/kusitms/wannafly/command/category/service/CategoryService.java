@@ -15,11 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class CategoryService {
     private final CategoryRepository categoryRepository;
-    private final checkedCategoryService checkedCategoryService;
+    private final CheckedCategoryService checkedCategoryService;
 
     public Long createCategory(LoginMember loginMember, CategoryCreateRequest request) {
         Long memberId = loginMember.id();
-        Category category = Category.createCategoryByName(memberId, request.name());
+        Category category = Category.createCategory(memberId, request.name());
         checkDuplicateName(memberId, request.name());
         categoryRepository.save(category);
         return category.getCategoryId();

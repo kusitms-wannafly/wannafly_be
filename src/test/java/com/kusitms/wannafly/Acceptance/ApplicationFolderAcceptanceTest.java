@@ -15,14 +15,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 public class ApplicationFolderAcceptanceTest extends AcceptanceTest {
-    private String accessToken;
-
-    @BeforeEach
-    void setToken() {
-        accessToken = 소셜_로그인을_한다("google")
-                .jsonPath()
-                .getString("accessToken");
-    }
 
     @Test
     void 원하는_년도의_지원서_보관함을_생성한다() {

@@ -19,10 +19,10 @@ public class Category {
     @Column(nullable = false)
     private Long memberId;
 
-    @Column(nullable = false, name = "names")
+    @Column(nullable = false, name = "name")
     private String name;
 
-    public static Category createCategoryByName(Long memberId, String name) {
+    public static Category createCategory(Long memberId, String name) {
         return new Category(memberId, name);
     }
 

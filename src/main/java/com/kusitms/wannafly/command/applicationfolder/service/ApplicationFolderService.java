@@ -18,7 +18,7 @@ public class ApplicationFolderService {
 
     public Long createFolder(LoginMember loginMember, ApplicationFolderCreateRequest request) {
         Long memberId = loginMember.id();
-        ApplicationFolder applicationFolder = ApplicationFolder.createFolderByYear(memberId, request.year());
+        ApplicationFolder applicationFolder = ApplicationFolder.createFolder(memberId, request.year());
         checkDuplicateYear(memberId, request.year());
         applicationFolderRepository.save(applicationFolder);
         return applicationFolder.getId();

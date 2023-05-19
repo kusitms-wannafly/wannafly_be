@@ -21,7 +21,7 @@ public class ApplicationFolderTest {
             Long memberId = 1L;
 
             // when then
-            assertThatThrownBy(() -> ApplicationFolder.createFolderByYear(memberId, year))
+            assertThatThrownBy(() -> ApplicationFolder.createFolder(memberId, year))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(ErrorCode.INVALID_YEAR);

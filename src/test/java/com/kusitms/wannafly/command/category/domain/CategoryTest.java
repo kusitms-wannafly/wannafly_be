@@ -1,6 +1,5 @@
 package com.kusitms.wannafly.command.category.domain;
 
-import com.kusitms.wannafly.command.applicationform.domain.value.Recruiter;
 import com.kusitms.wannafly.exception.BusinessException;
 import com.kusitms.wannafly.exception.ErrorCode;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -16,7 +15,7 @@ public class CategoryTest {
         Long memberId = 1L;
 
         // when then
-        assertThatThrownBy(() -> Category.createCategoryByName(memberId, name))
+        assertThatThrownBy(() -> Category.createCategory(memberId, name))
                 .isInstanceOf(BusinessException.class)
                 .extracting("errorCode")
                 .isEqualTo(ErrorCode.INVALID_NAME);
