@@ -1,10 +1,10 @@
 package com.kusitms.wannafly.support.mockapi;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kusitms.wannafly.auth.application.AuthService;
-import com.kusitms.wannafly.auth.dto.LoginRequest;
-import com.kusitms.wannafly.auth.dto.LoginResponse;
-import com.kusitms.wannafly.auth.token.RefreshTokenSupport;
+import com.kusitms.wannafly.command.auth.application.AuthService;
+import com.kusitms.wannafly.command.auth.dto.LoginRequest;
+import com.kusitms.wannafly.command.auth.dto.LoginResponse;
+import com.kusitms.wannafly.command.auth.token.RefreshTokenSupport;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
