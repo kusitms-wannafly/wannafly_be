@@ -45,11 +45,15 @@ public class ApplicationItemService {
     public void registerCategory(Long categoryId, Long applicationItemId, LoginMember loginMember) {
         ApplicationItem item = applicationItemRepository.findById(applicationItemId)
                 .orElseThrow(() -> BusinessException.from(NOT_FOUND_APPLICATION_ITEM));
-        if (item.isNotWriter(new Writer(loginMember.id()))) {
-            throw BusinessException.from(ErrorCode.INVALID_WRITER_OF_FORM);
-        }
+        validateWriterOfForm(loginMember, item);
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> BusinessException.from(ErrorCode.NOT_FOUND_CATEGORY_ID));
         item.registerCategory(category);
+    }
+
+    private static void validateWriterOfForm(LoginMember loginMember, ApplicationItem item) {
+        if (item.isNotWriter(new Writer(loginMember.id()))) {
+            throw BusinessException.from(ErrorCode.INVALID_WRITER_OF_FORM);
+        }
     }
 }
