@@ -2,7 +2,7 @@ name: spring server ci cd
 
 on:
   push:
-    branches: ["feature/docker-compose"]
+    branches: ["main"]
 
 jobs:
   deploy:
@@ -36,9 +36,6 @@ jobs:
 
       - name: Docker Hub push
         run: docker push ${{ secrets.DOCKER_IMG }}
-
-      - name: List files in repository
-        run: ls -R
 
       - name: scp file
         uses: appleboy/scp-action@master
