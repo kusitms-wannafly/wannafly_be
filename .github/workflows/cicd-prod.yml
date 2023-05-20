@@ -58,5 +58,4 @@ jobs:
             docker volume prune
             docker volume rm $(docker volume ls -q)
             docker pull ${{ secrets.DOCKER_IMG }}
-            echo "$YOUR_DOCKER_COMPOSE_YML_CONTENT" > docker-compose.yml
             docker-compose -f docker-compose.yml up -d
