@@ -2,7 +2,7 @@ name: spring server ci cd
 
 on:
   push:
-    branches: ["main"]
+    branches: ["feature/docker-compose"]
 
 jobs:
   deploy:
@@ -44,7 +44,10 @@ jobs:
           username: ubuntu
           key: ${{ secrets.KEY }}
           script: |
-            docker stop $(docker ps -a -q) 
-            docker rm $(docker ps -a -q) 
-            docker pull ${{ secrets.DOCKER_IMG }}
-            docker run -d -p 8080:8080 ${{ secrets.DOCKER_IMG }}
+            cd docker
+            docker rm -f $(docker ps -qa)
+            docker rmi $(docker images -q)
+            docker volume prune
+            docker volume rm $(docker volume ls -q)
+            git submodule update --recursive --remote --init
+            docker-compose -f docker-compose.yml up -d

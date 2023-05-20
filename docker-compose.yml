@@ -1,0 +1,41 @@
+version: "3"
+
+services:
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./monitoring/:/etc/prometheus/
+      - promet_store:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+    ports:
+      - 9090:9090
+    networks:
+      - app-tier
+    depends_on:
+      - web
+
+  grafana:
+    image: grafana/grafana:8.5.5
+    ports:
+      - 3000:3000
+    networks:
+      - app-tier
+    depends_on:
+      - web
+      - prometheus
+    volumes:
+      - grafana_store:/var/lib/grafana
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    networks:
+      - app-tier
+
+networks:
+  app-tier:
+
