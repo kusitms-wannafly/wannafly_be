@@ -39,6 +39,26 @@ public class ApplicationFormFixture {
             )
     );
 
+    public static final ApplicationFormUpdateRequest INVALID_FORM_UPDATE_REQUEST = new ApplicationFormUpdateRequest(
+            RECRUITER + " 28기",
+            2024,
+            "second_half",
+            List.of(
+                    new ApplicationItemUpdateRequest(
+                            1L, ApplicationFormFixture.QUESTION2, ApplicationFormFixture.ANSWER2
+                    ),
+                    new ApplicationItemUpdateRequest(
+                            2L, ApplicationFormFixture.QUESTION2, ApplicationFormFixture.ANSWER2
+                    ),
+                    new ApplicationItemUpdateRequest(
+                            null, ApplicationFormFixture.QUESTION1, ApplicationFormFixture.ANSWER1
+                    ),
+                    new ApplicationItemUpdateRequest(
+                            null, ApplicationFormFixture.QUESTION2, ApplicationFormFixture.ANSWER2
+                    )
+            )
+    );
+
     public static final ApplicationFormCreateRequest FORM_2019_1 = new ApplicationFormCreateRequest(
             RECRUITER,
             2019,
