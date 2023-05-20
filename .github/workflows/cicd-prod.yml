@@ -50,6 +50,7 @@ jobs:
             docker volume rm $(docker volume ls -q)
             docker pull ${{ secrets.DOCKER_IMG }}
             docker run -d -p 8080:8080 ${{ secrets.DOCKER_IMG }}
+            ls
             cd /home/spring && docker-compose -f docker-compose.yml up -d
 
   
