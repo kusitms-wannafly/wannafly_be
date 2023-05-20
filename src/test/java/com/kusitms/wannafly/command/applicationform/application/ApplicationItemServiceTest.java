@@ -119,13 +119,29 @@ class ApplicationItemServiceTest extends ServiceTest {
         }
 
         @Test
-        void 로그인_회원이_카테고리_등록가_아니면_예외가_발생한다() {
-            // when then
+        void 지원_항목_작성자와_카테고리_등록자는_같아야_한다() {
+            // given
             LoginMember requester = new LoginMember(2L);
+            Category category = Category.createCategory(requester.id(), "지원 동기");
+            Long requesterCategoryId = categoryRepository.save(category).getId();
+
+            // when then
+            assertThatThrownBy(() -> applicationItemService.registerCategory(requesterCategoryId, itemId, loginMember))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(ErrorCode.NOT_MATCH_FORM_WRITER_CATEGORY_REGISTER);
+        }
+
+        @Test
+        void 지원_항목_작성자와_카테고리_등록자와_로그인_회원이_같아야_한다() {
+            // given
+            LoginMember requester = new LoginMember(2L);
+
+            // when then
             assertThatThrownBy(() -> applicationItemService.registerCategory(categoryId, itemId, requester))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
-                    .isEqualTo(ErrorCode.INVALID_MEMBER_OF_CATEGORY);
+                    .isEqualTo(ErrorCode.INVALID_WRITER_OF_FORM);
         }
     }
 
