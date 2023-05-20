@@ -117,6 +117,16 @@ public class ApplicationFormAcceptanceFixture {
                 .extract();
     }
 
+    public static ExtractableResponse<Response> 회원의_전체_지원서_개수_조회(String accessToken) {
+        return RestAssured.given().log().all()
+                .when()
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .get("/api/application-forms/total-count")
+                .then().log().all()
+                .extract();
+    }
+
 
 
     private static Map<String, Object> getQueryString(Long cursor, Integer size, Integer year) {
