@@ -142,6 +142,23 @@ class ApplicationFormAcceptanceTest extends AcceptanceTest {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
     }
 
+    @Test
+    void 회원의_전체_지원서_개수를_조회한다() {
+        // given
+        지원서를_등록한다(accessToken, FORM_CREATE_REQUEST);
+        지원서를_등록한다(accessToken, FORM_CREATE_REQUEST);
+        지원서를_등록한다(accessToken, FORM_CREATE_REQUEST);
+
+        // when
+        ExtractableResponse<Response> response = 회원의_전체_지원서_개수_조회(accessToken);
+
+        // then
+        assertAll(
+                () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
+                () -> assertThat(response.jsonPath().getInt("totalCount")).isEqualTo(3)
+        );
+    }
+
     @DisplayName("나의 지원서들을 마지막 수정시간 순으로 조회할 때")
     @Nested
     class GetFormsTest {

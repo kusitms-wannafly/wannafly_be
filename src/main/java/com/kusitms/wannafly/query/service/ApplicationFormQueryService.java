@@ -6,10 +6,7 @@ import com.kusitms.wannafly.command.applicationform.domain.value.Writer;
 import com.kusitms.wannafly.command.auth.LoginMember;
 import com.kusitms.wannafly.exception.BusinessException;
 import com.kusitms.wannafly.exception.ErrorCode;
-import com.kusitms.wannafly.query.dto.ApplicationFormResponse;
-import com.kusitms.wannafly.query.dto.CategoryItemResponse;
-import com.kusitms.wannafly.query.dto.PagingParams;
-import com.kusitms.wannafly.query.dto.SimpleFormResponse;
+import com.kusitms.wannafly.query.dto.*;
 import com.kusitms.wannafly.query.repository.ApplicationFormQueryRepository;
 import com.kusitms.wannafly.query.repository.ApplicationItemQueryRepository;
 import lombok.RequiredArgsConstructor;
@@ -52,6 +49,11 @@ public class ApplicationFormQueryService {
         return items.stream()
                 .map(CategoryItemResponse::from)
                 .toList();
+    }
+
+    public FormTotalCountResponse findTotalCount(LoginMember loginMember) {
+        Long totalCount = applicationFormQueryRepository.countAllByWriter(new Writer(loginMember.id()));
+        return new FormTotalCountResponse(totalCount.intValue());
     }
 
     private void validateWriter(Writer requester, ApplicationForm applicationForm) {

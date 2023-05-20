@@ -1,9 +1,6 @@
 package com.kusitms.wannafly.query.controller;
 
-import com.kusitms.wannafly.query.dto.ApplicationFormResponse;
-import com.kusitms.wannafly.query.dto.ApplicationItemResponse;
-import com.kusitms.wannafly.query.dto.CategoryItemResponse;
-import com.kusitms.wannafly.query.dto.SimpleFormResponse;
+import com.kusitms.wannafly.query.dto.*;
 import com.kusitms.wannafly.support.ControllerTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -68,6 +65,28 @@ public class ApplicationFormQueryControllerTest extends ControllerTest {
                                         .type(JsonFieldType.STRING).description("지원 문항"),
                                 fieldWithPath("applicationItems[].applicationAnswer")
                                         .type(JsonFieldType.STRING).description("지원 답변")
+                        )
+                ));
+    }
+
+    @Test
+    void 나의_전체_지원서_개수를_조회한다() throws Exception {
+        // given
+        given(applicationFormQueryService.findTotalCount(any()))
+                .willReturn(new FormTotalCountResponse(5));
+
+        // when
+        ResultActions result = mockMvc.perform(get("/api/application-forms/total-count")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken));
+
+        // then
+        result.andExpect(status().isOk())
+
+                .andDo(document("get-form-total-count", HOST_INFO,
+                        preprocessResponse(prettyPrint()),
+                        responseFields(
+                                fieldWithPath("totalCount").type(JsonFieldType.NUMBER).description(3)
                         )
                 ));
     }
