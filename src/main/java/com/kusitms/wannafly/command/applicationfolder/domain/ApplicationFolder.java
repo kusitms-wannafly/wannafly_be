@@ -23,7 +23,7 @@ public class ApplicationFolder {
     @Column(nullable = false, name = "years")
     private Integer year;
 
-    public static ApplicationFolder createFolderByYear(Long memberId, Integer year) {
+    public static ApplicationFolder createFolder(Long memberId, Integer year) {
         return new ApplicationFolder(memberId, year);
     }
 

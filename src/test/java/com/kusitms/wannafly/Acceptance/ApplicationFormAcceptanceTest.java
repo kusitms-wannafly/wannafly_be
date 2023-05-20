@@ -25,16 +25,6 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 class ApplicationFormAcceptanceTest extends AcceptanceTest {
 
-    private String accessToken;
-
-    @BeforeEach
-    void setToken() {
-        accessToken = 소셜_로그인을_한다("google")
-                .jsonPath()
-                .getString("accessToken");
-    }
-
-
     @Test
     void 지원서를_작성하여_등록한다() {
         // when
