@@ -58,7 +58,5 @@ jobs:
           script: |
             docker rm -f $(docker ps -qa)
             docker rmi $(docker images -q)
-            docker volume prune
-            docker volume rm $(docker volume ls -q)
             docker pull ${{ secrets.DOCKER_IMG }}
             docker-compose -f docker-compose.yml up -d
