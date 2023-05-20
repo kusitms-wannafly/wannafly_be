@@ -50,4 +50,4 @@ jobs:
             docker volume rm $(docker volume ls -q)
             docker pull ${{ secrets.DOCKER_IMG }}
             docker run -d -p 8080:8080 ${{ secrets.DOCKER_IMG }}
-            docker-compose -f docker-compose.yml up -d
+            ssh ubuntu@${{ secrets.WAS_HOST }} 'cd /path/to/your/project && docker-compose -f docker-compose.yml up -d'
