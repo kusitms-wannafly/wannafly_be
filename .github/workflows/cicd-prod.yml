@@ -46,8 +46,7 @@ jobs:
           host: ${{ secrets.WAS_HOST }}
           username: ubuntu
           key: ${{ secrets.KEY }}
-          port: 22
-          source: "./docker-compose.yml"
+          source: "./src/main/resources/be-config/docker-compose.yml"
           target: "/home/ubuntu"
 
       - name: 배포
