@@ -462,6 +462,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_지원서_삭제">지원서 삭제</a></li>
 <li><a href="#_지원서_작성_상태_변경">지원서 작성 상태 변경</a></li>
 <li><a href="#_나의_지원서_모두_조회">나의 지원서 모두 조회</a></li>
+<li><a href="#_나의_지원서_총_개수_조회">나의 지원서 총 개수 조회</a></li>
 <li><a href="#_지원_항목에_카테고리_추가">지원 항목에 카테고리 추가</a></li>
 <li><a href="#_지원_항목을_카테고리로_조회">지원 항목을 카테고리로 조회</a></li>
 </ul>
@@ -602,7 +603,7 @@ X-Frame-Options: DENY</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/application-forms HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjg0NTY5MzQ5LCJleHAiOjE2ODQ1NzExNDl9.tW1iqCvxXuSc3Mtcy4QnVDiZy1v1BabZBMaQVhoV_Wk
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjg0NTg1NzY2LCJleHAiOjE2ODQ1ODc1NjZ9.4n6SUbXX89tWjeKjbcsyTzzYz94f0xTffyLUTk6Q11c
 Content-Length: 6623
 Host: www.api.wannafly.co.kr
 
@@ -697,7 +698,7 @@ X-Frame-Options: DENY</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/application-forms/1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjg0NTY5MzQ5LCJleHAiOjE2ODQ1NzExNDl9.tW1iqCvxXuSc3Mtcy4QnVDiZy1v1BabZBMaQVhoV_Wk
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjg0NTg1NzY3LCJleHAiOjE2ODQ1ODc1Njd9.OUN7CuGnBTh--XS04VFUhqQ5DkVXwdUEiaIU65RC9Ws
 Host: www.api.wannafly.co.kr</code></pre>
 </div>
 </div>
@@ -800,7 +801,7 @@ Content-Length: 6710
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/application-forms/1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjg0NTY5MzQ5LCJleHAiOjE2ODQ1NzExNDl9.tW1iqCvxXuSc3Mtcy4QnVDiZy1v1BabZBMaQVhoV_Wk
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjg0NTg1NzY2LCJleHAiOjE2ODQ1ODc1NjZ9.4n6SUbXX89tWjeKjbcsyTzzYz94f0xTffyLUTk6Q11c
 Content-Length: 7687
 Host: www.api.wannafly.co.kr
 
@@ -902,7 +903,7 @@ X-Frame-Options: DENY</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/application-forms/1/items HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjg0NTY5MzQ5LCJleHAiOjE2ODQ1NzExNDl9.tW1iqCvxXuSc3Mtcy4QnVDiZy1v1BabZBMaQVhoV_Wk
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjg0NTg1NzY2LCJleHAiOjE2ODQ1ODc1NjZ9.4n6SUbXX89tWjeKjbcsyTzzYz94f0xTffyLUTk6Q11c
 Content-Length: 2165
 Host: www.api.wannafly.co.kr
 
@@ -971,7 +972,7 @@ X-Frame-Options: DENY</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/application-forms/1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjg0NTY5MzQ5LCJleHAiOjE2ODQ1NzExNDl9.tW1iqCvxXuSc3Mtcy4QnVDiZy1v1BabZBMaQVhoV_Wk
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjg0NTg1NzY2LCJleHAiOjE2ODQ1ODc1NjZ9.4n6SUbXX89tWjeKjbcsyTzzYz94f0xTffyLUTk6Q11c
 Host: www.api.wannafly.co.kr</code></pre>
 </div>
 </div>
@@ -1004,7 +1005,7 @@ X-Frame-Options: DENY</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/application-forms/1/state HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjg0NTY5MzQ5LCJleHAiOjE2ODQ1NzExNDl9.tW1iqCvxXuSc3Mtcy4QnVDiZy1v1BabZBMaQVhoV_Wk
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjg0NTg1NzY2LCJleHAiOjE2ODQ1ODc1NjZ9.4n6SUbXX89tWjeKjbcsyTzzYz94f0xTffyLUTk6Q11c
 Content-Length: 26
 Host: www.api.wannafly.co.kr
 
@@ -1066,7 +1067,7 @@ X-Frame-Options: DENY</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/application-forms?cursor=4&amp;size=3&amp;year=2023 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjg0NTY5MzQ5LCJleHAiOjE2ODQ1NzExNDl9.tW1iqCvxXuSc3Mtcy4QnVDiZy1v1BabZBMaQVhoV_Wk
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjg0NTg1NzY3LCJleHAiOjE2ODQ1ODc1Njd9.OUN7CuGnBTh--XS04VFUhqQ5DkVXwdUEiaIU65RC9Ws
 Host: www.api.wannafly.co.kr</code></pre>
 </div>
 </div>
@@ -1165,21 +1166,84 @@ Content-Length: 528
 </div>
 </div>
 <div class="sect1">
-<h2 id="_지원_항목에_카테고리_추가"><a class="link" href="#_지원_항목에_카테고리_추가">지원 항목에 카테고리 추가</a></h2>
+<h2 id="_나의_지원서_총_개수_조회"><a class="link" href="#_나의_지원서_총_개수_조회">나의 지원서 총 개수 조회</a></h2>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_request_10"><a class="link" href="#_request_10">Request</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/categories/1/application-items/1 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/application-forms/total-count HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjg0NTY5MzQ5LCJleHAiOjE2ODQ1NzExNDl9.tW1iqCvxXuSc3Mtcy4QnVDiZy1v1BabZBMaQVhoV_Wk
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjg0NTg1NzY3LCJleHAiOjE2ODQ1ODc1Njd9.OUN7CuGnBTh--XS04VFUhqQ5DkVXwdUEiaIU65RC9Ws
 Host: www.api.wannafly.co.kr</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_response_10"><a class="link" href="#_response_10">Response</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 22
+
+{
+  "totalCount" : 5
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_response_필드_4"><a class="link" href="#_response_필드_4">Response 필드</a></h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>totalCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_지원_항목에_카테고리_추가"><a class="link" href="#_지원_항목에_카테고리_추가">지원 항목에 카테고리 추가</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_request_11"><a class="link" href="#_request_11">Request</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/categories/1/application-items/1 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjg0NTg1NzY2LCJleHAiOjE2ODQ1ODc1NjZ9.4n6SUbXX89tWjeKjbcsyTzzYz94f0xTffyLUTk6Q11c
+Host: www.api.wannafly.co.kr</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_response_11"><a class="link" href="#_response_11">Response</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content
@@ -1201,18 +1265,18 @@ X-Frame-Options: DENY</code></pre>
 <h2 id="_지원_항목을_카테고리로_조회"><a class="link" href="#_지원_항목을_카테고리로_조회">지원 항목을 카테고리로 조회</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_request_11"><a class="link" href="#_request_11">Request</a></h3>
+<h3 id="_request_12"><a class="link" href="#_request_12">Request</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/categories/1/application-items HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjg0NTY5MzQ5LCJleHAiOjE2ODQ1NzExNDl9.tW1iqCvxXuSc3Mtcy4QnVDiZy1v1BabZBMaQVhoV_Wk
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjg0NTg1NzY3LCJleHAiOjE2ODQ1ODc1Njd9.OUN7CuGnBTh--XS04VFUhqQ5DkVXwdUEiaIU65RC9Ws
 Host: www.api.wannafly.co.kr</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_response_11"><a class="link" href="#_response_11">Response</a></h3>
+<h3 id="_response_12"><a class="link" href="#_response_12">Response</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -1263,7 +1327,7 @@ Content-Length: 6987
 </div>
 </div>
 <div class="sect2">
-<h3 id="_response_필드_4"><a class="link" href="#_response_필드_4">Response 필드</a></h3>
+<h3 id="_response_필드_5"><a class="link" href="#_response_필드_5">Response 필드</a></h3>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -1323,12 +1387,12 @@ Content-Length: 6987
 <h2 id="_지원서_보관함_생성"><a class="link" href="#_지원서_보관함_생성">지원서 보관함 생성</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_request_12"><a class="link" href="#_request_12">Request</a></h3>
+<h3 id="_request_13"><a class="link" href="#_request_13">Request</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/application-folders HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjg0NTY5MzQ4LCJleHAiOjE2ODQ1NzExNDh9.TWTLNh78V1YY8FGWuPkNvj82wvMMsj4Ar4YLkquFTIU
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjg0NTg1NzY2LCJleHAiOjE2ODQ1ODc1NjZ9.4n6SUbXX89tWjeKjbcsyTzzYz94f0xTffyLUTk6Q11c
 Content-Length: 19
 Host: www.api.wannafly.co.kr
 
@@ -1339,7 +1403,7 @@ Host: www.api.wannafly.co.kr
 </div>
 </div>
 <div class="sect2">
-<h3 id="_response_12"><a class="link" href="#_response_12">Response</a></h3>
+<h3 id="_response_13"><a class="link" href="#_response_13">Response</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
@@ -1362,18 +1426,18 @@ X-Frame-Options: DENY</code></pre>
 <h2 id="_지원서_보관함_조회"><a class="link" href="#_지원서_보관함_조회">지원서 보관함 조회</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_request_13"><a class="link" href="#_request_13">Request</a></h3>
+<h3 id="_request_14"><a class="link" href="#_request_14">Request</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/application-folders HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjg0NTY5MzQ5LCJleHAiOjE2ODQ1NzExNDl9.tW1iqCvxXuSc3Mtcy4QnVDiZy1v1BabZBMaQVhoV_Wk
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjg0NTg1NzY3LCJleHAiOjE2ODQ1ODc1Njd9.OUN7CuGnBTh--XS04VFUhqQ5DkVXwdUEiaIU65RC9Ws
 Host: www.api.wannafly.co.kr</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_response_13"><a class="link" href="#_response_13">Response</a></h3>
+<h3 id="_response_14"><a class="link" href="#_response_14">Response</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -1403,7 +1467,7 @@ Content-Length: 110
 </div>
 </div>
 <div class="sect2">
-<h3 id="_response_필드_5"><a class="link" href="#_response_필드_5">Response 필드</a></h3>
+<h3 id="_response_필드_6"><a class="link" href="#_response_필드_6">Response 필드</a></h3>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -1438,12 +1502,12 @@ Content-Length: 110
 <h2 id="_카테고리_생성"><a class="link" href="#_카테고리_생성">카테고리 생성</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_request_14"><a class="link" href="#_request_14">Request</a></h3>
+<h3 id="_request_15"><a class="link" href="#_request_15">Request</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/categories HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjg0NTY5MzQ5LCJleHAiOjE2ODQ1NzExNDl9.tW1iqCvxXuSc3Mtcy4QnVDiZy1v1BabZBMaQVhoV_Wk
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjg0NTg1NzY3LCJleHAiOjE2ODQ1ODc1Njd9.OUN7CuGnBTh--XS04VFUhqQ5DkVXwdUEiaIU65RC9Ws
 Content-Length: 29
 Host: www.api.wannafly.co.kr
 
@@ -1454,7 +1518,7 @@ Host: www.api.wannafly.co.kr
 </div>
 </div>
 <div class="sect2">
-<h3 id="_response_14"><a class="link" href="#_response_14">Response</a></h3>
+<h3 id="_response_15"><a class="link" href="#_response_15">Response</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
@@ -1480,12 +1544,12 @@ X-Frame-Options: DENY</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/categories HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjg0NTY5MzQ5LCJleHAiOjE2ODQ1NzExNDl9.tW1iqCvxXuSc3Mtcy4QnVDiZy1v1BabZBMaQVhoV_Wk
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjg0NTg1NzY3LCJleHAiOjE2ODQ1ODc1Njd9.OUN7CuGnBTh--XS04VFUhqQ5DkVXwdUEiaIU65RC9Ws
 Host: www.api.wannafly.co.kr</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_response_15"><a class="link" href="#_response_15">Response</a></h3>
+<h3 id="_response_16"><a class="link" href="#_response_16">Response</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -1515,7 +1579,7 @@ Content-Length: 146
 </div>
 </div>
 <div class="sect2">
-<h3 id="_response_필드_6"><a class="link" href="#_response_필드_6">Response 필드</a></h3>
+<h3 id="_response_필드_7"><a class="link" href="#_response_필드_7">Response 필드</a></h3>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -1552,12 +1616,12 @@ Content-Length: 146
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/categories/1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjg0NTY5MzQ5LCJleHAiOjE2ODQ1NzExNDl9.tW1iqCvxXuSc3Mtcy4QnVDiZy1v1BabZBMaQVhoV_Wk
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjg0NTg1NzY3LCJleHAiOjE2ODQ1ODc1Njd9.OUN7CuGnBTh--XS04VFUhqQ5DkVXwdUEiaIU65RC9Ws
 Host: www.api.wannafly.co.kr</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_response_16"><a class="link" href="#_response_16">Response</a></h3>
+<h3 id="_response_17"><a class="link" href="#_response_17">Response</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content
@@ -1580,12 +1644,12 @@ X-Frame-Options: DENY</code></pre>
 <h2 id="_맞춤법_검사_요청"><a class="link" href="#_맞춤법_검사_요청">맞춤법 검사 요청</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_request_15"><a class="link" href="#_request_15">Request</a></h3>
+<h3 id="_request_16"><a class="link" href="#_request_16">Request</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/grammar/check HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjg0NTY5MzQ5LCJleHAiOjE2ODQ1NzExNDl9.tW1iqCvxXuSc3Mtcy4QnVDiZy1v1BabZBMaQVhoV_Wk
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjg0NTg1NzY3LCJleHAiOjE2ODQ1ODc1Njd9.OUN7CuGnBTh--XS04VFUhqQ5DkVXwdUEiaIU65RC9Ws
 Content-Length: 29
 Host: www.api.wannafly.co.kr
 
@@ -1620,7 +1684,7 @@ Host: www.api.wannafly.co.kr
 </table>
 </div>
 <div class="sect2">
-<h3 id="_response_17"><a class="link" href="#_response_17">Response</a></h3>
+<h3 id="_response_18"><a class="link" href="#_response_18">Response</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -1643,7 +1707,7 @@ Content-Length: 31
 </div>
 </div>
 <div class="sect2">
-<h3 id="_response_필드_7"><a class="link" href="#_response_필드_7">Response 필드</a></h3>
+<h3 id="_response_필드_8"><a class="link" href="#_response_필드_8">Response 필드</a></h3>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -1672,7 +1736,7 @@ Content-Length: 31
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-05-20 15:34:18 +0900
+Last updated 2023-05-20 21:28:52 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

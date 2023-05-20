@@ -1,10 +1,7 @@
 package com.kusitms.wannafly.query.controller;
 
 import com.kusitms.wannafly.command.auth.LoginMember;
-import com.kusitms.wannafly.query.dto.ApplicationFormResponse;
-import com.kusitms.wannafly.query.dto.CategoryItemResponse;
-import com.kusitms.wannafly.query.dto.PagingParams;
-import com.kusitms.wannafly.query.dto.SimpleFormResponse;
+import com.kusitms.wannafly.query.dto.*;
 import com.kusitms.wannafly.query.service.ApplicationFormQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +29,12 @@ public class ApplicationFormQueryController {
                                                                        @ModelAttribute PagingParams params) {
         List<SimpleFormResponse> responses = applicationFormQueryService.findAllByCondition(loginMember, params);
         return ResponseEntity.ok(responses);
+    }
+
+    @GetMapping("/application-forms/total-count")
+    public ResponseEntity<FormTotalCountResponse> findTotalCount(LoginMember loginMember) {
+        FormTotalCountResponse response = applicationFormQueryService.findTotalCount(loginMember);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/categories/{categoryId}/application-items")
