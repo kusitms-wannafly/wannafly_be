@@ -4,6 +4,7 @@ import com.kusitms.wannafly.command.applicationform.dto.ApplicationFormCreateReq
 import com.kusitms.wannafly.command.applicationform.dto.FormStateRequest;
 import com.kusitms.wannafly.query.dto.ApplicationFormResponse;
 import com.kusitms.wannafly.query.dto.ApplicationItemResponse;
+import com.kusitms.wannafly.query.dto.CategoryItemResponse;
 import com.kusitms.wannafly.query.dto.SimpleFormResponse;
 import com.kusitms.wannafly.support.fixture.ApplicationFormFixture;
 import io.restassured.response.ExtractableResponse;
@@ -18,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import java.util.List;
 
 import static com.kusitms.wannafly.Acceptance.fixture.ApplicationFormAcceptanceFixture.*;
+import static com.kusitms.wannafly.Acceptance.fixture.ApplicationFormAcceptanceFixture.지원_항목에_카테고리를_등록한다;
 import static com.kusitms.wannafly.Acceptance.fixture.CategoryAcceptanceFixture.카테고리를_생성한다;
 import static com.kusitms.wannafly.support.fixture.ApplicationFormFixture.*;
 import static com.kusitms.wannafly.support.fixture.CategoryFixture.CATEGORY_CREATE_MOTIVE;
@@ -266,6 +268,32 @@ class ApplicationFormAcceptanceTest extends AcceptanceTest {
             // then
             assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
 
+        }
+
+        @Test
+        void 지원_항목을_카테고리로_조회한다() {
+            // given
+            Long formId = 지원서를_등록하고_ID를_응답(accessToken, FORM_CREATE_REQUEST);
+            List<ApplicationItemResponse> items = 나의_지원서를_조회한다(accessToken, formId)
+                    .jsonPath()
+                    .getObject(".", ApplicationFormResponse.class)
+                    .applicationItems();
+            long categoryId = extractCreatedId(카테고리를_생성한다(accessToken, CATEGORY_CREATE_MOTIVE));
+
+            Long itemId1 = items.get(0).applicationItemId();
+            Long itemId2 = items.get(1).applicationItemId();
+            지원_항목에_카테고리를_등록한다(accessToken, categoryId, itemId1);
+            지원_항목에_카테고리를_등록한다(accessToken, categoryId, itemId2);
+
+            // when
+            ExtractableResponse<Response> response = 카테고리로_지원_항목을_조회한다(accessToken, categoryId);
+
+
+            // then
+            List<CategoryItemResponse> actual = response.jsonPath().getList(".", CategoryItemResponse.class);
+            assertThat(actual)
+                    .map(item -> item.applicationItems().applicationItemId())
+                    .containsOnly(itemId1, itemId2);
         }
     }
 
