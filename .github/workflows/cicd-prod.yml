@@ -44,7 +44,6 @@ jobs:
           username: ubuntu
           key: ${{ secrets.KEY }}
           script: |
-            mkdir -p /home/free
             scp -o StrictHostKeyChecking=no -r ./docker-compose.yml ${{ secrets.WAS_HOST }}:/home/ubuntu
 
 
