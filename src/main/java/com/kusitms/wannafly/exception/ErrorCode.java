@@ -17,6 +17,7 @@ public enum ErrorCode {
     NOT_FOUND_APPLICATION_FORM(3004, 404, "존재하지 않는 지원서입니다."),
     INVALID_WRITER_OF_FORM(3005, 403, "지원서를 작성한 회원만 열람할 수 있습니다."),
     NOT_FOUND_APPLICATION_ITEM(3006, 404, "존재하지 않는 지원 항목입니다."),
+    NOT_MATCH_FORM_WRITER_CATEGORY_REGISTER(3007, 400, "지원서 작성자와 카테고리 등록자가 일치하지 않습니다."),
 
     MEMBER_DUPLICATE_YEAR(4001, 400, "이미 해당 년도가 존재합니다"),
 

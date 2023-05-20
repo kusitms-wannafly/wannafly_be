@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/api/application-forms")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class ApplicationFormController {
 
     private final ApplicationFormService applicationFormService;
     private final ApplicationItemService applicationItemService;
 
-    @PostMapping
+    @PostMapping("/application-forms")
     public ResponseEntity<Void> createForm(@RequestBody ApplicationFormCreateRequest request,
                                            LoginMember loginMember) {
         Long formId = applicationFormService.createForm(loginMember, request);
@@ -29,7 +29,7 @@ public class ApplicationFormController {
                 .build();
     }
 
-    @PatchMapping("{applicationFormId}")
+    @PatchMapping("/application-forms/{applicationFormId}")
     public ResponseEntity<Void> updateForm(@PathVariable Long applicationFormId,
                                            @RequestBody ApplicationFormUpdateRequest request,
                                            LoginMember loginMember) {
@@ -37,7 +37,7 @@ public class ApplicationFormController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("{applicationFormId}/items")
+    @PostMapping("/application-forms/{applicationFormId}/items")
     public ResponseEntity<Void> addItem(@PathVariable Long applicationFormId,
                                         @RequestBody ApplicationItemCreateRequest request,
                                         LoginMember loginMember) {
@@ -46,18 +46,27 @@ public class ApplicationFormController {
                 .build();
     }
 
-    @DeleteMapping("{applicationFormId}")
+    @DeleteMapping("/application-forms/{applicationFormId}")
     public ResponseEntity<Void> deleteForm(@PathVariable Long applicationFormId,
                                            LoginMember loginMember) {
         applicationFormService.deleteForm(applicationFormId, loginMember);
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("{applicationFormId}/state")
+    @PatchMapping("/application-forms/{applicationFormId}/state")
     public ResponseEntity<Void> changeFormState(@PathVariable Long applicationFormId,
                                                 @RequestBody FormStateRequest request,
                                                 LoginMember loginMember) {
         applicationFormService.changeState(applicationFormId, loginMember, request);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/categories/{categoryId}/application-items/{applicationItemId}")
+    public ResponseEntity<Void> registerCategory(@PathVariable Long categoryId,
+                                                 @PathVariable Long applicationItemId,
+                                                 LoginMember loginMember) {
+        applicationItemService.registerCategory(categoryId, applicationItemId, loginMember);
+        return ResponseEntity.noContent().build();
+    }
 }
+

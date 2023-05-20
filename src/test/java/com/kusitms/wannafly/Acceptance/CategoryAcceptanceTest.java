@@ -4,12 +4,9 @@ import com.kusitms.wannafly.command.category.dto.CategoryCreateRequest;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.apache.http.HttpHeaders;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
-
-import static com.kusitms.wannafly.Acceptance.fixture.AuthAcceptanceFixture.소셜_로그인을_한다;
 import static com.kusitms.wannafly.Acceptance.fixture.CategoryAcceptanceFixture.*;
 import static com.kusitms.wannafly.support.fixture.CategoryFixture.CATEGORY_CREATE_MOTIVE;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -60,7 +57,7 @@ public class CategoryAcceptanceTest extends AcceptanceTest {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
     }
 
-    private Long 카테고리를_등록하고_ID를_응답(String accessToken, CategoryCreateRequest request) {
+    public Long 카테고리를_등록하고_ID를_응답(String accessToken, CategoryCreateRequest request) {
         return extractCreatedId(카테고리를_생성한다(accessToken, request));
     }
 
