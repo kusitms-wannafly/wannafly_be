@@ -5,6 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    command: ["java", "-Dspring.profiles.active=prod", "-jar", "/home/spring/app.jar"]
     ports:
       - 8080:8080
     networks:
