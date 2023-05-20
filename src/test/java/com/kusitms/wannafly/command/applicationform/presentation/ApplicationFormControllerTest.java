@@ -146,4 +146,19 @@ public class ApplicationFormControllerTest extends ControllerTest {
                         )
                 ));
     }
+
+    @Test
+    void 지원서에_카테고리_추가한다() throws Exception {
+        // when
+        ResultActions result = mockMvc.perform(post("/api/categories/1/application-items/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken));
+
+        // then
+        result.andExpect(status().isNoContent())
+
+                .andDo(document("add-category-item", HOST_INFO,
+                        preprocessResponse(prettyPrint())
+                ));
+    }
 }

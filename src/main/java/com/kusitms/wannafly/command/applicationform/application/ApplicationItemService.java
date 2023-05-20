@@ -34,4 +34,8 @@ public class ApplicationItemService {
         applicationItemRepository.save(item);
         return item.getId();
     }
+
+    public void registerCategory(Long categoryId, Long applicationItemId, LoginMember loginMember) {
+
+    }
 }

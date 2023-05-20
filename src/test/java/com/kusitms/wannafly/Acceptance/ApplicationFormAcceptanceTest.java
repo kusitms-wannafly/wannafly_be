@@ -18,8 +18,9 @@ import org.springframework.http.HttpStatus;
 import java.util.List;
 
 import static com.kusitms.wannafly.Acceptance.fixture.ApplicationFormAcceptanceFixture.*;
-import static com.kusitms.wannafly.Acceptance.fixture.AuthAcceptanceFixture.소셜_로그인을_한다;
+import static com.kusitms.wannafly.Acceptance.fixture.CategoryAcceptanceFixture.카테고리를_생성한다;
 import static com.kusitms.wannafly.support.fixture.ApplicationFormFixture.*;
+import static com.kusitms.wannafly.support.fixture.CategoryFixture.CATEGORY_CREATE_MOTIVE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -243,6 +244,28 @@ class ApplicationFormAcceptanceTest extends AcceptanceTest {
                             .extracting("applicationFormId")
                             .containsExactly(formId5, formId4, formId3, formId2, formId1)
             );
+        }
+
+        @Test
+        void 카테고리에_지원_항목을_추가한다() {
+            // given
+            Long formId = 지원서를_등록하고_ID를_응답(accessToken, FORM_CREATE_REQUEST);
+            Long itemId = 나의_지원서를_조회한다(accessToken, formId)
+                    .jsonPath()
+                    .getObject(".", ApplicationFormResponse.class)
+                    .applicationItems()
+                    .get(0)
+                    .applicationItemId();
+
+            ExtractableResponse<Response> categoryResponse = 카테고리를_생성한다(accessToken, CATEGORY_CREATE_MOTIVE);
+            long categoryId = extractCreatedId(categoryResponse);
+
+            // when
+            ExtractableResponse<Response> response = 지원_항목에_카테고리를_등록한다(accessToken, categoryId, itemId);
+
+            // then
+            assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
+
         }
     }
 

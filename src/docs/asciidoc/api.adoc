@@ -76,6 +76,12 @@ include::{snippets}/get-application-forms/http-response.adoc[]
 === Response 필드
 include::{snippets}/get-application-forms/response-fields.adoc[]
 
+== 지원 항목에 카테고리 추가
+=== Request
+include::{snippets}/add-category-item/http-request.adoc[]
+=== Response
+include::{snippets}/add-category-item/http-response.adoc[]
+
 = 지원서 보관함
 == 지원서 보관함 생성
 === Request

@@ -97,6 +97,16 @@ public class ApplicationFormAcceptanceFixture {
                 .extract();
     }
 
+    public static ExtractableResponse<Response> 지원_항목에_카테고리를_등록한다(String accessToken, Long categoryId, Long itemId) {
+        return RestAssured.given().log().all()
+                .when()
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .post("/api/categories/" + categoryId + "/application-items/" + itemId)
+                .then().log().all()
+                .extract();
+    }
+
     private static Map<String, Object> getQueryString(Long cursor, Integer size, Integer year) {
         Map<String, Object> params = new HashMap<>();
         if (cursor != null) {
