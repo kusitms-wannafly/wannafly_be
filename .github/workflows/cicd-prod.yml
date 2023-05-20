@@ -50,4 +50,5 @@ jobs:
             docker volume rm $(docker volume ls -q)
             docker pull ${{ secrets.DOCKER_IMG }}
             docker run -d -p 8080:8080 ${{ secrets.DOCKER_IMG }}
-            cd /path/to/your/project && docker-compose -f docker-compose.yml up -d
+            cd /path/to/wannafly_be && docker-compose -f docker-compose.yml up -d
+  
