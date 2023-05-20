@@ -1,6 +1,7 @@
 package com.kusitms.wannafly.query.service;
 
 import com.kusitms.wannafly.command.applicationform.domain.ApplicationForm;
+import com.kusitms.wannafly.command.applicationform.domain.ApplicationItem;
 import com.kusitms.wannafly.command.applicationform.domain.value.Writer;
 import com.kusitms.wannafly.command.auth.LoginMember;
 import com.kusitms.wannafly.exception.BusinessException;
@@ -44,16 +45,18 @@ public class ApplicationFormQueryService {
                 .orElseThrow(() -> BusinessException.from(ErrorCode.NOT_FOUND_APPLICATION_FORM));
     }
 
+    public List<CategoryItemResponse> findByCategory(Long categoryId, LoginMember loginMember) {
+        Writer requester = new Writer(loginMember.id());
+        List<ApplicationItem> items = applicationItemQueryRepository.findByCategoryId(categoryId);
+        items.forEach(item -> validateWriter(requester, item.getApplicationForm()));
+        return items.stream()
+                .map(CategoryItemResponse::from)
+                .toList();
+    }
+
     private void validateWriter(Writer requester, ApplicationForm applicationForm) {
         if (applicationForm.isNotWriter(requester)) {
             throw BusinessException.from(ErrorCode.INVALID_WRITER_OF_FORM);
         }
-    }
-
-    public List<CategoryItemResponse> findByCategory(Long categoryId, LoginMember loginMember) {
-        return applicationItemQueryRepository.findByCategoryId(categoryId)
-                .stream()
-                .map(CategoryItemResponse::from)
-                .toList();
     }
 }

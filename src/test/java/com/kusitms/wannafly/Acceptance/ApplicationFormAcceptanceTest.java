@@ -293,7 +293,7 @@ class ApplicationFormAcceptanceTest extends AcceptanceTest {
         // then
         List<CategoryItemResponse> actual = response.jsonPath().getList(".", CategoryItemResponse.class);
         assertThat(actual)
-                .map(item -> item.applicationItems().applicationItemId())
+                .map(item -> item.applicationItem().applicationItemId())
                 .containsOnly(itemId1, itemId2);
     }
 

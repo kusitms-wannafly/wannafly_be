@@ -1,15 +1,16 @@
 package com.kusitms.wannafly.query.service;
 
 import com.kusitms.wannafly.command.applicationform.application.ApplicationFormService;
+import com.kusitms.wannafly.command.applicationform.application.ApplicationItemService;
 import com.kusitms.wannafly.command.auth.LoginMember;
+import com.kusitms.wannafly.command.category.domain.Category;
+import com.kusitms.wannafly.command.category.domain.CategoryRepository;
 import com.kusitms.wannafly.exception.BusinessException;
 import com.kusitms.wannafly.exception.ErrorCode;
-import com.kusitms.wannafly.query.dto.ApplicationFormResponse;
-import com.kusitms.wannafly.query.dto.ApplicationItemResponse;
-import com.kusitms.wannafly.query.dto.PagingParams;
-import com.kusitms.wannafly.query.dto.SimpleFormResponse;
+import com.kusitms.wannafly.query.dto.*;
 import com.kusitms.wannafly.support.ServiceTest;
 import com.kusitms.wannafly.support.fixture.ApplicationFormFixture;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -26,10 +27,17 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 class ApplicationFormQueryServiceTest extends ServiceTest {
 
     @Autowired
+    private ApplicationFormQueryService applicationFormQueryService;
+
+    @Autowired
     private ApplicationFormService applicationFormService;
 
     @Autowired
-    private ApplicationFormQueryService applicationFormQueryService;
+    private ApplicationItemService applicationItemService;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
+
 
 
     @DisplayName("나의 지원서를 조회할 때")
@@ -256,6 +264,59 @@ class ApplicationFormQueryServiceTest extends ServiceTest {
                             .extracting("applicationFormId")
                             .containsExactly(4L, 3L, 2L)
             );
+        }
+    }
+
+    @DisplayName("나의 지원 항목을 카테고리 별로 조회할 때")
+    @Nested
+    class FindByCategoryTest {
+
+        private final Long memberId = 1L;
+        private final LoginMember loginMember = new LoginMember(memberId);
+        private Long categoryId;
+
+        private Long formId1;
+        private Long formId2;
+
+        @BeforeEach
+        void initForm() {
+            LoginMember loginMember = new LoginMember(1L);
+            formId1 = applicationFormService.createForm(loginMember, FORM_CREATE_REQUEST); // 항목 3개 저장
+            formId2 = applicationFormService.createForm(loginMember, FORM_CREATE_REQUEST); // 항목 3개 저장
+
+            categoryId = categoryRepository.save(Category.createCategory(memberId, "지원동기")).getId();
+
+            applicationItemService.registerCategory(categoryId, 1L, loginMember);
+            applicationItemService.registerCategory(categoryId, 3L, loginMember);
+            applicationItemService.registerCategory(categoryId, 5L, loginMember);
+        }
+
+        @Test
+        void 로그인_회원이_지원_항목을_작성했다면_조회한다() {
+            // when
+            List<CategoryItemResponse> actual = applicationFormQueryService.findByCategory(categoryId, loginMember);
+
+            // then
+            assertAll(
+                    () -> assertThat(actual)
+                            .map(item -> item.applicationItem().applicationItemId())
+                            .containsOnly(1L, 3L, 5L),
+                    () -> assertThat(actual)
+                            .map(CategoryItemResponse::applicationFormId)
+                            .containsOnly(formId1, formId2)
+            );
+        }
+
+        @Test
+        void 로그인_회원이_지원_항목을_작성하지_않았으면_예외가_발생한다() {
+            // given
+            LoginMember requester = new LoginMember(2L);
+
+            // when // then
+            assertThatThrownBy(() -> applicationFormQueryService.findByCategory(categoryId, requester))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(ErrorCode.INVALID_WRITER_OF_FORM);
         }
     }
 }

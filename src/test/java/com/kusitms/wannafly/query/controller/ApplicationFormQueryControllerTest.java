@@ -113,11 +113,6 @@ public class ApplicationFormQueryControllerTest extends ControllerTest {
     @Test
     void 카테고리별로_지원_항목을_조회한다() throws Exception {
         // given
-        List<ApplicationItemResponse> items = List.of(
-                new ApplicationItemResponse(1L, QUESTION1, ANSWER1),
-                new ApplicationItemResponse(2L, QUESTION1, ANSWER1),
-                new ApplicationItemResponse(3L, QUESTION1, ANSWER1)
-        );
         ApplicationItemResponse item1 = new ApplicationItemResponse(1L, QUESTION1, ANSWER1);
         ApplicationItemResponse item2 = new ApplicationItemResponse(2L, QUESTION1, ANSWER1);
         ApplicationItemResponse item3 = new ApplicationItemResponse(3L, QUESTION1, ANSWER1);
@@ -140,11 +135,11 @@ public class ApplicationFormQueryControllerTest extends ControllerTest {
                 .andDo(document("get-item-by-category", HOST_INFO,
                         preprocessResponse(prettyPrint()),
                         responseFields(
-                                fieldWithPath("[].applicationItems.applicationItemId")
+                                fieldWithPath("[].applicationItem.applicationItemId")
                                         .type(JsonFieldType.NUMBER).description("지원 항목 식별자"),
-                                fieldWithPath("[].applicationItems.applicationQuestion")
+                                fieldWithPath("[].applicationItem.applicationQuestion")
                                         .type(JsonFieldType.STRING).description("지원 문항"),
-                                fieldWithPath("[].applicationItems.applicationAnswer")
+                                fieldWithPath("[].applicationItem.applicationAnswer")
                                         .type(JsonFieldType.STRING).description("지원 답변"),
 
                                 fieldWithPath("[].applicationFormId").type(JsonFieldType.NUMBER).description("지원서 식별자"),
