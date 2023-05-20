@@ -2,6 +2,7 @@ version: "3"
 
 services:
   web:
+    image: ldk980130/wannafly-be
     build:
       context: .
       dockerfile: Dockerfile
