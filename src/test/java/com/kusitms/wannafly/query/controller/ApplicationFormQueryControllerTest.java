@@ -2,9 +2,9 @@ package com.kusitms.wannafly.query.controller;
 
 import com.kusitms.wannafly.query.dto.ApplicationFormResponse;
 import com.kusitms.wannafly.query.dto.ApplicationItemResponse;
+import com.kusitms.wannafly.query.dto.CategoryItemResponse;
 import com.kusitms.wannafly.query.dto.SimpleFormResponse;
 import com.kusitms.wannafly.support.ControllerTest;
-import com.kusitms.wannafly.support.fixture.ApplicationFormFixture;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
@@ -15,6 +15,8 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static com.kusitms.wannafly.support.fixture.ApplicationFormFixture.ANSWER1;
+import static com.kusitms.wannafly.support.fixture.ApplicationFormFixture.QUESTION1;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -38,9 +40,9 @@ public class ApplicationFormQueryControllerTest extends ControllerTest {
     void 나의_지원서를_조회한다() throws Exception {
         // given
         List<ApplicationItemResponse> items = List.of(
-                new ApplicationItemResponse(1L, ApplicationFormFixture.QUESTION1, ApplicationFormFixture.ANSWER1),
-                new ApplicationItemResponse(2L, ApplicationFormFixture.QUESTION1, ApplicationFormFixture.ANSWER1),
-                new ApplicationItemResponse(3L, ApplicationFormFixture.QUESTION1, ApplicationFormFixture.ANSWER1)
+                new ApplicationItemResponse(1L, QUESTION1, ANSWER1),
+                new ApplicationItemResponse(2L, QUESTION1, ANSWER1),
+                new ApplicationItemResponse(3L, QUESTION1, ANSWER1)
         );
         given(applicationFormQueryService.findOne(any(), any()))
                 .willReturn(new ApplicationFormResponse("큐시즘", 2023, "first_half", items));
@@ -104,6 +106,46 @@ public class ApplicationFormQueryControllerTest extends ControllerTest {
                                 fieldWithPath("[].semester").type(JsonFieldType.STRING).description("지원 분기"),
                                 fieldWithPath("[].isCompleted").type(JsonFieldType.BOOLEAN).description("작성 완료 상태"),
                                 fieldWithPath("[].lastModifiedTime").type(JsonFieldType.STRING).description("마지막 수정 시간")
+                        )
+                ));
+    }
+
+    @Test
+    void 카테고리별로_지원_항목을_조회한다() throws Exception {
+        // given
+        ApplicationItemResponse item1 = new ApplicationItemResponse(1L, QUESTION1, ANSWER1);
+        ApplicationItemResponse item2 = new ApplicationItemResponse(2L, QUESTION1, ANSWER1);
+        ApplicationItemResponse item3 = new ApplicationItemResponse(3L, QUESTION1, ANSWER1);
+        given(applicationFormQueryService.findByCategory(any(), any()))
+                .willReturn(List.of(
+                        new CategoryItemResponse(item1, 1L, "큐시즘", 2023, "first_half"),
+                        new CategoryItemResponse(item2, 1L, "큐시즘", 2023, "first_half"),
+                        new CategoryItemResponse(item3, 2L, "soft", 2023, "first_half")
+                        )
+                );
+
+        // when
+        ResultActions result = mockMvc.perform(get("/api/categories/1/application-items")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken));
+
+        // then
+        result.andExpect(status().isOk())
+
+                .andDo(document("get-item-by-category", HOST_INFO,
+                        preprocessResponse(prettyPrint()),
+                        responseFields(
+                                fieldWithPath("[].applicationItem.applicationItemId")
+                                        .type(JsonFieldType.NUMBER).description("지원 항목 식별자"),
+                                fieldWithPath("[].applicationItem.applicationQuestion")
+                                        .type(JsonFieldType.STRING).description("지원 문항"),
+                                fieldWithPath("[].applicationItem.applicationAnswer")
+                                        .type(JsonFieldType.STRING).description("지원 답변"),
+
+                                fieldWithPath("[].applicationFormId").type(JsonFieldType.NUMBER).description("지원서 식별자"),
+                                fieldWithPath("[].recruiter").type(JsonFieldType.STRING).description("동아리 명"),
+                                fieldWithPath("[].year").type(JsonFieldType.NUMBER).description("지원 년도"),
+                                fieldWithPath("[].semester").type(JsonFieldType.STRING).description("지원 분기")
                         )
                 ));
     }

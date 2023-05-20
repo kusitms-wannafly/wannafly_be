@@ -2,6 +2,10 @@ package com.kusitms.wannafly.command.applicationform.domain;
 
 import com.kusitms.wannafly.command.applicationform.domain.value.ApplicationAnswer;
 import com.kusitms.wannafly.command.applicationform.domain.value.ApplicationQuestion;
+import com.kusitms.wannafly.command.applicationform.domain.value.Writer;
+import com.kusitms.wannafly.command.category.domain.Category;
+import com.kusitms.wannafly.exception.BusinessException;
+import com.kusitms.wannafly.exception.ErrorCode;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -29,6 +33,8 @@ public class ApplicationItem {
     @Embedded
     private ApplicationAnswer applicationAnswer;
 
+    private Long categoryId;
+
     public ApplicationItem(ApplicationForm form, ApplicationQuestion question, ApplicationAnswer answer) {
         this.applicationForm = form;
         this.applicationQuestion = question;
@@ -44,5 +50,16 @@ public class ApplicationItem {
     public void updateContents(ApplicationItem updated) {
         this.applicationQuestion = updated.getApplicationQuestion();
         this.applicationAnswer = updated.getApplicationAnswer();
+    }
+
+    public void registerCategory(Category category) {
+        if (applicationForm.isNotWriter(new Writer(category.getMemberId()))) {
+            throw BusinessException.from(ErrorCode.NOT_MATCH_FORM_WRITER_CATEGORY_REGISTER);
+        }
+        this.categoryId = category.getId();
+    }
+
+    public boolean isNotWriter(Writer writer) {
+        return applicationForm.isNotWriter(writer);
     }
 }

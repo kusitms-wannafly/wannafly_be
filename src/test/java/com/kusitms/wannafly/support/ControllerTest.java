@@ -4,6 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kusitms.wannafly.command.applicationform.application.ApplicationItemService;
 import com.kusitms.wannafly.command.grammar.application.GrammarService;
 import com.kusitms.wannafly.command.grammar.presentation.GrammarController;
+import com.kusitms.wannafly.command.category.presentation.CategoryController;
+import com.kusitms.wannafly.command.category.service.CategoryService;
+import com.kusitms.wannafly.query.controller.CategoryQueryController;
 import com.kusitms.wannafly.query.service.ApplicationFolderQueryService;
 import com.kusitms.wannafly.command.applicationfolder.presentation.ApplicationFolderController;
 import com.kusitms.wannafly.query.controller.ApplicationFolderQueryController;
@@ -19,6 +22,7 @@ import com.kusitms.wannafly.command.auth.dto.AuthorizationResponse;
 import com.kusitms.wannafly.command.auth.presentation.AuthController;
 import com.kusitms.wannafly.command.auth.token.JwtTokenProvider;
 import com.kusitms.wannafly.command.auth.token.TokenPayload;
+import com.kusitms.wannafly.query.service.CategoryQueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -37,6 +41,8 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
         ApplicationFormQueryController.class,
         ApplicationFolderController.class,
         ApplicationFolderQueryController.class,
+        CategoryController.class,
+        CategoryQueryController.class,
         GrammarController.class
 })
 @Import({
@@ -80,6 +86,10 @@ public class ControllerTest {
 
     @MockBean
     protected ApplicationFolderQueryService applicationFolderQueryService;
+    @MockBean
+    protected CategoryService categoryService;
+    @MockBean
+    protected CategoryQueryService categoryQueryService;
 
     @MockBean
     protected GrammarService grammarService;

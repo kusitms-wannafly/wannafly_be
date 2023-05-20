@@ -1,4 +1,4 @@
-package com.kusitms.wannafly.command.applicationform.domain.value;
+package com.kusitms.wannafly.command.category.domain;
 
 import com.kusitms.wannafly.exception.BusinessException;
 import com.kusitms.wannafly.exception.ErrorCode;
@@ -7,16 +7,18 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class ApplicationQuestionTest {
-
+public class CategoryTest {
     @ParameterizedTest
     @ValueSource(strings = {"", " "})
-    void 지원_문항은_공백일_수_없다(String content) {
+    void 카테고리는_공백일_수_없다(String name) {
+        // given
+        Long memberId = 1L;
 
         // when then
-        assertThatThrownBy(() -> new ApplicationQuestion(content))
+        assertThatThrownBy(() -> Category.createCategory(memberId, name))
                 .isInstanceOf(BusinessException.class)
                 .extracting("errorCode")
-                .isEqualTo(ErrorCode.EMPTY_QUESTION);
+                .isEqualTo(ErrorCode.INVALID_NAME);
     }
+
 }

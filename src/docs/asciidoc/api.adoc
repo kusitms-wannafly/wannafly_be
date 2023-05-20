@@ -76,6 +76,20 @@ include::{snippets}/get-application-forms/http-response.adoc[]
 === Response 필드
 include::{snippets}/get-application-forms/response-fields.adoc[]
 
+== 지원 항목에 카테고리 추가
+=== Request
+include::{snippets}/add-category-item/http-request.adoc[]
+=== Response
+include::{snippets}/add-category-item/http-response.adoc[]
+
+== 지원 항목을 카테고리로 조회
+=== Request
+include::{snippets}/get-item-by-category/http-request.adoc[]
+=== Response
+include::{snippets}/get-item-by-category/http-response.adoc[]
+=== Response 필드
+include::{snippets}/get-item-by-category/response-fields.adoc[]
+
 = 지원서 보관함
 == 지원서 보관함 생성
 === Request
@@ -91,8 +105,27 @@ include::{snippets}/get-one-application-folders/http-response.adoc[]
 === Response 필드
 include::{snippets}/get-one-application-folders/response-fields.adoc[]
 
+= 카테고리
+== 카테고리 생성
+=== Request
+include::{snippets}/create-category/http-request.adoc[]
+=== Response
+include::{snippets}/create-category/http-response.adoc[]
+
+== 카테고리 조회
+include::{snippets}/get-one-category/http-request.adoc[]
+=== Response
+include::{snippets}/get-one-category/http-response.adoc[]
+=== Response 필드
+include::{snippets}/get-one-category/response-fields.adoc[]
+
+== 카테고리 삭제
+include::{snippets}/delete-categories/http-request.adoc[]
+=== Response
+include::{snippets}/delete-categories/http-response.adoc[]
+
 = 맞춤법 검사
-== 지원서 보관함 생성
+== 맞춤법 검사 요청
 === Request
 include::{snippets}/grammar-check/http-request.adoc[]
 === Request 필드

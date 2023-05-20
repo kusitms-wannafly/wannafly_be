@@ -100,6 +100,20 @@ class ApplicationFormServiceTest extends ServiceTest {
                     .extracting("errorCode")
                     .isEqualTo(ErrorCode.INVALID_WRITER_OF_FORM);
         }
+
+        @Test
+        void 없는_지원_항목을_수정할_수는_없다() {
+            // given
+            Long formId = applicationFormService.createForm(loginMember, FORM_CREATE_REQUEST);
+
+            // when then
+            assertThatThrownBy(() -> applicationFormService.updateForm(
+                    formId, loginMember, INVALID_FORM_UPDATE_REQUEST)
+            )
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(ErrorCode.NOT_FOUND_APPLICATION_ITEM);
+        }
     }
 
     @DisplayName("지원서를 삭제할 때")

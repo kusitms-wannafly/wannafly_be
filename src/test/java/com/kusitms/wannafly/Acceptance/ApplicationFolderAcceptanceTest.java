@@ -7,20 +7,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
+import static com.kusitms.wannafly.Acceptance.fixture.ApplicationFolderAcceptanceFixture.지원서_보관함을_생성한다;
+import static com.kusitms.wannafly.Acceptance.fixture.ApplicationFolderAcceptanceFixture.지원서_보관함을_조회한다;
 import static com.kusitms.wannafly.Acceptance.fixture.AuthAcceptanceFixture.*;
 import static com.kusitms.wannafly.support.fixture.ApplicationFolderFixture.FOLDER_CREATE_2023;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 public class ApplicationFolderAcceptanceTest extends AcceptanceTest {
-    private String accessToken;
-
-    @BeforeEach
-    void setToken() {
-        accessToken = 소셜_로그인을_한다("google")
-                .jsonPath()
-                .getString("accessToken");
-    }
 
     @Test
     void 원하는_년도의_지원서_보관함을_생성한다() {
@@ -40,7 +34,7 @@ public class ApplicationFolderAcceptanceTest extends AcceptanceTest {
         지원서_보관함을_생성한다(accessToken, FOLDER_CREATE_2023);
 
         //when
-        ExtractableResponse<Response> response = 지원서를_조회한다(accessToken);
+        ExtractableResponse<Response> response = 지원서_보관함을_조회한다(accessToken);
 
         //then
         int year = response.body().jsonPath().getInt("[0].year");
