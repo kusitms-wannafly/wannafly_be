@@ -44,7 +44,6 @@ jobs:
           username: ubuntu
           key: ${{ secrets.KEY }}
           script: |
-            cd docker
             docker rm -f $(docker ps -qa)
             docker rmi $(docker images -q)
             docker volume prune
