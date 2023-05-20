@@ -1,13 +1,11 @@
 package com.kusitms.wannafly.support;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kusitms.wannafly.command.applicationform.application.ApplicationItemService;
 import com.kusitms.wannafly.command.grammar.application.GrammarService;
 import com.kusitms.wannafly.command.grammar.presentation.GrammarController;
-import com.kusitms.wannafly.command.category.presentaion.CategoryControllerTest;
 import com.kusitms.wannafly.command.category.presentation.CategoryController;
 import com.kusitms.wannafly.command.category.service.CategoryService;
-import com.kusitms.wannafly.query.controller.CategoryQueryController;
-import com.kusitms.wannafly.command.category.presentation.CategoryController;
 import com.kusitms.wannafly.query.controller.CategoryQueryController;
 import com.kusitms.wannafly.query.service.ApplicationFolderQueryService;
 import com.kusitms.wannafly.command.applicationfolder.presentation.ApplicationFolderController;
@@ -24,6 +22,7 @@ import com.kusitms.wannafly.command.auth.dto.AuthorizationResponse;
 import com.kusitms.wannafly.command.auth.presentation.AuthController;
 import com.kusitms.wannafly.command.auth.token.JwtTokenProvider;
 import com.kusitms.wannafly.command.auth.token.TokenPayload;
+import com.kusitms.wannafly.query.service.CategoryQueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -41,7 +40,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
         ApplicationFormController.class,
         ApplicationFormQueryController.class,
         ApplicationFolderController.class,
-        ApplicationFolderQueryController.class
+        ApplicationFolderQueryController.class,
         CategoryController.class,
         CategoryQueryController.class,
         GrammarController.class
