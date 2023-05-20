@@ -43,7 +43,21 @@ jobs:
           host: ${{ secrets.WAS_HOST }}
           username: ubuntu
           key: ${{ secrets.KEY }}
-          source: "./docker-compose.yml"
-          target: "/home/ubuntu"
+          script: |
+            mkdir -p /home/free
+            scp -o StrictHostKeyChecking=no -r ./docker-compose.yml ${{ secrets.WAS_HOST }}:/home/ubuntu
 
 
+      - name: 배포
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.WAS_HOST }}
+          username: ubuntu
+          key: ${{ secrets.KEY }}
+          script: |
+            docker rm -f $(docker ps -qa)
+            docker rmi $(docker images -q)
+            docker volume prune
+            docker volume rm $(docker volume ls -q)
+            docker pull ${{ secrets.DOCKER_IMG }}
+            docker-compose -f docker-compose.yml up -d
