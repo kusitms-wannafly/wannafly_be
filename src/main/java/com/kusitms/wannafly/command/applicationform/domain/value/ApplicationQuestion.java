@@ -1,7 +1,5 @@
 package com.kusitms.wannafly.command.applicationform.domain.value;
 
-import com.kusitms.wannafly.exception.BusinessException;
-import com.kusitms.wannafly.exception.ErrorCode;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Lob;
@@ -21,13 +19,6 @@ public class ApplicationQuestion {
     private String content;
 
     public ApplicationQuestion(String content) {
-        validateContent(content);
         this.content = content;
-    }
-
-    private void validateContent(String content) {
-        if (content.isBlank()) {
-            throw BusinessException.from(ErrorCode.EMPTY_QUESTION);
-        }
     }
 }
