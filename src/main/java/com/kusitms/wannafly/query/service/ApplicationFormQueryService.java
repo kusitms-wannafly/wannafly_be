@@ -10,6 +10,7 @@ import com.kusitms.wannafly.query.dto.CategoryItemResponse;
 import com.kusitms.wannafly.query.dto.PagingParams;
 import com.kusitms.wannafly.query.dto.SimpleFormResponse;
 import com.kusitms.wannafly.query.repository.ApplicationFormQueryRepository;
+import com.kusitms.wannafly.query.repository.ApplicationItemQueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,7 @@ import java.util.List;
 public class ApplicationFormQueryService {
 
     private final ApplicationFormQueryRepository applicationFormQueryRepository;
+    private final ApplicationItemQueryRepository applicationItemQueryRepository;
 
     public ApplicationFormResponse findOne(Long applicationFormId, LoginMember loginMember) {
         Writer requester = new Writer(loginMember.id());
@@ -49,6 +51,9 @@ public class ApplicationFormQueryService {
     }
 
     public List<CategoryItemResponse> findByCategory(Long categoryId, LoginMember loginMember) {
-        return null;
+        return applicationItemQueryRepository.findByCategoryId(categoryId)
+                .stream()
+                .map(CategoryItemResponse::from)
+                .toList();
     }
 }
