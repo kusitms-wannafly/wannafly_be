@@ -39,3 +39,6 @@ services:
 networks:
   app-tier:
 
+volumes:
+  prometheus_store:
+  grafana_store:
