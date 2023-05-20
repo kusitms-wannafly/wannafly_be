@@ -37,6 +37,15 @@ jobs:
       - name: Docker Hub push
         run: docker push ${{ secrets.DOCKER_IMG }}
 
+      - name: scp file
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.WAS_HOST }}
+          username: ubuntu
+          key: ${{ secrets.KEY }}
+          source: "docker-compose.yml"
+          target: "/home/ubuntu"
+
       - name: 배포
         uses: appleboy/ssh-action@v0.1.6
         with:
@@ -49,4 +58,5 @@ jobs:
             docker volume prune
             docker volume rm $(docker volume ls -q)
             docker pull ${{ secrets.DOCKER_IMG }}
-            docker-compose up -d
+            echo "$YOUR_DOCKER_COMPOSE_YML_CONTENT" > docker-compose.yml
+            docker-compose -f docker-compose.yml up -d
