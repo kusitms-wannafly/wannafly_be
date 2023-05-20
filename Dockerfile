@@ -1,8 +1,8 @@
 FROM openjdk:17-oracle
 
-WORKDIR /home/spring
+RUN ls /home
 
-RUN mkdir /home/spring
+WORKDIR /home/spring
 
 COPY build/libs/*.jar /home/spring/app.jar
 COPY docker-compose.yml /home/spring/docker-compose.yml
