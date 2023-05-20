@@ -50,6 +50,5 @@ jobs:
             docker volume rm $(docker volume ls -q)
             docker pull ${{ secrets.DOCKER_IMG }}
             docker run -d -p 8080:8080 ${{ secrets.DOCKER_IMG }}
-            docker run -v /var/run/docker.sock:/var/run/docker.sock -v /home/spring:/app -w /app docker/compose:1.29.0 up -d
-
+            docker run -v /var/run/docker.sock:/var/run/docker.sock -v ${{ github.workspace }}:/app -w /app docker/compose:1.29.0 up -d -f /app/docker-compose.yml
   
