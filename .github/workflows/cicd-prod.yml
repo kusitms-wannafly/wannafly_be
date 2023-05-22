@@ -2,7 +2,7 @@ name: spring server ci cd
 
 on:
   push:
-    branches: ["main"]
+    branches: ["feature/composeup-redis"]
 
 jobs:
   deploy:
