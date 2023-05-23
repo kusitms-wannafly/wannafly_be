@@ -1,3 +1,5 @@
+package com.kusitms.wannafly.command.auth.infrastructure.refreshtoken;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
