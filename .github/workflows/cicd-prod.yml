@@ -37,15 +37,6 @@ jobs:
       - name: Docker Hub push
         run: docker push ${{ secrets.DOCKER_IMG }}
 
-      - name: Remove existing docker-compose.yml
-        uses: appleboy/ssh-action@v0.1.6
-        with:
-          host: ${{ secrets.WAS_HOST }}
-          username: ubuntu
-          key: ${{ secrets.KEY }}
-          script: |
-            rm /home/ubuntu/docker-compose.yml
-
       - name: scp file
         uses: appleboy/scp-action@master
         with:
