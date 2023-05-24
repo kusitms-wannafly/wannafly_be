@@ -14,10 +14,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class KeywordController {
     private final KeywordService keywordService;
+
     @GetMapping("/application-items")
     public ResponseEntity<List<CategoryItemResponse>> findItemByKeyword(LoginMember loginMember,
-                                                                        @RequestParam(value = "keyword") String keyword){
-        List<CategoryItemResponse> responses = keywordService.findByKeyword(keyword,loginMember);
+                                                                        @RequestParam(value = "keyword") String keyword) {
+        List<CategoryItemResponse> responses = keywordService.findByKeyword(keyword, loginMember);
         return ResponseEntity.ok(responses);
     }
 }
