@@ -142,3 +142,12 @@ include::{snippets}/grammar-check/request-fields.adoc[]
 include::{snippets}/grammar-check/http-response.adoc[]
 === Response 필드
 include::{snippets}/grammar-check/response-fields.adoc[]
+
+= 키워드 조회
+== 키워드로 지원항목 조회
+=== Request
+include::{snippets}/get-item-by-keyword/http-request.adoc[]
+=== Response
+include::{snippets}/get-item-by-keyword/http-response.adoc[]
+=== Response 필드
+include::{snippets}/get-item-by-keyword/response-fields.adoc[]
