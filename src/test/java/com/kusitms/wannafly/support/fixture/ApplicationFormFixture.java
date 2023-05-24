@@ -14,14 +14,24 @@ public class ApplicationFormFixture {
     public static final ApplicationItemCreateRequest ITEM_CREATE_REQUEST = new ApplicationItemCreateRequest(
             ApplicationFormFixture.QUESTION1, ApplicationFormFixture.ANSWER1
     );
-
+    public static final ApplicationItemCreateRequest ITEM_CREATE_REQUEST_KUSITMS = new ApplicationItemCreateRequest(
+            ApplicationFormFixture.QUESTION_KUSITMS, ApplicationFormFixture.ANSWER_KUSITMS
+    );
+    public static final ApplicationItemCreateRequest ITEM_CREATE_REQUEST_SOPT = new ApplicationItemCreateRequest(
+            ApplicationFormFixture.QUESTION_SOPT, ApplicationFormFixture.ANSWER_SOPT
+    );
     public static final ApplicationFormCreateRequest FORM_CREATE_REQUEST = new ApplicationFormCreateRequest(
             RECRUITER,
             2023,
             "first_half",
             List.of(ITEM_CREATE_REQUEST, ITEM_CREATE_REQUEST, ITEM_CREATE_REQUEST)
     );
-
+    public static final ApplicationFormCreateRequest FORM_CREATE_REQUEST_KEYWORD = new ApplicationFormCreateRequest(
+            RECRUITER,
+            2023,
+            "first_half",
+            List.of(ITEM_CREATE_REQUEST_KUSITMS, ITEM_CREATE_REQUEST_SOPT)
+    );
     public static final ApplicationFormUpdateRequest FORM_UPDATE_REQUEST = new ApplicationFormUpdateRequest(
             RECRUITER + " 28기",
             2024,
@@ -147,5 +157,14 @@ public class ApplicationFormFixture {
             하지만 알림 때문에 챌린지 인증을 못 하게 되는 상황이 이상하다고 느껴졌습니다. 챌린지 인증은 서비스의 핵심 기능입니다. 알림을 보내지 못하는 상황이 되었다고 해서 핵심 기능까지 막을 수는 없다고 판단했습니다. 알림 기능은 이미 배포되었고 잘 동작하고 있었지만 이를 해결하고 싶었습니다.
             이벤트로 구현하여 코드 간 결합은 없었지만 챌린지 인증과 알림 저장 및 발송 로직은 동기적으로 한 트랜잭션에서 실행됩니다. 이를 분리하기 위해 챌린지 인증을 커밋 후 비동기로 알림을 처리하도록 했습니다. 알림 발송 중에 예외가 발생해도 챌린지 인증은 무사히 커밋 되는 테스트도 통과했고 서비스의 핵심 기능이 알림에 의해 영향받는 일은 이제 없을 것입니다.
             한 가지 아쉬운 점은 챌린지 도전을 했음에도 알림이 발송되지 않는 상황이 발생할 수도 있다는 것입니다. 스레드가 분리되어 있기 때문에 이벤트 처리에서 예외가 발생하면 알림이 손실됩니다. 여러 방법을 찾아본 결과 챌린지 도전 이벤트를 DB에 저장하여 최종적 일관성을 맞추는 방식이나 메시지 큐 등을 이용할 수 있다는 것을 알았지만 끝내 개선하지는 못해 아쉬웠습니다.
+            """;
+
+    public final static String QUESTION_KUSITMS = "큐시즘에 들어오기 위해 한 일을 쓰시오";
+    public final static String ANSWER_KUSITMS = """
+            저는 큐시즘에 들어오기 위해 정말 많은 노력을 하였습니다. 여러가지 프로젝트와 개인 공부를 하였습니다
+            """;
+    public final static String QUESTION_SOPT = "솝트에 들어오기 위해 한 일을 쓰시오";
+    public final static String ANSWER_SOPT = """
+            저는 솝트에 들어오기 위해 정말 많은 노력을 하였습니다. 여러가지 프로젝트와 개인 공부를 하였습니다
             """;
 }

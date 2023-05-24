@@ -47,7 +47,7 @@ public class KeywordControllerTest extends ControllerTest {
                 );
 
         // when
-        ResultActions result = mockMvc.perform(get("/api/application-items?keyword=동기")
+        ResultActions result = mockMvc.perform(get("/api/application-items?keyword=백엔드")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken));
 
