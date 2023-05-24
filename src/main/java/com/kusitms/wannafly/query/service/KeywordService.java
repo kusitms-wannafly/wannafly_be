@@ -1,7 +1,6 @@
 package com.kusitms.wannafly.query.service;
 
 import com.kusitms.wannafly.command.applicationform.domain.ApplicationItem;
-import com.kusitms.wannafly.command.applicationform.domain.value.Writer;
 import com.kusitms.wannafly.command.auth.LoginMember;
 import com.kusitms.wannafly.query.dto.CategoryItemResponse;
 import com.kusitms.wannafly.query.repository.ApplicationItemQueryRepository;
@@ -23,7 +22,6 @@ public class KeywordService {
             return Collections.emptyList();
         }
         Long memberId = loginMember.id();
-        Writer requester = new Writer(loginMember.id());
         List<ApplicationItem> items = applicationItemQueryRepository.findItemsByKeyword(memberId, keyword);
         return items.stream()
                 .map(CategoryItemResponse::from)
