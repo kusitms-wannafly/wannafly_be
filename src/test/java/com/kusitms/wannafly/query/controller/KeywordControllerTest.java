@@ -33,7 +33,7 @@ public class KeywordControllerTest extends ControllerTest {
     }
 
     @Test
-    void 키워드로_지원항목을_조회한다() throws Exception{
+    void 키워드로_지원항목을_조회한다() throws Exception {
         // given
         ApplicationItemResponse item1 = new ApplicationItemResponse(1L, QUESTION1, ANSWER1);
         ApplicationItemResponse item2 = new ApplicationItemResponse(2L, QUESTION1, ANSWER1);

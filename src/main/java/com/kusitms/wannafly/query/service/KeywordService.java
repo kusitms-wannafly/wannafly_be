@@ -1,11 +1,8 @@
 package com.kusitms.wannafly.query.service;
 
-import com.kusitms.wannafly.command.applicationform.domain.ApplicationForm;
 import com.kusitms.wannafly.command.applicationform.domain.ApplicationItem;
 import com.kusitms.wannafly.command.applicationform.domain.value.Writer;
 import com.kusitms.wannafly.command.auth.LoginMember;
-import com.kusitms.wannafly.exception.BusinessException;
-import com.kusitms.wannafly.exception.ErrorCode;
 import com.kusitms.wannafly.query.dto.CategoryItemResponse;
 import com.kusitms.wannafly.query.repository.ApplicationItemQueryRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,15 +25,8 @@ public class KeywordService {
         Long memberId = loginMember.id();
         Writer requester = new Writer(loginMember.id());
         List<ApplicationItem> items = applicationItemQueryRepository.findItemsByKeyword(memberId, keyword);
-        items.forEach(item -> validateWriter(requester, item.getApplicationForm()));
         return items.stream()
                 .map(CategoryItemResponse::from)
                 .toList();
-    }
-
-    private void validateWriter(Writer requester, ApplicationForm applicationForm) {
-        if (applicationForm.isNotWriter(requester)) {
-            throw BusinessException.from(ErrorCode.INVALID_WRITER_OF_FORM);
-        }
     }
 }

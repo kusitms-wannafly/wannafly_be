@@ -9,7 +9,7 @@ import org.springframework.http.MediaType;
 
 public class KeywordAcceptanceFixture {
     public static ExtractableResponse<Response> 키워드로_지원항목을_조회한다(String accessToken,
-                                                                String keyword){
+                                                                String keyword) {
         return RestAssured.given().log().all()
                 .when()
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)

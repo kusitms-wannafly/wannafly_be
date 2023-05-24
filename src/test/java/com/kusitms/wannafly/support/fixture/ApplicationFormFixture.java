@@ -20,6 +20,12 @@ public class ApplicationFormFixture {
     public static final ApplicationItemCreateRequest ITEM_CREATE_REQUEST_SOPT = new ApplicationItemCreateRequest(
             ApplicationFormFixture.QUESTION_SOPT, ApplicationFormFixture.ANSWER_SOPT
     );
+    public static final ApplicationItemCreateRequest ITEM_CREATE_REQUEST_LG = new ApplicationItemCreateRequest(
+            ApplicationFormFixture.QUESTION_LG, ApplicationFormFixture.ANSWER_LG
+    );
+    public static final ApplicationItemCreateRequest ITEM_CREATE_REQUEST_SK = new ApplicationItemCreateRequest(
+            ApplicationFormFixture.QUESTION_SK, ApplicationFormFixture.ANSWER_SK
+    );
     public static final ApplicationFormCreateRequest FORM_CREATE_REQUEST = new ApplicationFormCreateRequest(
             RECRUITER,
             2023,
@@ -31,6 +37,12 @@ public class ApplicationFormFixture {
             2023,
             "first_half",
             List.of(ITEM_CREATE_REQUEST_KUSITMS, ITEM_CREATE_REQUEST_SOPT)
+    );
+    public static final ApplicationFormCreateRequest FORM_CREATE_REQUEST_KEYWORD2 = new ApplicationFormCreateRequest(
+            RECRUITER,
+            2023,
+            "first_half",
+            List.of(ITEM_CREATE_REQUEST_LG, ITEM_CREATE_REQUEST_SK)
     );
     public static final ApplicationFormUpdateRequest FORM_UPDATE_REQUEST = new ApplicationFormUpdateRequest(
             RECRUITER + " 28기",
@@ -161,10 +173,18 @@ public class ApplicationFormFixture {
 
     public final static String QUESTION_KUSITMS = "큐시즘에 들어오기 위해 한 일을 쓰시오";
     public final static String ANSWER_KUSITMS = """
-            저는 큐시즘에 들어오기 위해 정말 많은 노력을 하였습니다. 여러가지 프로젝트와 개인 공부를 하였습니다
+            저는 큐시즘에 들어오기 위해 정말 많은 노력을 하였습니다. 여러가지 프로젝트와 개인 과제를 하였습니다
             """;
     public final static String QUESTION_SOPT = "솝트에 들어오기 위해 한 일을 쓰시오";
     public final static String ANSWER_SOPT = """
-            저는 솝트에 들어오기 위해 정말 많은 노력을 하였습니다. 여러가지 프로젝트와 개인 공부를 하였습니다
+            저는 솝트에 들어오기 위해 정말 많은 노력을 하였습니다. 여러가지 프로젝트와 개인 과제를 하였습니다
+            """;
+    public final static String QUESTION_LG = "LG에 들어오기 위해 한 일을 쓰시오";
+    public final static String ANSWER_LG = """
+            저는 LG에 들어오기 위해 정말 많은 노력을 하였습니다. 여러가지 프로젝트와 개인 과제를 하였습니다
+            """;
+    public final static String QUESTION_SK = "SK에 들어오기 위해 한 일을 쓰시오";
+    public final static String ANSWER_SK = """
+            저는 SK에 들어오기 위해 정말 많은 공부를 하였습니다. 여러가지 프로젝트와 개인 과제를 하였습니다
             """;
 }
