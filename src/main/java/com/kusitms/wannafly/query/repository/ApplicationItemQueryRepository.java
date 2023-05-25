@@ -13,7 +13,7 @@ public interface ApplicationItemQueryRepository extends JpaRepository<Applicatio
     @EntityGraph(attributePaths = "applicationForm")
     List<ApplicationItem> findByCategoryId(Long categoryId);
 
-    @Query("select ai from ApplicationItem ai join ApplicationForm af " +
+    @Query("select ai from ApplicationItem ai join fetch ai.applicationForm af " +
             "where af.writer.id = :memberId and " +
             "(ai.applicationQuestion.content like %:keyword% or " +
             "ai.applicationAnswer.content like %:keyword%)")

@@ -2,6 +2,7 @@ package com.kusitms.wannafly.query.controller;
 
 import com.kusitms.wannafly.query.dto.ApplicationItemResponse;
 import com.kusitms.wannafly.query.dto.CategoryItemResponse;
+import com.kusitms.wannafly.query.dto.KeywordItemResponse;
 import com.kusitms.wannafly.support.ControllerTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,9 +41,9 @@ public class KeywordControllerTest extends ControllerTest {
         ApplicationItemResponse item3 = new ApplicationItemResponse(3L, QUESTION1, ANSWER1);
         given(keywordService.findByKeyword(any(), any()))
                 .willReturn(List.of(
-                                new CategoryItemResponse(item1, 1L, "큐시즘", 2023, "first_half"),
-                                new CategoryItemResponse(item2, 1L, "큐시즘", 2023, "first_half"),
-                                new CategoryItemResponse(item3, 2L, "soft", 2023, "first_half")
+                                new KeywordItemResponse(item1, 1L, "큐시즘", 2023, "first_half"),
+                                new KeywordItemResponse(item2, 1L, "큐시즘", 2023, "first_half"),
+                                new KeywordItemResponse(item3, 2L, "soft", 2023, "first_half")
                         )
                 );
 

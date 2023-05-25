@@ -2,7 +2,7 @@ package com.kusitms.wannafly.query.service;
 
 import com.kusitms.wannafly.command.applicationform.application.ApplicationFormService;
 import com.kusitms.wannafly.command.auth.LoginMember;
-import com.kusitms.wannafly.query.dto.CategoryItemResponse;
+import com.kusitms.wannafly.query.dto.KeywordItemResponse;
 import com.kusitms.wannafly.support.ServiceTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -46,7 +46,7 @@ public class KeywordServiceTest extends ServiceTest {
         @Test
         void 키워드에_해당되는_지원항목이_조회된다() {
             // when
-            List<CategoryItemResponse> actual = keywordService.findByKeyword("노력", loginMember);
+            List<KeywordItemResponse> actual = keywordService.findByKeyword("노력", loginMember);
 
             // then
             assertAll(
@@ -54,7 +54,7 @@ public class KeywordServiceTest extends ServiceTest {
                             .map(item -> item.applicationItem().applicationItemId())
                             .containsOnly(1L, 2L, 3L),
                     () -> assertThat(actual)
-                            .map(CategoryItemResponse::applicationFormId)
+                            .map(KeywordItemResponse::applicationFormId)
                             .containsOnly(formId1, formId2)
             );
         }
@@ -63,7 +63,7 @@ public class KeywordServiceTest extends ServiceTest {
         @Test
         void 키워드가_질문에_있어도_지원항목이_조회된다() {
             // when
-            List<CategoryItemResponse> actual = keywordService.findByKeyword("큐시즘", loginMember);
+            List<KeywordItemResponse> actual = keywordService.findByKeyword("큐시즘", loginMember);
 
             // then
             assertAll(
@@ -71,7 +71,7 @@ public class KeywordServiceTest extends ServiceTest {
                             .map(item -> item.applicationItem().applicationItemId())
                             .containsOnly(1L),
                     () -> assertThat(actual)
-                            .map(CategoryItemResponse::applicationFormId)
+                            .map(KeywordItemResponse::applicationFormId)
                             .containsOnly(formId1)
             );
         }
@@ -80,7 +80,7 @@ public class KeywordServiceTest extends ServiceTest {
         @Test
         void 키워드가_답변에_있어도_지원항목이_조회된다() {
             // when
-            List<CategoryItemResponse> actual = keywordService.findByKeyword("공부", loginMember);
+            List<KeywordItemResponse> actual = keywordService.findByKeyword("공부", loginMember);
 
             // then
             assertAll(
@@ -88,7 +88,7 @@ public class KeywordServiceTest extends ServiceTest {
                             .map(item -> item.applicationItem().applicationItemId())
                             .containsOnly(4L),
                     () -> assertThat(actual)
-                            .map(CategoryItemResponse::applicationFormId)
+                            .map(KeywordItemResponse::applicationFormId)
                             .containsOnly(formId2)
             );
         }
@@ -97,7 +97,8 @@ public class KeywordServiceTest extends ServiceTest {
         @Test
         void 키워드가_공백이면_빈문자열이_반환된다() {
             //when
-            List<CategoryItemResponse> actual = keywordService.findByKeyword("", loginMember);
+            List<KeywordItemResponse> actual = keywordService.findByKeyword("", loginMember);
+
             //then
             assertThat(actual).isEmpty();
         }
@@ -105,7 +106,8 @@ public class KeywordServiceTest extends ServiceTest {
         @Test
         void 맞는_키워드가_없으면_빈문자열이_반환된다() {
             //when
-            List<CategoryItemResponse> actual = keywordService.findByKeyword("없다", loginMember);
+            List<KeywordItemResponse> actual = keywordService.findByKeyword("없다", loginMember);
+
             //then
             assertThat(actual).isEmpty();
         }
@@ -113,7 +115,8 @@ public class KeywordServiceTest extends ServiceTest {
         @Test
         void 지원항목을_안써도_빈문자열이_반환된다() {
             //when
-            List<CategoryItemResponse> actual = keywordService.findByKeyword("큐시즘", loginMember2);
+            List<KeywordItemResponse> actual = keywordService.findByKeyword("큐시즘", loginMember2);
+
             //then
             assertThat(actual).isEmpty();
         }

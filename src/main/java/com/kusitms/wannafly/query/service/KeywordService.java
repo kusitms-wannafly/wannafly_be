@@ -1,8 +1,7 @@
 package com.kusitms.wannafly.query.service;
 
-import com.kusitms.wannafly.command.applicationform.domain.ApplicationItem;
 import com.kusitms.wannafly.command.auth.LoginMember;
-import com.kusitms.wannafly.query.dto.CategoryItemResponse;
+import com.kusitms.wannafly.query.dto.KeywordItemResponse;
 import com.kusitms.wannafly.query.repository.ApplicationItemQueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,14 +16,13 @@ import java.util.List;
 public class KeywordService {
     private final ApplicationItemQueryRepository applicationItemQueryRepository;
 
-    public List<CategoryItemResponse> findByKeyword(String keyword, LoginMember loginMember) {
+    public List<KeywordItemResponse> findByKeyword(String keyword, LoginMember loginMember) {
         if (keyword.isBlank()) {
             return Collections.emptyList();
         }
         Long memberId = loginMember.id();
-        List<ApplicationItem> items = applicationItemQueryRepository.findItemsByKeyword(memberId, keyword);
-        return items.stream()
-                .map(CategoryItemResponse::from)
+        return applicationItemQueryRepository.findItemsByKeyword(memberId, keyword).stream()
+                .map(KeywordItemResponse::from)
                 .toList();
     }
 }
