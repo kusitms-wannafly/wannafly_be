@@ -143,7 +143,7 @@ include::{snippets}/grammar-check/http-response.adoc[]
 === Response 필드
 include::{snippets}/grammar-check/response-fields.adoc[]
 
-= 키워드 조회
+= 키워드
 == 키워드로 지원항목 조회
 === Request
 include::{snippets}/get-item-by-keyword/http-request.adoc[]
