@@ -45,6 +45,10 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis:2.3.1.RELEASE'
+	implementation ('it.ozimov:embedded-redis:0.7.3') { exclude group: "org.slf4j", module: "slf4j-simple" }
+
+
 	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
 	annotationProcessor 'com.querydsl:querydsl-apt:5.0.0:jakarta'
 	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
