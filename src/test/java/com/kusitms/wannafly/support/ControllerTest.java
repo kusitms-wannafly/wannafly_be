@@ -6,14 +6,12 @@ import com.kusitms.wannafly.command.grammar.application.GrammarService;
 import com.kusitms.wannafly.command.grammar.presentation.GrammarController;
 import com.kusitms.wannafly.command.category.presentation.CategoryController;
 import com.kusitms.wannafly.command.category.service.CategoryService;
-import com.kusitms.wannafly.query.controller.CategoryQueryController;
+import com.kusitms.wannafly.query.controller.*;
 import com.kusitms.wannafly.query.service.ApplicationFolderQueryService;
 import com.kusitms.wannafly.command.applicationfolder.presentation.ApplicationFolderController;
-import com.kusitms.wannafly.query.controller.ApplicationFolderQueryController;
 import com.kusitms.wannafly.command.applicationfolder.service.ApplicationFolderService;
 import com.kusitms.wannafly.command.applicationform.application.ApplicationFormService;
 import com.kusitms.wannafly.command.applicationform.presentation.ApplicationFormController;
-import com.kusitms.wannafly.query.controller.ApplicationFormQueryController;
 import com.kusitms.wannafly.query.service.ApplicationFormQueryService;
 import com.kusitms.wannafly.command.auth.AuthConfig;
 import com.kusitms.wannafly.command.auth.LoginMemberResolver;
@@ -23,6 +21,7 @@ import com.kusitms.wannafly.command.auth.presentation.AuthController;
 import com.kusitms.wannafly.command.auth.token.JwtTokenProvider;
 import com.kusitms.wannafly.command.auth.token.TokenPayload;
 import com.kusitms.wannafly.query.service.CategoryQueryService;
+import com.kusitms.wannafly.query.service.KeywordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -43,7 +42,8 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
         ApplicationFolderQueryController.class,
         CategoryController.class,
         CategoryQueryController.class,
-        GrammarController.class
+        GrammarController.class,
+        KeywordController.class
 })
 @Import({
         ControllerTestSecurityConfig.class,
@@ -93,6 +93,8 @@ public class ControllerTest {
 
     @MockBean
     protected GrammarService grammarService;
+    @MockBean
+    protected KeywordService keywordService;
 
     protected String loginAndGetAccessToken(Long memberId) {
         given(authService.authorize(any()))
