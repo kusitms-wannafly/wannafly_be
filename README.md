@@ -14,7 +14,7 @@
 
 
 ## 🏗️ 인프라 아키텍쳐
-<img width="814" alt="소프트웨어 아키텍처" src="https://github.com/kusitms-wannafly/.github/assets/78652144/e09c7cf9-c9f2-4bc3-b2ec-0d2bc7b35eb7">
+<img width="814" alt="소프트웨어 아키텍처" src="https://github.com/kusitms-wannafly/wannafly_be/assets/78652144/287e4187-2ac4-4dbe-b661-364f0d54cd35">
 
 ## CI CD 아키텍처
 <img width="814" alt="소프트웨어 아키텍처" src="https://github.com/kusitms-wannafly/wannafly_be/assets/78652144/d988713a-fb53-491e-8a7e-0c4fed94e117">
