@@ -27,7 +27,7 @@ public class RedisRefreshToken {
         this.id = refreshToken.getValue();
         this.expiredTime = refreshToken.getExpiredTime();
         this.memberId = refreshToken.getMemberId();
-        this.timeToLive = Duration.between(LocalDateTime.now(), expiredTime).getSeconds();
+        this.timeToLive = Math.abs(Duration.between(expiredTime, LocalDateTime.now()).getSeconds());
     }
 
     public RefreshToken toRefreshToken() {
