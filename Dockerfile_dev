@@ -1,5 +1,6 @@
 FROM openjdk:17-oracle
 
+ADD . /home/spring
 WORKDIR /home/spring
 
 COPY build/libs/*.jar /home/spring/app.jar
