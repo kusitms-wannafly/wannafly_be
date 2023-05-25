@@ -1,4 +1,4 @@
-package com.kusitms.wannafly.command.auth.infrastructure.refreshtoken;
+package com.kusitms.wannafly.command.auth.infrastructure.refreshtoken.redis;
 
 import io.micrometer.common.util.StringUtils;
 import jakarta.annotation.PostConstruct;

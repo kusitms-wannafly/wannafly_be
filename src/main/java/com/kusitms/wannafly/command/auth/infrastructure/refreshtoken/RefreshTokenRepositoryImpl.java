@@ -1,5 +1,7 @@
 package com.kusitms.wannafly.command.auth.infrastructure.refreshtoken;
 
+import com.kusitms.wannafly.command.auth.infrastructure.refreshtoken.redis.RedisRefreshToken;
+import com.kusitms.wannafly.command.auth.infrastructure.refreshtoken.redis.RefreshTokenRedisRepository;
 import com.kusitms.wannafly.command.auth.token.RefreshToken;
 import com.kusitms.wannafly.command.auth.token.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.kusitms.wannafly.command.auth.infrastructure.refreshtoken;
+package com.kusitms.wannafly.command.auth.infrastructure.refreshtoken.redis;
 
 import com.kusitms.wannafly.command.auth.token.RefreshToken;
 import lombok.AccessLevel;
